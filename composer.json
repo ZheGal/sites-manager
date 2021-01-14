@@ -59,6 +59,12 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-update-cmd": [
+            "rm -rf public/assets/bootstrap",
+            "rm -rf public/assets/jquery",
+            "cp -R vendor/twbs/bootstrap/dist public/assets/bootstrap",
+            "cp -R vendor/components/jquery public/assets/jquery"
         ]
     }
 }
