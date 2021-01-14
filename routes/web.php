@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('index');
+});
+Route::get('/sites/create', function () {
+    return view('sites.create');
+})->name('sites.create');
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
