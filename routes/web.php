@@ -13,12 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\SiteController::class, 'index'])->name('sites.list');
+    Route::get('/sites/create', [\App\Http\Controllers\SiteController::class, 'create'])->name('sites.create');
+    Route::post('/sites/store', [\App\Http\Controllers\SiteController::class, 'store'])->name('sites.store');
+    
+    Route::get('/hosters', [\App\Http\Controllers\HosterController::class, 'index'])->name('hosters.list');
+    Route::get('/hosters/create', [\App\Http\Controllers\HosterController::class, 'create'])->name('hosters.create');
+    Route::post('/hosters/store', [\App\Http\Controllers\HosterController::class, 'store'])->name('hosters.store');
+    Route::get('/hosters/{id}/edit', [\App\Http\Controllers\HosterController::class, 'edit'])->name('hosters.edit');
+    Route::patch('/hosters/{id}', [\App\Http\Controllers\HosterController::class, 'update'])->name('hosters.update');
+    Route::delete('/hosters/{id}', [\App\Http\Controllers\HosterController::class, 'destroy'])->name('hosters.destroy');
+
+    Route::get('/campaigns', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('campaigns.list');
+    Route::get('/users', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('users.list');
+    Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
+    Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
+
+    Route::get('/test', function() {
+        return 'test';
+    });
 });
-Route::get('/sites/create', function () {
-    return view('sites.create');
-})->name('sites.create');
 
 Route::get('/welcome', function () {
     return view('welcome');
