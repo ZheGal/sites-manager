@@ -49,6 +49,9 @@ class HosterController extends Controller
         $hoster = new Hoster();
         $hoster->fill($data);
         $title = $hoster->title;
+
+        $hoster->url = str_replace('https://', '', $hoster->url);
+        $hoster->url = str_replace('http://', '', $hoster->url);
         
         $hoster->save();
 
@@ -98,6 +101,9 @@ class HosterController extends Controller
         ]);
 
         $hoster->fill($data);
+
+        $hoster->url = str_replace('https://', '', $hoster->url);
+        $hoster->url = str_replace('http://', '', $hoster->url);
         $hoster->save();
         
         return redirect()->route('hosters.list');

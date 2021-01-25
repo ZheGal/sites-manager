@@ -8,6 +8,16 @@
             <div class="col align-self-start">
                 <h3 class="pb-0 mb-0">Список сайтов</h3>
             </div>
+            <div class="col align-self text-center">
+                <form action="{{ route('sites.list') }}">
+                    <div class="input-group">
+                        <input class="form-control" id="input1-group2" type="text" name="search-domain" placeholder="Домен сайта" autocomplete="username">
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" type="button">Поиск</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
             <div class="col align-self-end text-right">
                 <a href="{{ route('sites.create') }}" class="btn btn-pill btn-success btn-sm">
                     <i class="cil-plus"></i> Добавить

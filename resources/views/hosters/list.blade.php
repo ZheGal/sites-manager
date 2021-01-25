@@ -48,7 +48,7 @@
                 @foreach ($hosters as $hoster)
                     <tr>
                         <td class="pt-3">{{ $loop->iteration }}</td>
-                        <td class="pt-3"><a href="//{{ $hoster->url }}" target="_blank"><input class="font-weight-bold" type="text" readonly value="{{ $hoster->title }}"></a></td>
+                        <td class="pt-3"><a href="//{{ $hoster->url }}" target="_blank" style="cursor:pointer;"><input class="font-weight-bold" type="text" readonly value="{{ $hoster->title }}" style="cursor:pointer;"></a></td>
                         <td class="pt-3"><input type="text" readonly value="{{ $hoster->sites->count() }}" class="text-center"></td>
                         <td class="text-center"><input type="text" class="text-center" readonly value="{{ $hoster->username }}"></td>
                         <td class="text-center"><input type="text" class="text-center" readonly value="{{ $hoster->password }}"></td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Campaign;
 
 class CampaignController extends Controller
 {
@@ -14,6 +15,8 @@ class CampaignController extends Controller
     public function index()
     {
         //
+        $campaigns = Campaign::all();
+        return view('campaigns.list', compact('campaigns'));
     }
 
     /**
@@ -24,6 +27,7 @@ class CampaignController extends Controller
     public function create()
     {
         //
+        return view('campaigns.create');
     }
 
     /**
@@ -35,6 +39,19 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $this->validate($request, [
+            'title' => 'required|unique:campaigns',
+            'language' => 'required',
+            'group' => 'nullable|numeric'
+        ]);
+
+        $campaign = new Campaign();
+        $campaign->fill($data);
+        $title = $campaign->language . ' - ' .$campaign->title;
+        
+        $campaign->save();
+
+        return redirect()->route('campaigns.list')->with('message', "Хост «" . $title . "» был добавлен в таблицу.");
     }
 
     /**
@@ -57,6 +74,8 @@ class CampaignController extends Controller
     public function edit($id)
     {
         //
+        $campaign = Campaign::findOrFail($id);
+        return view('campaigns.edit', compact('campaign'));
     }
 
     /**
@@ -69,6 +88,19 @@ class CampaignController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $campaign = Campaign::findOrFail($id);
+        $data = $this->validate($request, [
+            'title' => 'required|unique:campaigns,title,' . $campaign->id,
+            'language' => 'required',
+            'group' => 'nullable|numeric'
+        ]);
+
+        $campaign->fill($data);
+        $title = $campaign->language . ' - ' .$campaign->title;
+        
+        $campaign->save();
+
+        return redirect()->route('campaigns.list')->with('message', "Кампания «" . $title . "» была обновлёна.");
     }
 
     /**
@@ -80,5 +112,13 @@ class CampaignController extends Controller
     public function destroy($id)
     {
         //
+        $campaign = Campaign::findOrFail($id);
+        if ($campaign) {
+            $title = $campaign->title;
+            $campaign->delete();
+            return redirect()->route('campaigns.list')->with('message', "Кампания «" . $title . "» была удалёна.");
+        }
+
+        return redirect()->route('campaigns.list');
     }
 }

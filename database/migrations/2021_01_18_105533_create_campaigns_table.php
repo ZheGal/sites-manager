@@ -17,6 +17,7 @@ class CreateCampaignsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('language')->default('EN');
+            $table->string('group')->nullable();
             $table->timestamps();
         });
     }
