@@ -1,6 +1,6 @@
 <x-panel-layout>
     <x-slot name="title">
-        Добавить сайт
+        Редактирование сайта
     </x-slot>
 
     <x-slot name="breadcrumbps">
@@ -8,7 +8,7 @@
         <ol class="breadcrumb border-0 m-0">
           <li class="breadcrumb-item"><a href="/">Главная</a></li>
           <li class="breadcrumb-item"><a href="{{ route('sites.list') }}">Сайты</a></li>
-          <li class="breadcrumb-item active">Добавить сайт</li>  
+          <li class="breadcrumb-item active">Редактирование сайта</li>  
         </ol>
       </div>
     </x-slot>
@@ -16,35 +16,36 @@
     <div class="card-header">
         <div class="row">
             <div class="col align-self-start">
-                <h3 class="pb-0 mb-0">Добавить сайт</h3>
+                <h3 class="pb-0 mb-0">Редактирование сайта</h3>
             </div>
         </div>
     </div>
-    <form action="{{ route('sites.store') }}" method="post">
+    <form action="{{ route('sites.update', ['id' => $site->id]) }}" method="post">
         <div class="card-body">
             @csrf
+            @method('PATCH')
             <div class="form-group row">
               <label for="siteDomain" class="col-sm-2 col-form-label">Домен сайта</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteDomain" name="domain" required>
+                <input type="text" class="form-control" id="siteDomain" name="domain" required value="{{ $site->domain }}">
               </div>
             </div>
             <div class="form-group row">
               <label for="siteFtpHost" class="col-sm-2 col-form-label">FTP хост</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpHost" name="ftp_host" required>
+                <input type="text" class="form-control" id="siteFtpHost" name="ftp_host" required value="{{ $site->ftp_host }}">
               </div>
             </div>
             <div class="form-group row">
               <label for="siteFtpUser" class="col-sm-2 col-form-label">FTP пользователь</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpUser" name="ftp_user" required>
+                <input type="text" class="form-control" id="siteFtpUser" name="ftp_user" required value="{{ $site->ftp_user }}">
               </div>
             </div>
             <div class="form-group row">
               <label for="siteFtpPass" class="col-sm-2 col-form-label">FTP пароль</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass" required>
+                <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass" required value="{{ $site->ftp_pass }}">
               </div>
             </div>
             <div class="form-group row">
@@ -94,19 +95,26 @@
             <div class="form-group row">
               <label for="siteMetrika" class="col-sm-2 col-form-label">Яндекс Метрика</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" id="siteMetrika" name="yandex">
+                <input type="number" class="form-control" id="siteMetrika" name="yandex" value="{{ $site->yandex }}">
               </div>
             </div>
             <div class="form-group row">
               <label for="sitePixel" class="col-sm-2 col-form-label">Facebook Пиксель</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" id="sitePixel" name="facebook">
+                <input type="number" class="form-control" id="sitePixel" name="facebook" value="{{ $site->facebook }}">
               </div>
             </div>
         </div>
         <div class="card-footer">
-            <button class="btn btn-primary" type="submit">Добавить</button>
+            <button class="btn btn-primary" type="submit">Обновить</button>
         </div>
     </form>
+    <div class="card-footer">
+        <form action="{{ route('sites.destroy', ['id' => $site->id]) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger" type="submit">Удалить сайт</button>
+        </form>
+    </div>
 
 </x-panel-layout>

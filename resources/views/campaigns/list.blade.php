@@ -39,7 +39,7 @@
                     <th></th>
                     <th>Язык кампании</th>
                     <th>Имя кампании</th>
-                    <th>Группа</th>
+                    <th>Номер группы</th>
                     <th class="text-center">Количество сайтов</th>
                     <th class="text-right">Действия</th>
                 </tr>
@@ -54,7 +54,7 @@
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->sites->count() }}" class="text-center" style="width:100%;"></td>
                     <td class="text-right">
                         <a href="{{ route('campaigns.edit', ['id' => $campaign->id]) }}" type="button" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
-                        <button type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</button>
+                        <a href="{{ route('sites.list', ['campaign_id' => $campaign->id]) }}" type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</a>
                     </td>
                 </tr>
                 @endforeach

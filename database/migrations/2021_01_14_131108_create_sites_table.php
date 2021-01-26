@@ -23,8 +23,8 @@ class CreateSitesTable extends Migration
             $table->string('ftp_host');
             $table->string('ftp_user');
             $table->string('ftp_pass');
-            $table->integer('yandex');
-            $table->integer('facebook');
+            $table->bigInteger('yandex')->nullable();
+            $table->bigInteger('facebook')->nullable();
             $table->timestamps();
         });
     }

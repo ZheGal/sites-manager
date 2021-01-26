@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Site;
 use App\Models\Hoster;
 use App\Models\User;
+use App\Models\Campaign;
+use App\Helpers\Settings;
 
 class SiteController extends Controller
 {
@@ -17,7 +19,7 @@ class SiteController extends Controller
     public function index()
     {
         // Sites list
-        $sites = Site::paginate(10);
+        $sites = Site::paginate(50);
         return view('sites.list', compact('sites'));
     }
 
@@ -31,8 +33,9 @@ class SiteController extends Controller
         // Adding new site page
         $users = User::all();
         $hosters = Hoster::all();
+        $campaigns = Campaign::all();
 
-        return view('sites.create', compact('users', 'hosters'));
+        return view('sites.create', compact('users', 'hosters', 'campaigns'));
     }
 
     /**
@@ -44,7 +47,29 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         //
-        print_r($request->all());
+        $data = $this->validate($request, [
+            'domain' => 'required|unique:sites',
+            'user_id' => 'numeric',
+            'campaign_id' => 'required|numeric',
+            'hoster_id' => 'required|numeric',
+            'hoster_id_domain' => 'required|numeric',
+            'ftp_host' => 'nullable',
+            'ftp_user' => 'nullable',
+            'ftp_pass' => 'nullable',
+            'yandex' => 'nullable|numeric',
+            'facebook' => 'nullable|numeric'
+        ]);
+
+        $site = new Site();
+        $site->fill($data);
+        $title = $site->domain;
+
+        $site->domain = str_replace('http://', '', $site->domain);
+        $site->domain = str_replace('https://', '', $site->domain);
+
+        $site->save();
+
+        return redirect()->route('sites.list')->with('message', "Сайт с адресом «" . $title . "» был добавлен в таблицу.");
     }
 
     /**
@@ -67,6 +92,12 @@ class SiteController extends Controller
     public function edit($id)
     {
         //
+        $site = Site::findOrFail($id);
+        $users = User::all();
+        $hosters = Hoster::all();
+        $campaigns = Campaign::all();
+
+        return view('sites.edit', compact('site', 'users', 'campaigns', 'hosters'));
     }
 
     /**
@@ -79,6 +110,27 @@ class SiteController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $site = Site::findOrFail($id);        
+        $data = $this->validate($request, [
+            'domain' => 'required|unique:sites,domain,' . $site->id,
+            'user_id' => 'numeric',
+            'campaign_id' => 'required|numeric',
+            'hoster_id' => 'required|numeric',
+            'hoster_id_domain' => 'required|numeric',
+            'ftp_host' => 'nullable',
+            'ftp_user' => 'nullable',
+            'ftp_pass' => 'nullable',
+            'yandex' => 'nullable',
+            'facebook' => 'nullable'
+        ]);
+
+        $site->fill($data);
+
+        $site->domain = str_replace('https://', '', $site->domain);
+        $site->domain = str_replace('http://', '', $site->domain);
+        $site->save();
+        
+        return redirect()->route('sites.list')->with('message', "Сайт «" . $site->domain . "» был обновлён.");;
     }
 
     /**
@@ -90,5 +142,25 @@ class SiteController extends Controller
     public function destroy($id)
     {
         //
+        $site = Site::findOrFail($id);
+        if ($site) {
+            $title = $site->domain;
+            $site->delete();
+            return redirect()->route('sites.list')->with('message', "Сайт «" . $title . "» был удалён из базы.");
+        }
+
+        return redirect()->route('sites.list');
+    }
+
+    public function editSettings($id)
+    {
+        $site = Site::findOrFail($id);
+        $domain = $site->domain;
+        $settings = Settings::getArray($domain);
+        if (!empty($settings)) {
+            return view('sites.edit_settings', compact('settings'));
+        } else {
+            return redirect()->route('sites.list');
+        }
     }
 }

@@ -18,9 +18,7 @@
                 <h3 class="pb-0 mb-0">Список хостеров</h3>
             </div>
             <div class="col align-self-end text-right">
-                <a href="{{ route('hosters.create') }}" class="btn btn-pill btn-success btn-sm">
-                    <i class="cil-plus"></i> Добавить
-                </a>
+                <x-small-button-link class="success" route="hosters.create" icon="cil-plus" value="Добавить" />
             </div>
         </div>
     </div>
@@ -54,7 +52,7 @@
                         <td class="text-center"><input type="text" class="text-center" readonly value="{{ $hoster->password }}"></td>
                         <td class="text-right">
                             <a href="{{ route('hosters.edit', ['id' => $hoster->id]) }}" type="button" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
-                            <button type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</button>
+                            <a href="{{ route('sites.list', ['hoster_id' => $hoster->id]) }}" type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</a>
                         </td>
                     </tr>
                 @endforeach

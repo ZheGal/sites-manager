@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/coreui/css/coreui.min.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
     
     <title>{{ $title }}</title>
  </head>
