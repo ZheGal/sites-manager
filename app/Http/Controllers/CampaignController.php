@@ -51,7 +51,7 @@ class CampaignController extends Controller
         
         $campaign->save();
 
-        return redirect()->route('campaigns.list')->with('message', "Хост «" . $title . "» был добавлен в таблицу.");
+        return redirect()->route('campaigns.list')->with('message', "Кампания «" . $title . "» была добавлена в таблицу.");
     }
 
     /**

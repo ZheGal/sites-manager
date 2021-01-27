@@ -57,7 +57,7 @@
             <div class="form-group row">
               <label for="campaignGroup" class="col-sm-2 col-form-label">Группа (если требуется)</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" id="campaignGroup" name="group" required value="{{ $campaign->title }}" autocomplete="off">
+                <input type="number" class="form-control" id="campaignGroup" name="group" value="{{ $campaign->title }}" autocomplete="off">
               </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
         <form action="{{ route('campaigns.destroy', ['id' => $campaign->id]) }}" method="post">
             @csrf
             @method('DELETE')
-            <button class="btn btn-danger" type="submit">Удалить хост</button>
+            <button class="btn btn-danger" type="submit">Удалить кампанию</button>
         </form>
     </div>
 

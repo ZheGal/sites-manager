@@ -8,6 +8,7 @@ use App\Models\Hoster;
 use App\Models\User;
 use App\Models\Campaign;
 use App\Helpers\Settings;
+use Illuminate\Support\Facades\Storage;
 
 class SiteController extends Controller
 {
@@ -158,9 +159,19 @@ class SiteController extends Controller
         $domain = $site->domain;
         $settings = Settings::getArray($domain);
         if (!empty($settings)) {
-            return view('sites.edit_settings', compact('settings'));
+            return view('sites.edit_settings', compact('settings', 'site'));
         } else {
             return redirect()->route('sites.list');
         }
+    }
+
+    public function updateSettings(Request $request, $id)
+    {
+        $site = Site::findOrFail($id);
+        
+        $settings = Settings::compareSettingAfterUpdateSubmit();
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+        
+
     }
 }
