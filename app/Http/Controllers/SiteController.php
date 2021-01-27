@@ -8,6 +8,7 @@ use App\Models\Hoster;
 use App\Models\User;
 use App\Models\Campaign;
 use App\Helpers\Settings;
+use App\Helpers\Flysystem;
 use Illuminate\Support\Facades\Storage;
 
 class SiteController extends Controller
@@ -168,10 +169,16 @@ class SiteController extends Controller
     public function updateSettings(Request $request, $id)
     {
         $site = Site::findOrFail($id);
+        $domain = $site->domain;
         
         $settings = Settings::compareSettingAfterUpdateSubmit();
         $json = json_encode($settings, JSON_PRETTY_PRINT);
         
+        $ftp = new Flysystem($site);
+        $save = $ftp->saveSettingsJson($json);
 
+        if ($save) {
+            return redirect()->route('sites.list')->with('message', "Настройки сайта $domain успешно обновлены");
+        }
     }
 }

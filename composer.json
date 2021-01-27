@@ -18,7 +18,7 @@
         "laravel/jetstream": "^2.1",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
-        "league/flysystem": "^2.0",
+        "league/flysystem-sftp": "~1.0",
         "livewire/livewire": "^2.3",
         "twbs/bootstrap": "^4.5"
     },
