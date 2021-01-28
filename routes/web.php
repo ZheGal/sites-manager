@@ -37,7 +37,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::patch('/campaigns/{id}', [\App\Http\Controllers\CampaignController::class, 'update'])->name('campaigns.update');
     Route::delete('/campaigns/{id}', [\App\Http\Controllers\CampaignController::class, 'destroy'])->name('campaigns.destroy');
 
-    Route::get('/users', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('users.list');
+    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.list');
+    Route::get('/users/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+
+
     Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
     Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
 

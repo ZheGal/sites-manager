@@ -26,6 +26,7 @@
                     <span>Сайты</span>
                 </a>
             </li>
+            @if ( Auth::user()->role == 1)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link" href="{{ route('hosters.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-flag-alt"></i></span>
@@ -50,6 +51,7 @@
                     <span>Метрика</span>
                 </a>
             </li>
+            @endif
             <li class="c-sidebar-nav-item">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
