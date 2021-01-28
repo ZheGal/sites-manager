@@ -53,7 +53,7 @@
                 <select class="form-control" id="siteCampaign" name="campaign_id">
                     <option value="0">Без кампании</option>
                     @foreach ($campaigns as $campaign)
-                    <option value="{{ $campaign->id }}">{{ $campaign->language }} - {{ $campaign->title }}</option>
+                    <option value="{{ $campaign->id }}">{{ $campaign->language }} - {{ $campaign->title }} @if(isset($campaign->group))({{ $campaign->group }})@endif</option>
                     @endforeach
                   </select>
               </div>
@@ -101,6 +101,14 @@
               <label for="sitePixel" class="col-sm-2 col-form-label">Facebook Пиксель</label>
               <div class="col-sm-10">
                 <input type="number" class="form-control" id="sitePixel" name="facebook">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="cleanHost" class="col-sm-2 col-form-label">Чистый хост</label>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="1" name="clean_host" id="cleanHost">
+                </div>
               </div>
             </div>
         </div>

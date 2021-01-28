@@ -69,6 +69,10 @@ class SiteController extends Controller
         $site->domain = str_replace('http://', '', $site->domain);
         $site->domain = str_replace('https://', '', $site->domain);
 
+        if ($request->clean_host == 1) {
+            $this->cleanHost($site);
+        }
+
         $site->save();
 
         return redirect()->route('sites.list')->with('message', "Сайт с адресом «" . $title . "» был добавлен в таблицу.");
@@ -131,6 +135,8 @@ class SiteController extends Controller
         $site->domain = str_replace('https://', '', $site->domain);
         $site->domain = str_replace('http://', '', $site->domain);
         $site->save();
+
+        $updateSettings = $this->updateSettingsAfterUpdateSite($site);
         
         return redirect()->route('sites.list')->with('message', "Сайт «" . $site->domain . "» был обновлён.");;
     }
@@ -158,7 +164,7 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
         $domain = $site->domain;
-        $settings = Settings::getArray($domain);
+        $settings = collect(Settings::getArray($domain));
         if (!empty($settings)) {
             return view('sites.edit_settings', compact('settings', 'site'));
         } else {
@@ -180,5 +186,42 @@ class SiteController extends Controller
         if ($save) {
             return redirect()->route('sites.list')->with('message', "Настройки сайта $domain успешно обновлены");
         }
+    }
+
+    public function cleanHost($site)
+    {   
+        $url = 'https://' . $site->domain;
+
+        $settings = Settings::compareSettingsAfterCreate($site);
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+        
+        $ftp = new Flysystem($site);
+        $save = $ftp->saveSettingsJson($json);
+        $newProject = $ftp->uploadNewProject();
+        
+        file_get_contents($url);
+    }
+
+    public function updateSettingsAfterUpdateSite($site)
+    {
+        $domain = $site->domain;
+        $get = Settings::getArray($domain);
+        $array = Settings::getDefaultSettings();
+
+        if (!empty($get) && is_array($get)) {
+            $array = array_merge($array, $get);
+        }
+
+        if (!empty($site->yandex)) {
+            $array['yandex'] = $site->yandex;
+        }
+        if (!empty($site->facebook)) {
+            $array['facebook'] = $site->facebook;
+        }
+        
+        $json = json_encode($array, JSON_PRETTY_PRINT);
+        
+        $ftp = new Flysystem($site);
+        $save = $ftp->saveSettingsJson($json);
     }
 }

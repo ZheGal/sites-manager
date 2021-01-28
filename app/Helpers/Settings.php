@@ -6,13 +6,15 @@ class Settings
 {
     public static function getArray($domain)
     {
+        $template = self::getDefaultSettings();
         $url = 'https://' . $domain . '/settings.json';
         $json = @file_get_contents($url);
         if (!empty($json)) {
             $array = json_decode($json, 1);
-            return collect($array);
+            $array = array_merge($template, $array);
+            return $array;
         }
-        return false;
+        return $template;
     }
 
     public static function compareSettingAfterUpdateSubmit()
@@ -32,6 +34,11 @@ class Settings
             return !empty($element);
         });
         return $array;
+    }
+
+    public static function compareSettingsAfterCreate($site)
+    {
+        return self::getDefaultSettings();
     }
 
     public static function getDefaultSettings()

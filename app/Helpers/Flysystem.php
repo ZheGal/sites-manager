@@ -17,23 +17,15 @@ class Flysystem
             'host' => $host,
             'username' => $user,
             'password' => $pass,
-        
-            /** optional config settings */
-            'port' => 21,
-            'root' => '/',
-            'passive' => true,
-            'ssl' => true,
-            'timeout' => 30,
-            'ignorePassiveAddress' => false,
         ]));
 
-        $this->dir = '/';
+        $this->dir = '';
         $this->checkPublicHtml();
     }
 
     public function saveSettingsJson($json)
     {
-        $file = $this->dir . '/settings.json';
+        $file = $this->dir . 'settings.json';
         if ($this->ftp->has($file)) {
             $response = $this->ftp->update($this->dir . '/settings.json', $json);
         } else {
@@ -49,6 +41,21 @@ class Flysystem
         }
     }
 
+    public function uploadNewProject()
+    {
+        $file_path = implode(DIRECTORY_SEPARATOR, [public_path(), 'uploads', 'new_project.php']);
+        $contents = file_get_contents($file_path);
 
-    
+        if ($this->ftp->has($this->dir . '.htaccess')) {
+            $deleteHtaccess = $this->ftp->delete($this->dir . '.htaccess');
+        }
+        if ($this->ftp->has($this->dir . 'app')) {
+            $deleteDir = $this->ftp->deleteDir($this->dir . 'app');
+        }
+        if ($this->ftp->has($this->dir . 'index.php')) {
+            $deleteIndex = $this->ftp->delete($this->dir . 'index.php');
+        }
+
+        $response = $this->ftp->write($this->dir . 'index.php', $contents);
+    }
 }
