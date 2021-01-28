@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Site;
 use App\Models\Hoster;
 use App\Models\User;
@@ -21,8 +22,13 @@ class SiteController extends Controller
     public function index()
     {
         // Sites list
-        $sites = Site::paginate(50);
-        return view('sites.list', compact('sites'));
+        if (Auth::user()->role == 1) {
+            $sites = Site::paginate(50);
+            return view('sites.list', compact('sites'));
+        } else {
+            $sites = Site::paginate(50);
+            return view('sites.list', compact('sites'));
+        }
     }
 
     /**
