@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
     Route::get('/sites/{id}/edit/settings', [\App\Http\Controllers\SiteController::class, 'editSettings'])->name('sites.edit.settings');
     Route::patch('/sites/{id}/settings', [\App\Http\Controllers\SiteController::class, 'updateSettings'])->name('sites.update.settings');
+    Route::post('/sites/transfer', [\App\Http\Controllers\SiteController::class, 'transfer'])->name('sites.transfer');
     
     Route::get('/hosters', [\App\Http\Controllers\HosterController::class, 'index'])->name('hosters.list');
     Route::get('/hosters/create', [\App\Http\Controllers\HosterController::class, 'create'])->name('hosters.create');

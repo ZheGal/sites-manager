@@ -20,22 +20,17 @@
             <div class="col align-self text-center">
                 <form action="{{ route('sites.list') }}">
                     <div class="input-group">
-                        <input class="form-control" id="input1-group2" type="text" 
-                        @if (!empty($search_domain))
-                        value="{{ $search_domain }}"
-                        @endif name="search_domain" placeholder="Домен сайта" autocomplete="username">
+                        <input class="form-control" id="input1-group2" type="text" name="search-domain" placeholder="Домен сайта" autocomplete="username">
                         <span class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Поиск</button>
+                            <button class="btn btn-primary" type="button">Поиск</button>
                         </span>
                     </div>
                 </form>
             </div>
             <div class="col align-self-end text-right">
-                @if (Auth::user()->role == 1)
                 <a href="{{ route('sites.create') }}" class="btn btn-pill btn-success btn-sm">
                     <i class="cil-plus"></i> Добавить
                 </a>
-                @endif
             </div>
         </div>
     </div>
@@ -54,9 +49,7 @@
                     <th>ID</th>
                     <th>Домен</th>
                     <th>Кампания</th>
-                    @if (Auth::user()->role == 1)
                     <th class="text-center">Пользователь</th>
-                    @endif
                     <th class="text-center">Хостер</th>
                     <th class="text-center">Регистратор домена</th>
                     <th class="text-center">Метрика</th>
@@ -76,7 +69,7 @@
                         </td>
                         
                         <td class="pt-3">
-                            <a href="{{ request()->fullUrlWithQuery(['campaign_id' => $site->campaign_id]) }}">
+                            <a href="{{ route('sites.list', ['campaign_id' => $site->campaign_id]) }}">
                                 @if (is_null($site->campaign))
                                     <input type="text" readonly value="Без кампании"
                                         style="color: darkgrey;font-style: italic;cursor:pointer;">
@@ -87,9 +80,8 @@
                             </a>
                         </td>
 
-                        @if (Auth::user()->role == 1)
                         <td class="text-center">
-                            <a class="text-center" href="{{ request()->fullUrlWithQuery(['user_id' => $site->user_id]) }}">
+                            <a class="text-center" href="{{ route('sites.list', ['user_id' => $site->user_id]) }}">
                                 @if (!is_null($site->user))
                                     <span style="cursor:pointer;color:#000;">{{ $site->user->name }}</span>
                                 @else
@@ -97,10 +89,9 @@
                                 @endif
                             </a>
                         </td>
-                        @endif
 
                         <td class="text-center">
-                            <a class="text-center" href="{{ request()->fullUrlWithQuery(['hoster_id' => $site->hoster_id]) }}">
+                            <a class="text-center" href="{{ route('sites.list', ['hoster_id' => $site->hoster_id]) }}">
                                 @if (!is_null($site->hoster))
                                     <span style="cursor:pointer;color:#000;">{{ $site->hoster->title }}</span>
                                 @else
@@ -110,7 +101,7 @@
                         </td>
 
                         <td class="text-center">
-                            <a class="text-center" href="{{ request()->fullUrlWithQuery(['hoster_id_domain' => $site->hoster_id_domain]) }}">
+                            <a class="text-center" href="{{ route('sites.list', ['hoster_id_domain' => $site->hoster_id_domain]) }}">
                                 @if (!is_null($site->hoster_domain))
                                     <span style="cursor:pointer;color:#000;">{{ $site->hoster_domain->title }}</span>
                                 @else
@@ -135,17 +126,7 @@
                                 data-ftp-pass="{{ $site->ftp_pass }}">
                                     FTP Доступы
                             </button>
-                            <button type="button" id="transferSite" class="btn btn-pill btn-danger btn-sm"
-                                data-toggle="modal" 
-                                data-target="#transferSiteUserModal"
-                                data-domain="{{ $site->domain }}"
-                                data-siteid="{{ $site->id }}"
-                                data-userid="{{ $site->user_id }}">
-                                    Передать сайт
-                            </button>
-                            @if (Auth::user()->role == 1)
                             <a href="{{ route('sites.edit', ['id' => $site->id ]) }}" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
-                            @endif
                             <a href="{{ route('sites.edit.settings', ['id' => $site->id ]) }}" class="btn btn-pill btn-primary btn-sm">Настройки сайта</a>
                         </td>
                     </tr>
@@ -158,7 +139,4 @@
     {{-- Вывод модалки с доступами сайта --}}
     <x-ftp-access-modal />
 
-    {{-- Вывод модалки для передачи сайта --}}
-    <x-transfer-modal />
-    
 </x-panel-layout>

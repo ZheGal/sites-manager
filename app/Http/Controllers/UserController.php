@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,11 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::all();
-        return view('users.list', compact('users'));
+        if (Auth::user()->role == 1) {
+            $users = User::all();
+            return view('users.list', compact('users'));
+        }
+        return redirect()->route('sites.list');
     }
 
     /**
@@ -28,7 +32,10 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('users.register');
+        if (Auth::user()->role == 1) {
+            return view('users.register');
+        }
+        return redirect()->route('sites.list');
     }
 
     /**
@@ -40,24 +47,26 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $user = new User();
+        if (Auth::user()->role == 1) {
+            $user = new User();
 
-        $data = $this->validate($request, [
-            'name' => 'required|unique:users',
-            'email' => 'required|unique:users',
-            'role' => 'numeric',
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password',
-            'yandex_login' => 'nullable',
-            'telegram_login' => 'nullable',
-            'pid' => 'nullable'
-        ]);
+            $data = $this->validate($request, [
+                'name' => 'required|unique:users',
+                'email' => 'required|unique:users',
+                'role' => 'numeric',
+                'password' => 'required|min:8',
+                'yandex_login' => 'nullable',
+                'telegram_login' => 'nullable',
+                'pid' => 'nullable'
+            ]);
 
-        $data['password'] = Hash::make($data['password']);
+            $data['password'] = Hash::make($data['password']);
 
-        $user->fill($data);
-        $user->save();
-        return redirect()->route('users.list')->with('message', "Пользователь $user->name зарегистрирован.");
+            $user->fill($data);
+            $user->save();
+            return redirect()->route('users.list')->with('message', "Пользователь $user->name зарегистрирован.");
+        }
+        return redirect()->route('sites.list');
     }
 
     /**

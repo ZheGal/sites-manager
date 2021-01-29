@@ -38,13 +38,7 @@
             <div class="form-group row">
               <label for="userPassword" class="col-sm-2 col-form-label">Пароль</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="userPassword" name="password" required autocomplete="off">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="userPassConfirm" class="col-sm-2 col-form-label">Подтверждение пароля</label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="userPassConfirm" name="password_confirmation" required autocomplete="off">
+                <input type="text" class="form-control" id="userPassword" name="password" required autocomplete="off">
               </div>
             </div>
             <div class="form-group row">

@@ -17,11 +17,13 @@
             <div class="col align-self-start">
                 <h3 class="pb-0 mb-0">Список кампаний</h3>
             </div>
+            @if ( Auth::user()->role == 1)
             <div class="col align-self-end text-right">
                 <a href="{{ route('campaigns.create') }}" class="btn btn-pill btn-success btn-sm">
                     <i class="cil-plus"></i> Добавить
                 </a>
             </div>
+            @endif
         </div>
     </div>
     <div class="card-body">
@@ -53,7 +55,9 @@
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->group }}"></td>
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->sites->count() }}" class="text-center" style="width:100%;"></td>
                     <td class="text-right">
+                        @if ( Auth::user()->role == 1)
                         <a href="{{ route('campaigns.edit', ['id' => $campaign->id]) }}" type="button" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
+                        @endif
                         <a href="{{ route('sites.list', ['campaign_id' => $campaign->id]) }}" type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</a>
                     </td>
                 </tr>

@@ -3,4 +3,5 @@ table input:read-only {
     padding: 0;
     border: none;
     color: inherit;
+    width: 100%;
 }

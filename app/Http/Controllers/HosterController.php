@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Hoster;
 
@@ -27,7 +28,10 @@ class HosterController extends Controller
     public function create()
     {
         //
-        return view('hosters.create');
+        if (Auth::user()->role == 1) {
+            return view('hosters.create');
+        }
+        return view($view, compact('sites'));
     }
 
     /**
@@ -39,23 +43,26 @@ class HosterController extends Controller
     public function store(Request $request)
     {
         //
-        $data = $this->validate($request, [
-            'title' => 'required|unique:hosters',
-            'url' => 'required',
-            'username' => 'nullable',
-            'password' => 'nullable'
-        ]);
+        if (Auth::user()->role == 1) {
+            $data = $this->validate($request, [
+                'title' => 'required|unique:hosters',
+                'url' => 'required',
+                'username' => 'nullable',
+                'password' => 'nullable'
+            ]);
 
-        $hoster = new Hoster();
-        $hoster->fill($data);
-        $title = $hoster->title;
+            $hoster = new Hoster();
+            $hoster->fill($data);
+            $title = $hoster->title;
 
-        $hoster->url = str_replace('https://', '', $hoster->url);
-        $hoster->url = str_replace('http://', '', $hoster->url);
-        
-        $hoster->save();
+            $hoster->url = str_replace('https://', '', $hoster->url);
+            $hoster->url = str_replace('http://', '', $hoster->url);
+            
+            $hoster->save();
 
-        return redirect()->route('hosters.list')->with('message', "Хост «" . $title . "» был добавлен в таблицу.");
+            return redirect()->route('hosters.list')->with('message', "Хост «" . $title . "» был добавлен в таблицу.");
+        }
+        return view($view, compact('sites'));
     }
 
     /**
@@ -78,8 +85,11 @@ class HosterController extends Controller
     public function edit($id)
     {
         //
-        $hoster = Hoster::findOrFail($id);
-        return view('hosters.edit', compact('hoster'));
+        if (Auth::user()->role == 1) {
+            $hoster = Hoster::findOrFail($id);
+            return view('hosters.edit', compact('hoster'));
+        }
+        return view($view, compact('sites'));
     }
 
     /**
@@ -92,21 +102,24 @@ class HosterController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $hoster = Hoster::findOrFail($id);
-        $data = $this->validate($request, [
-            'title' => 'required|unique:hosters,title,' . $hoster->id,
-            'url' => 'required',
-            'username' => 'nullable',
-            'password' => 'nullable'
-        ]);
+        if (Auth::user()->role == 1) {
+            $hoster = Hoster::findOrFail($id);
+            $data = $this->validate($request, [
+                'title' => 'required|unique:hosters,title,' . $hoster->id,
+                'url' => 'required',
+                'username' => 'nullable',
+                'password' => 'nullable'
+            ]);
 
-        $hoster->fill($data);
+            $hoster->fill($data);
 
-        $hoster->url = str_replace('https://', '', $hoster->url);
-        $hoster->url = str_replace('http://', '', $hoster->url);
-        $hoster->save();
-        
-        return redirect()->route('hosters.list');
+            $hoster->url = str_replace('https://', '', $hoster->url);
+            $hoster->url = str_replace('http://', '', $hoster->url);
+            $hoster->save();
+            
+            return redirect()->route('hosters.list');
+        }
+        return view($view, compact('sites'));
     }
 
     /**
@@ -118,13 +131,16 @@ class HosterController extends Controller
     public function destroy($id)
     {
         // delete host and redirect to the hosts list
-        $hoster = Hoster::findOrFail($id);
-        if ($hoster) {
-            $title = $hoster->title;
-            $hoster->delete();
-            return redirect()->route('hosters.list')->with('message', "Хост $title был удалён.");
-        }
+        if (Auth::user()->role == 1) {
+            $hoster = Hoster::findOrFail($id);
+            if ($hoster) {
+                $title = $hoster->title;
+                $hoster->delete();
+                return redirect()->route('hosters.list')->with('message', "Хост $title был удалён.");
+            }
 
-        return redirect()->route('hosters.list');
+            return redirect()->route('hosters.list');
+        }
+        return view($view, compact('sites'));
     }
 }
