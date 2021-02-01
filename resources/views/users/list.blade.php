@@ -41,7 +41,7 @@
                     <th>ID</th>
                     <th>Пользователь</th>
                     <th>Почта</th>
-                    <th>Роль</th>
+                    <th>Статус</th>
                     <th>Логин Яндекс</th>
                     <th>Логин Telegram</th>
                     <th>PID</th>
@@ -54,7 +54,12 @@
                     <td class="pt-3">{{ $user->id }}</td>
                     <td class="pt-3">{{ $user->name }}</td>
                     <td class="pt-3">{{ $user->email }}</td>
-                    <td class="pt-3">@if ($user->role == 1) Полный доступ @else Пользователь @endif</td>
+                    <td class="pt-3">
+                        @if ($user->role == 1) Администратор 
+                        @elseif ($user->role == 2) Модератор
+                        @elseif ($user->role == 3) Архивный
+                        @else Пользователь @endif
+                    </td>
                     <td class="pt-3">{{ $user->yandex_login }}</td>
                     <td class="pt-3">{{ $user->telegram_login }}</td>
                     <td class="pt-3">{{ $user->pid }}</td>

@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Campaign;
 use App\Helpers\Settings;
 use App\Helpers\Flysystem;
+use App\Helpers\SitesHelper;
+use App\Helpers\UserHelper;
 use Illuminate\Support\Facades\Storage;
 
 class SiteController extends Controller
@@ -22,44 +24,47 @@ class SiteController extends Controller
     public function index(Request $request)
     {
         // Sites list
-        $campaign_id = $request->query('campaign_id');
-        $hoster_id = $request->query('hoster_id');
-        $hoster_id_domain = $request->query('hoster_id_domain');
-        $user_id = $request->query('user_id');
-        $search_domain = $request->query('search_domain');
+        if ($this->is_banned()) {
+            return view('banned');
+        }
 
-        $view = 'sites.list';
+        $query = SitesHelper::getGetQueries($request);
+        $search_domain = $request->query('search_domain');
 
         $sites = Site::orderBy('id', 'desc');
 
-        if (Auth::user()->role == 1) {
-            if (!empty($user_id)) {
-                $sites = $sites->where('user_id', $user_id);
+        if (Auth::user()->role == 1 || Auth::user()->role == 2) {
+            if (isset($query['user_id'])) {
+                $sites = $sites->where('user_id', $query['user_id']);
             }
         } else {
             $sites = $sites->where('user_id', Auth::user()->id);
         }
         
 
-        if (!empty($search_domain)) {
-            $sites = $sites->where('domain', 'LIKE', '%'.$search_domain.'%');
+        if (isset($query['search_domain'])) {
+            $sites = $sites->where('domain', 'LIKE', '%'.$query['search_domain'].'%');
         }
 
-        if (!empty($campaign_id)) {
-            $sites = $sites->where('campaign_id', $campaign_id);
+        if (isset($query['status'])) {
+            $sites = $sites->where('status', $query['status']);
         }
 
-        if (!empty($hoster_id)) {
-            $sites = $sites->where('hoster_id', $hoster_id);
+        if (isset($query['campaign_id'])) {
+            $sites = $sites->where('campaign_id', $query['campaign_id']);
         }
 
-        if (!empty($hoster_id_domain)) {
-            $sites = $sites->where('hoster_id_domain', $hoster_id_domain);
+        if (isset($query['hoster_id'])) {
+            $sites = $sites->where('hoster_id', $query['hoster_id']);
+        }
+
+        if (isset($query['hoster_id_domain'])) {
+            $sites = $sites->where('hoster_id_domain', $query['hoster_id_domain']);
         }
 
         $sites = $sites->paginate(100);
 
-        return view($view, compact('sites', 'search_domain'));
+        return view('sites.list', compact('sites', 'search_domain'));
     }
 
     /**
@@ -69,6 +74,10 @@ class SiteController extends Controller
      */
     public function create()
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+
         // Adding new site page
         if (Auth::user()->role == 1) {
             $users = User::all();
@@ -88,6 +97,10 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             $data = $this->validate($request, [
@@ -100,15 +113,14 @@ class SiteController extends Controller
                 'ftp_user' => 'nullable',
                 'ftp_pass' => 'nullable',
                 'yandex' => 'nullable|numeric',
-                'facebook' => 'nullable|numeric'
+                'facebook' => 'nullable|numeric',
+                'status' => 'numeric'
             ]);
 
             $site = new Site();
             $site->fill($data);
-            $title = $site->domain;
 
-            $site->domain = str_replace('http://', '', $site->domain);
-            $site->domain = str_replace('https://', '', $site->domain);
+            $site->domain = SitesHelper::getCleanDomain($site->domain);
 
             if ($request->clean_host == 1) {
                 $this->cleanHost($site);
@@ -116,7 +128,7 @@ class SiteController extends Controller
 
             $site->save();
 
-            return redirect()->route('sites.list')->with('message', "Сайт с адресом «" . $title . "» был добавлен в таблицу.");
+            return redirect()->route('sites.list')->with('message', "Сайт с адресом «" . $site->domain . "» был добавлен в таблицу.");
         }
         return redirect()->route('sites.list');
     }
@@ -129,6 +141,10 @@ class SiteController extends Controller
      */
     public function show($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
     }
 
@@ -140,6 +156,10 @@ class SiteController extends Controller
      */
     public function edit($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             $site = Site::findOrFail($id);
@@ -161,6 +181,10 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             $site = Site::findOrFail($id);        
@@ -174,13 +198,13 @@ class SiteController extends Controller
                 'ftp_user' => 'nullable',
                 'ftp_pass' => 'nullable',
                 'yandex' => 'nullable',
-                'facebook' => 'nullable'
+                'facebook' => 'nullable',
+                'status' => 'numeric'
             ]);
 
             $site->fill($data);
 
-            $site->domain = str_replace('https://', '', $site->domain);
-            $site->domain = str_replace('http://', '', $site->domain);
+            $site->domain = SitesHelper::getCleanDomain($site->domain);
             $site->save();
 
             $updateSettings = $this->updateSettingsAfterUpdateSite($site);
@@ -198,6 +222,10 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             $site = Site::findOrFail($id);
@@ -212,6 +240,10 @@ class SiteController extends Controller
 
     public function editSettings($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         $site = Site::findOrFail($id);
         $domain = $site->domain;
         $settings = collect(Settings::getArray($domain));
@@ -224,6 +256,10 @@ class SiteController extends Controller
 
     public function updateSettings(Request $request, $id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         $site = Site::findOrFail($id);
         $domain = $site->domain;
         
@@ -240,6 +276,10 @@ class SiteController extends Controller
 
     public function cleanHost($site)
     {   
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         $url = 'https://' . $site->domain;
 
         $settings = Settings::compareSettingsAfterCreate($site);
@@ -254,6 +294,10 @@ class SiteController extends Controller
 
     public function updateSettingsAfterUpdateSite($site)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         $domain = $site->domain;
         $get = Settings::getArray($domain);
         $array = Settings::getDefaultSettings();
@@ -277,6 +321,10 @@ class SiteController extends Controller
 
     public function transfer(Request $request)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         $site = Site::findOrFail($request->siteid);
         $site->user_id = $request->user_id;
         $site->save();

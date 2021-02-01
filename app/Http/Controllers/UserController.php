@@ -16,6 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             $users = User::all();
@@ -31,6 +35,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             return view('users.register');
@@ -46,6 +54,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
         if (Auth::user()->role == 1) {
             $user = new User();
@@ -77,6 +89,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
     }
 
@@ -88,6 +104,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
     }
 
@@ -100,6 +120,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
     }
 
@@ -111,6 +135,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if ($this->is_banned()) {
+            return view('banned');
+        }
+        
         //
     }
 }

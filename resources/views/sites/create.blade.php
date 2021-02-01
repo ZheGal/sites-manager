@@ -111,6 +111,15 @@
                 </div>
               </div>
             </div>
+            <div class="form-group row">
+              <label for="siteStatus" class="col-sm-2 col-form-label">Статус сайта</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="siteStatus" name="status">
+                    <option value="1">Сайт активен</option>
+                    <option value="0">Сайт неактивен</option>
+                  </select>
+              </div>
+            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Добавить</button>

@@ -20,6 +20,7 @@
             <!--  -->
         </div>
         <ul class="c-sidebar-nav ps ps--active-y">
+            @if ( Auth::user()->role != 3)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link" href="{{ route('sites.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
@@ -51,6 +52,7 @@
                     <span>Метрика</span>
                 </a>
             </li>
+            @endif
             @endif
             <li class="c-sidebar-nav-item">
                 <form method="POST" action="{{ route('logout') }}">

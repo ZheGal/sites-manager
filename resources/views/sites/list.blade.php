@@ -51,7 +51,6 @@
         <table class="table table-responsive-sm table-borderless table-hover table-striped">
             <thead>
                 <tr class="table-info ">
-                    <th>ID</th>
                     <th>Домен</th>
                     <th>Кампания</th>
                     @if (Auth::user()->role == 1)
@@ -61,13 +60,13 @@
                     <th class="text-center">Регистратор домена</th>
                     <th class="text-center">Метрика</th>
                     <th class="text-center">Пиксель</th>
+                    <th class="text-center">Статус</th>
                     <th class="text-right">Действия</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($sites as $site)
                     <tr>
-                        <td class="pt-3">{{ $site->id }}</td>
 
                         <td class="pt-3">
                             <a href="//{{ $site->domain }}" style="cursor:pointer;" target="_blank">
@@ -125,6 +124,13 @@
                             </a>
                         </td>
                         <td class="text-center">{{ $site->facebook }}</td>
+                        <td class="text-center">
+                            @if ($site->status == 1)
+                                <a href="{{ request()->fullUrlWithQuery(['status' => $site->status]) }}" style="color:green;">Активен</a>
+                            @else
+                                <a href="{{ request()->fullUrlWithQuery(['status' => $site->status]) }}" style="color:red;">Не активен</a>
+                            @endif    
+                        </td>
                         <td class="text-right">
                             <button type="button" id="openModalFtp" class="btn btn-pill btn-info btn-sm" 
                                 data-toggle="modal" 

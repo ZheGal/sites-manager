@@ -25,6 +25,7 @@ class CreateSitesTable extends Migration
             $table->string('ftp_pass');
             $table->bigInteger('yandex')->nullable();
             $table->bigInteger('facebook')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
