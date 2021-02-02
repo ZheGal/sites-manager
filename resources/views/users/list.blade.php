@@ -29,7 +29,7 @@
     <div class="card-body">
         @if (Session::has('message'))
             <div class="alert alert-success" role="alert">
-                {{ Session::get('message') }}
+                {!! Session::get('message') !!}
             </div>
         @endif
         @if ($users->isEmpty())
@@ -58,7 +58,7 @@
                         @if ($user->role == 1) Администратор 
                         @elseif ($user->role == 2) Модератор
                         @elseif ($user->role == 3) Пользователь
-                        @else Не активный @endif
+                        @else Неактивный @endif
                     </td>
                     <td class="pt-3">{{ $user->yandex_login }}</td>
                     <td class="pt-3">{{ $user->telegram_login }}</td>

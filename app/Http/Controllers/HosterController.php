@@ -15,10 +15,6 @@ class HosterController extends Controller
      */
     public function index()
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         $hosters = Hoster::all();
         return view('hosters.list', compact('hosters'));
@@ -31,10 +27,6 @@ class HosterController extends Controller
      */
     public function create()
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         if (Auth::user()->role == 1) {
             return view('hosters.create');
@@ -50,10 +42,6 @@ class HosterController extends Controller
      */
     public function store(Request $request)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         if (Auth::user()->role == 1) {
             $data = $this->validate($request, [
@@ -85,10 +73,6 @@ class HosterController extends Controller
      */
     public function show($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
     }
 
@@ -100,16 +84,9 @@ class HosterController extends Controller
      */
     public function edit($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
-        if (Auth::user()->role == 1) {
-            $hoster = Hoster::findOrFail($id);
-            return view('hosters.edit', compact('hoster'));
-        }
-        return view($view, compact('sites'));
+        $hoster = Hoster::findOrFail($id);
+        return view('hosters.edit', compact('hoster'));
     }
 
     /**
@@ -121,10 +98,6 @@ class HosterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         if (Auth::user()->role == 1) {
             $hoster = Hoster::findOrFail($id);
@@ -154,21 +127,14 @@ class HosterController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         // delete host and redirect to the hosts list
-        if (Auth::user()->role == 1) {
-            $hoster = Hoster::findOrFail($id);
-            if ($hoster) {
-                $title = $hoster->title;
-                $hoster->delete();
-                return redirect()->route('hosters.list')->with('message', "Хост $title был удалён.");
-            }
-
-            return redirect()->route('hosters.list');
+        $hoster = Hoster::findOrFail($id);
+        if ($hoster) {
+            $title = $hoster->title;
+            $hoster->delete();
+            return redirect()->route('hosters.list')->with('message', "Хост $title был удалён.");
         }
-        return view($view, compact('sites'));
+
+        return redirect()->route('hosters.list');
     }
 }

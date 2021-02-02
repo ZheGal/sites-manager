@@ -14,11 +14,7 @@ class CampaignController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
+    {        
         //
         $campaigns = Campaign::all();
         return view('campaigns.list', compact('campaigns'));
@@ -31,10 +27,6 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         return view('campaigns.create');
     }
@@ -47,10 +39,6 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         $data = $this->validate($request, [
             'title' => 'required|unique:campaigns',
@@ -75,10 +63,6 @@ class CampaignController extends Controller
      */
     public function show($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
     }
 
@@ -90,10 +74,6 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         $campaign = Campaign::findOrFail($id);
         return view('campaigns.edit', compact('campaign'));
@@ -108,10 +88,6 @@ class CampaignController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         $campaign = Campaign::findOrFail($id);
         $data = $this->validate($request, [
@@ -136,10 +112,6 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
         $campaign = Campaign::findOrFail($id);
         if ($campaign) {

@@ -17,11 +17,9 @@ class Controller extends BaseController
         return view('clean');
     }
 
-    public function is_banned()
+    public function unactive()
     {
-        if (Auth::user()->role == 0) {
-            return true;
-        }
+        return view('unactive');
     }
 
     public function register()

@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
 
-class CheckIsAdmin
+class CheckIsActive
 {
     /**
      * Handle an incoming request.
@@ -18,8 +17,8 @@ class CheckIsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role != 1) {
-            return redirect(RouteServiceProvider::HOME);
+        if (Auth::user()->role == 0) {
+            return redirect('unactive');
         }
         return $next($request);
     }

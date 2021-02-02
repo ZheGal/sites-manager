@@ -153,7 +153,7 @@ class SiteController extends Controller
     public function update(Request $request, $id)
     {        
         // Updating site action
-        $site = Site::findOrFail($id);        
+        $site = Site::findOrFail($id);
         $data = $this->validate($request, [
             'domain' => 'required|unique:sites,domain,' . $site->id,
             'user_id' => 'numeric',

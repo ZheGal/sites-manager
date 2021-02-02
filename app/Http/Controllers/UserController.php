@@ -16,16 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
-        if (Auth::user()->role == 1) {
-            $users = User::all();
-            return view('users.list', compact('users'));
-        }
-        return redirect()->route('sites.list');
+        $users = User::all();
+        return view('users.list', compact('users'));
     }
 
     /**
@@ -35,15 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
-        if (Auth::user()->role == 1) {
-            return view('users.register');
-        }
-        return redirect()->route('sites.list');
+        return view('users.register');
     }
 
     /**
@@ -54,31 +40,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
-        if (Auth::user()->role == 1) {
-            $user = new User();
+        $user = new User();
 
-            $data = $this->validate($request, [
-                'name' => 'required|unique:users',
-                'email' => 'required|unique:users',
-                'role' => 'numeric',
-                'password' => 'required|min:8',
-                'yandex_login' => 'nullable',
-                'telegram_login' => 'nullable',
-                'pid' => 'nullable'
-            ]);
+        $data = $this->validate($request, [
+            'name' => 'required|unique:users',
+            'email' => 'required|unique:users',
+            'role' => 'numeric',
+            'password' => 'required|min:8',
+            'yandex_login' => 'nullable',
+            'telegram_login' => 'nullable',
+            'pid' => 'nullable'
+        ]);
 
-            $data['password'] = Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
 
-            $user->fill($data);
-            $user->save();
-            return redirect()->route('users.list')->with('message', "Пользователь $user->name зарегистрирован.");
-        }
-        return redirect()->route('sites.list');
+        $user->fill($data);
+        $user->save();
+        return redirect()->route('users.list')->with('message', "Пользователь $user->name зарегистрирован.");
     }
 
     /**
@@ -89,10 +68,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
     }
 
@@ -104,11 +79,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
-        //
+        $user = User::findOrFail($id);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -120,11 +92,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
+        $user = User::findOrFail($id);
+
+        $data = $this->validate($request, [
+            'name' => 'required|unique:users,name,' . $user->id,
+            'email' => 'required|unique:users,email,' . $user->id,
+            'role' => 'numeric',
+            'yandex_login' => 'nullable',
+            'telegram_login' => 'nullable',
+            'pid' => 'nullable'
+        ]);
+
+        $user->fill($data);
+        $user->save();
+        
+        return redirect()->route('users.list')->with('message', "Профиль пользователя <b>«" . $user->name . "»</b> был обновлён.");
+
     }
 
     /**
@@ -135,10 +119,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->is_banned()) {
-            return view('banned');
-        }
-        
         //
     }
 }
