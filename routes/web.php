@@ -14,12 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
     Route::get('/', [\App\Http\Controllers\SiteController::class, 'index'])->name('sites.list');
-    Route::get('/sites/create', [\App\Http\Controllers\SiteController::class, 'create'])->name('sites.create');
-    Route::post('/sites/store', [\App\Http\Controllers\SiteController::class, 'store'])->name('sites.store');
-    Route::get('/sites/{id}/edit', [\App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
-    Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
-    Route::delete('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
+    Route::middleware(['is_admin'])->group(function() {
+        Route::get('/sites/create', [\App\Http\Controllers\SiteController::class, 'create'])->name('sites.create');
+        Route::post('/sites/store', [\App\Http\Controllers\SiteController::class, 'store'])->name('sites.store');
+        Route::get('/sites/{id}/edit', [\App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
+        Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
+        Route::delete('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
+    });
+
     Route::get('/sites/{id}/edit/settings', [\App\Http\Controllers\SiteController::class, 'editSettings'])->name('sites.edit.settings');
     Route::patch('/sites/{id}/settings', [\App\Http\Controllers\SiteController::class, 'updateSettings'])->name('sites.update.settings');
     Route::post('/sites/transfer', [\App\Http\Controllers\SiteController::class, 'transfer'])->name('sites.transfer');
@@ -42,19 +46,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/users/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
     Route::post('/users/store', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
     Route::get('/users/{id}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-
-
-    Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
-    Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
-
-    Route::get('/test', function() {
-        return 'test';
-    });
 });
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+// Route::get('/welcome', function () {
+//     return view('welcome');
+// });
+
+Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
+Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
+Route::get('/register', [\App\Http\Controllers\Controller::class, 'register'])->name('register');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

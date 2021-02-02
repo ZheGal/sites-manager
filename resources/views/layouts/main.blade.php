@@ -20,7 +20,7 @@
             <!--  -->
         </div>
         <ul class="c-sidebar-nav ps ps--active-y">
-            @if ( Auth::user()->role != 3)
+            @if ( Auth::user()->role != 0)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link" href="{{ route('sites.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>

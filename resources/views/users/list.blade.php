@@ -57,8 +57,8 @@
                     <td class="pt-3">
                         @if ($user->role == 1) Администратор 
                         @elseif ($user->role == 2) Модератор
-                        @elseif ($user->role == 3) Архивный
-                        @else Пользователь @endif
+                        @elseif ($user->role == 3) Пользователь
+                        @else Не активный @endif
                     </td>
                     <td class="pt-3">{{ $user->yandex_login }}</td>
                     <td class="pt-3">{{ $user->telegram_login }}</td>
