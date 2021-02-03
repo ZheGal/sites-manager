@@ -59,16 +59,18 @@ class SitesHelper
         }
 
         foreach ($array as $site) {
-            $data = array_merge($data, [
-                'domain' => $site[0],
-                'ftp_host' => $site[1],
-                'ftp_user' => $site[2],
-                'ftp_pass' => $site[3],
-                'yandex' => (isset($site[4])) ? $site[4] : null,
-                'facebook' => (isset($site[5])) ? $site[5] : null,
-                'status' => 1
-            ]);
-            $sites[] = $data;
+            if (isset($site[0])) {
+                $data = array_merge($data, [
+                    'domain' => $site[0],
+                    'ftp_host' => (isset($site[1])) ? $site[1] : null,
+                    'ftp_user' => (isset($site[2])) ? $site[2] : null,
+                    'ftp_pass' => (isset($site[3])) ? $site[3] : null,
+                    'yandex' => (isset($site[4])) ? $site[4] : null,
+                    'facebook' => (isset($site[5])) ? $site[5] : null,
+                    'status' => 1
+                ]);
+                $sites[] = $data;
+            }
         }
 
         return $sites;

@@ -300,8 +300,13 @@ class SiteController extends Controller
                     $site->fill($site_data);
 
                     $site->domain = SitesHelper::getCleanDomain($site->domain);
-                    $site->save();
-                    $sitesCount++;
+                    $check = Site::where('domain', $site->domain)->count();
+
+                    if ($check == 0) {
+                        $site->save();
+                        $sitesCount++;
+                    }
+
                 }
                 if ($sitesCount > 0) {
                     return redirect()->route('sites.list')->with('message', "В базу добавлено сайтов: $sitesCount.");

@@ -70,11 +70,23 @@
     </div>
     <div class="c-wrapper c-fixed-components">
         <div class="c-header c-header-light c-header-fixed c-header-with-subheader">
-        <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
-            <span class="c-icon c-icon-lg">
-                <i class="cil-menu"></i>
-            </span>
-        </button>
+            <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+                <span class="c-icon c-icon-lg">
+                    <i class="cil-menu"></i>
+                </span>
+            </button>
+            <ul class="c-header-nav ml-auto mr-4">
+                <li style="margin-right:6px;">
+                    @if (Auth::user()->role == 1)
+                    Администратор
+                    @elseif (Auth::user()->role == 2)
+                    Модератор
+                    @elseif (Auth::user()->role == 3)
+                    Пользователь
+                    @endif
+                </li>
+                <li style="font-weight:bold;">{{ Auth::user()->name }}</li>
+            </ul>
         </div>
         
         @if (isset($breadcrumbps))
