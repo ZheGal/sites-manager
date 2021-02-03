@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () {
-
     Route::get('/', [\App\Http\Controllers\SiteController::class, 'index'])->name('sites.list');
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/sites/create', [\App\Http\Controllers\SiteController::class, 'create'])->name('sites.create');
+        Route::get('/sites/create/group', [\App\Http\Controllers\SiteController::class, 'addGroup'])->name('sites.group');
         Route::post('/sites/store', [\App\Http\Controllers\SiteController::class, 'store'])->name('sites.store');
+        Route::post('/sites/store/group', [\App\Http\Controllers\SiteController::class, 'storeGroup'])->name('sites.group_store');
         Route::get('/sites/{id}/edit', [\App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
         Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
         Route::delete('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
@@ -53,19 +54,22 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         Route::patch('/users/{id}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
     });
+    
+    Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
+    Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'is_not_active'])->group(function () {
     Route::get('/unactive', [\App\Http\Controllers\Controller::class, 'unactive'])->name('unactive.index');
 });
 
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [\App\Http\Controllers\Controller::class, 'register'])->name('register');
+});
+
 // Route::get('/welcome', function () {
 //     return view('welcome');
 // });
-
-Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
-Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
-Route::get('/register', [\App\Http\Controllers\Controller::class, 'register'])->name('register');
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return view('dashboard');

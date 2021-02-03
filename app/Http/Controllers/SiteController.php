@@ -268,4 +268,48 @@ class SiteController extends Controller
         $site->save();
         return redirect()->route('sites.list')->with('message', "Сайт $site->domain успешно передан другому пользователю");
     }
+
+    public function addGroup()
+    {
+        // Adding new site page
+        $users = User::all();
+        $hosters = Hoster::all();
+        $campaigns = Campaign::all();
+
+        return view('sites.add_group', compact('users', 'hosters', 'campaigns'));
+    }
+
+    public function storeGroup(Request $request)
+    {
+        $data = $this->validate($request, [
+            'user_id' => 'numeric',
+            'campaign_id' => 'required|numeric',
+            'hoster_id' => 'required|numeric',
+            'hoster_id_domain' => 'required|numeric'
+        ]);
+
+        if ($request->group_sites && !empty($request->group_sites)) {
+            $group_array = SitesHelper::getGroupArray($request->group_sites);
+            $group_collect = SitesHelper::getGroupCollect($group_array, $data);
+            
+            if (!empty($group_collect)) {
+                $sitesCount = 0;
+
+                foreach ($group_collect as $site_data) {
+                    $site = new Site();
+                    $site->fill($site_data);
+
+                    $site->domain = SitesHelper::getCleanDomain($site->domain);
+                    $site->save();
+                    $sitesCount++;
+                }
+                if ($sitesCount > 0) {
+                    return redirect()->route('sites.list')->with('message', "В базу добавлено сайтов: $sitesCount.");
+                }
+            }
+
+        }
+        return redirect()->route('sites.list')->with('message', "Ошибка при групповом добавлении сайтов.");
+    }
+
 }

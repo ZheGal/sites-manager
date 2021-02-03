@@ -1,6 +1,6 @@
 <x-panel-layout>
     <x-slot name="title">
-        Добавить сайт
+        Групповое добавление
     </x-slot>
 
     <x-slot name="breadcrumbps">
@@ -8,7 +8,8 @@
         <ol class="breadcrumb border-0 m-0">
           <li class="breadcrumb-item"><a href="/">Главная</a></li>
           <li class="breadcrumb-item"><a href="{{ route('sites.list') }}">Сайты</a></li>
-          <li class="breadcrumb-item active">Добавить сайт</li>  
+          <li class="breadcrumb-item"><a href="{{ route('sites.create') }}">Добавить сайт</a></li>
+          <li class="breadcrumb-item active">Групповое добавление сайтов</li>  
         </ol>
       </div>
     </x-slot>
@@ -16,44 +17,20 @@
     <div class="card-header">
         <div class="row">
             <div class="col align-self-start">
-                <h3 class="pb-0 mb-0">Добавить сайт</h3>
+                <h3 class="pb-0 mb-0">Групповое добавление сайтов</h3>
             </div>
             <div class="col align-self-end text-right">
                 @if (Auth::user()->role == 1)
-                <a href="{{ route('sites.group') }}" class="btn btn-pill btn-success btn-sm">
-                    <i class="cil-plus"></i> Групповое добавление
+                <a href="{{ route('sites.create') }}" class="btn btn-pill btn-success btn-sm">
+                    <i class="cil-plus"></i> Единичное добавление
                 </a>
                 @endif
             </div>
         </div>
     </div>
-    <form action="{{ route('sites.store') }}" method="post">
+    <form action="{{ route('sites.group_store') }}" method="post">
         <div class="card-body">
             @csrf
-            <div class="form-group row">
-              <label for="siteDomain" class="col-sm-2 col-form-label">Домен сайта</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteDomain" name="domain" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="siteFtpHost" class="col-sm-2 col-form-label">FTP хост</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpHost" name="ftp_host" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="siteFtpUser" class="col-sm-2 col-form-label">FTP пользователь</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpUser" name="ftp_user" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="siteFtpPass" class="col-sm-2 col-form-label">FTP пароль</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass" required>
-              </div>
-            </div>
             <div class="form-group row">
               <label for="siteCampaign" class="col-sm-2 col-form-label">Кампания</label>
               <div class="col-sm-10">
@@ -98,35 +75,13 @@
                   </select>
               </div>
             </div>
+            
             <div class="form-group row">
-              <label for="siteMetrika" class="col-sm-2 col-form-label">Яндекс Метрика</label>
-              <div class="col-sm-10">
-                <input type="number" class="form-control" id="siteMetrika" name="yandex">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="sitePixel" class="col-sm-2 col-form-label">Facebook Пиксель</label>
-              <div class="col-sm-10">
-                <input type="number" class="form-control" id="sitePixel" name="facebook">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="cleanHost" class="col-sm-2 col-form-label">Чистый хост</label>
-              <div class="col-sm-10">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="1" name="clean_host" id="cleanHost">
+                <label for="siteUser" class="col-sm-12 col-form-label">Сайты</label>
+                <div class="col-sm-12">
+                    <textarea class="form-control" id="groupTextarea" name="group_sites" rows="10"></textarea>
                 </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="siteStatus" class="col-sm-2 col-form-label">Статус сайта</label>
-              <div class="col-sm-10">
-                <select class="form-control" id="siteStatus" name="status">
-                    <option value="1">Сайт активен</option>
-                    <option value="0">Сайт неактивен</option>
-                  </select>
-              </div>
-            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Добавить</button>
