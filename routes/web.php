@@ -67,6 +67,6 @@ Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->na
 Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
 Route::get('/register', [\App\Http\Controllers\Controller::class, 'register'])->name('register');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
