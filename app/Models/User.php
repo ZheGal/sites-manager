@@ -30,7 +30,8 @@ class User extends Authenticatable
         'yandex_login',
         'telegram_login',
         'role',
-        'additional'
+        'additional',
+        'pid'
     ];
 
     /**
