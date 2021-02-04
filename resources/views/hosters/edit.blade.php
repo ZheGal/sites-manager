@@ -55,6 +55,16 @@
                 <input type="text" class="form-control" id="hosterPassword" name="password" value="{{ $hoster->password }}" autocomplete="off">
               </div>
             </div>
+            <div class="form-group row">
+              <label for="multiHoster" class="col-sm-2 col-form-label">Мультихост:</label>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="1"
+                  @if ($hoster->multihost == 1) checked @endif
+                  name="multihost" id="multiHoster">
+                </div>
+              </div>
+            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Сохранить</button>

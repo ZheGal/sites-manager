@@ -29,6 +29,11 @@
     </div>
     <form action="{{ route('sites.store') }}" method="post">
         <div class="card-body">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                @endforeach
+            @endif
             @csrf
             <div class="form-group row">
               <label for="siteDomain" class="col-sm-2 col-form-label">Домен сайта</label>

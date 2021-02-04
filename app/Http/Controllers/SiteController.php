@@ -112,7 +112,7 @@ class SiteController extends Controller
 
         $site->save();
 
-        return redirect()->route('sites.list')->with('message', "Сайт с адресом «" . $site->domain . "» был добавлен в таблицу.");
+        return redirect()->route('sites.list')->with('message', "Сайт с адресом <b>«" . $site->domain . "»</b> был добавлен в таблицу.");
     }
 
     /**
@@ -175,7 +175,7 @@ class SiteController extends Controller
 
         $updateSettings = $this->updateSettingsAfterUpdateSite($site);
         
-        return redirect()->route('sites.list')->with('message', "Сайт «" . $site->domain . "» был обновлён.");
+        return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $site->domain . "»</b> был обновлён.");
     }
 
     /**
@@ -191,7 +191,7 @@ class SiteController extends Controller
         if ($site) {
             $title = $site->domain;
             $site->delete();
-            return redirect()->route('sites.list')->with('message', "Сайт «" . $title . "» был удалён из базы.");
+            return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $title . "»</b> был удалён из базы.");
         }
         return redirect()->route('sites.list');
     }
@@ -214,13 +214,23 @@ class SiteController extends Controller
         $domain = $site->domain;
         
         $settings = Settings::compareSettingAfterUpdateSubmit();
+        
+        if (!empty($settings['yandex']) && $settings['yandex'] != '') {
+            $site->yandex = $settings['yandex'];
+        }
+
+        if (!empty($settings['facebook']) && $settings['facebook'] != '') {
+            $site->facebook = $settings['facebook'];
+        }
+
         $json = json_encode($settings, JSON_PRETTY_PRINT);
         
         $ftp = new Flysystem($site);
         $save = $ftp->saveSettingsJson($json);
+        $site->save();
 
         if ($save) {
-            return redirect()->route('sites.list')->with('message', "Настройки сайта $domain успешно обновлены");
+            return redirect()->route('sites.list')->with('message', "Настройки сайта <b>$domain</b> успешно обновлены");
         }
     }
 
@@ -266,7 +276,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($request->siteid);
         $site->user_id = $request->user_id;
         $site->save();
-        return redirect()->route('sites.list')->with('message', "Сайт $site->domain успешно передан другому пользователю");
+        return redirect()->route('sites.list')->with('message', "Сайт <b>$site->domain</b> успешно передан другому пользователю");
     }
 
     public function addGroup()
@@ -309,7 +319,7 @@ class SiteController extends Controller
 
                 }
                 if ($sitesCount > 0) {
-                    return redirect()->route('sites.list')->with('message', "В базу добавлено сайтов: $sitesCount.");
+                    return redirect()->route('sites.list')->with('message', "В базу добавлено сайтов: <b>$sitesCount</b>.");
                 }
             }
 

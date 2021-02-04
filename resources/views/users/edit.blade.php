@@ -8,7 +8,7 @@
         <ol class="breadcrumb border-0 m-0">
           <li class="breadcrumb-item"><a href="/">Главная</a></li>
           <li class="breadcrumb-item"><a href="{{ route('users.list') }}">Пользователи</a></li>
-          <li class="breadcrumb-item active">Редактирование пользователя - <b>{{ $user->name }}</b></li>  
+          <li class="breadcrumb-item active">Редактирование пользователя -&nbsp;<b> {{ $user->name }}</b></li>  
         </ol>
       </div>
     </x-slot>
@@ -22,6 +22,11 @@
     </div>
     <form action="{{ route('users.update', ['id' => $user->id]) }}" method="post">
         <div class="card-body">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                @endforeach
+            @endif
             @csrf
             @method('PATCH')
             <div class="form-group row">
@@ -69,6 +74,12 @@
               <label for="userPid" class="col-sm-2 col-form-label">PID</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="userPid" name="pid" value="{{ $user->pid }}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="userAdditional" class="col-sm-12 col-form-label">Дополнительная информация</label>
+              <div class="col-sm-12">
+                <textarea class="form-control" id="userAdditional" name="additional" rows="5">{{ $user->additional }}</textarea>
               </div>
             </div>
         </div>

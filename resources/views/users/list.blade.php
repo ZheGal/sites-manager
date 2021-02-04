@@ -20,9 +20,11 @@
             <div class="col align-self text-center">
             </div>
             <div class="col align-self-end text-right">
+                @if (Auth::user()->role == 1)
                 <a href="{{ route('users.create') }}" class="btn btn-pill btn-success btn-sm">
                     <i class="cil-plus"></i> Зарегистрировать
                 </a>
+                @endif
             </div>
         </div>
     </div>
@@ -45,6 +47,7 @@
                     <th>Логин Яндекс</th>
                     <th>Логин Telegram</th>
                     <th>PID</th>
+                    
                     <th class="text-right">Действия</th>
                 </tr>
             </thead>
@@ -63,8 +66,12 @@
                     <td class="pt-3">{{ $user->yandex_login }}</td>
                     <td class="pt-3">{{ $user->telegram_login }}</td>
                     <td class="pt-3">{{ $user->pid }}</td>
+
                     <td class="text-right">
+                        @if (Auth::user()->role == 1)
                         <a href="{{ route('users.edit', ['id' => $user->id ]) }}" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
+                        @endif
+                        <a href="{{ route('sites.list', ['user_id' => $user->id ]) }}" class="btn btn-pill btn-info btn-sm">Список сайтов</a>
                     </td>
                 </tr>
             @endforeach

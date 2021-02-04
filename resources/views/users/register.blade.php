@@ -22,6 +22,11 @@
     </div>
     <form action="{{ route('users.store') }}" method="post">
         <div class="card-body">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                @endforeach
+            @endif
             @csrf
             <div class="form-group row">
               <label for="userLogin" class="col-sm-2 col-form-label">Логин</label>
@@ -42,6 +47,17 @@
               </div>
             </div>
             <div class="form-group row">
+              <label for="userRole" class="col-sm-2 col-form-label">Права доступа</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="userRole" name="role">
+                    <option value="0">Неактивный</option>
+                    <option value="3" selected>Пользователь</option>
+                    <option value="2">Модератор</option>
+                    <option value="1">Администратор</option>
+                  </select>
+              </div>
+            </div>
+            <div class="form-group row">
               <label for="userYandex" class="col-sm-2 col-form-label">Яндекс Логин</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="userYandex" name="yandex_login">
@@ -59,7 +75,12 @@
                 <input type="text" class="form-control" id="userPid" name="pid">
               </div>
             </div>
-            <input type="hidden" name="role" value="0">
+            <div class="form-group row">
+              <label for="userAdditional" class="col-sm-12 col-form-label">Дополнительная информация</label>
+              <div class="col-sm-12">
+                <textarea class="form-control" id="userAdditional" name="additional" rows="5"></textarea>
+              </div>
+            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-success" type="submit">Зарегистрировать</button>

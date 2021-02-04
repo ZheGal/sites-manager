@@ -51,7 +51,6 @@ class Settings
             'facebook' => '',
             'partner' => [
                 'neogara' => 1,
-                'global' => 0,
                 'neogara_js' => 0
             ],
             'country' => '', // для указания дефолтной страны
@@ -62,6 +61,14 @@ class Settings
             'cloakit' => '',
             'relink' => '', // для прокл
             'send_mail' => '', // дописываем, если нужно поменять адрес отправки почты после отправки формы на глобалмаксис
+            'sub1' => '',
+            'sub2' => '',
+            'sub3' => '',
+            'sub4' => '',
+            'sub5' => '',
+            'sub6' => '',
+            'sub7' => '',
+            'sub8' => ''
         ];
 
         return $array;

@@ -29,7 +29,7 @@
     <div class="card-body">
         @if (Session::has('message'))
             <div class="alert alert-success" role="alert">
-                {{ Session::get('message') }}
+                {!! Session::get('message') !!}
             </div>
         @endif
         @if ($campaigns->isEmpty())
@@ -38,10 +38,9 @@
         <table class="table table-responsive-sm table-borderless table-hover table-striped">
             <thead>
                 <tr class="table-info ">
-                    <th></th>
+                    <th>Группа</th>
                     <th>Язык кампании</th>
                     <th>Имя кампании</th>
-                    <th>Номер группы</th>
                     <th class="text-center">Количество сайтов</th>
                     <th class="text-right">Действия</th>
                 </tr>
@@ -49,10 +48,9 @@
             <tbody>
                 @foreach ($campaigns as $campaign)
                 <tr>
-                    <td class="pt-3">{{ $loop->iteration }}</td>
+                    <td class="pt-3">{{ $campaign->group }}</td>
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->language }}"></td>
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->title }}"></td>
-                    <td class="pt-3"><input type="text" readonly value="{{ $campaign->group }}"></td>
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->sites->count() }}" class="text-center" style="width:100%;"></td>
                     <td class="text-right">
                         @if ( Auth::user()->role == 1)

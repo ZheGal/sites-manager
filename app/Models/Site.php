@@ -9,7 +9,21 @@ class Site extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['domain', 'user_id', 'campaign_id', 'hoster_id', 'hoster_id_domain', 'ftp_host', 'ftp_user', 'ftp_pass', 'yandex', 'facebook', 'status'];
+    protected $fillable = [
+        'domain',
+        'user_id',
+        'campaign_id',
+        'hoster_id',
+        'hoster_id_domain',
+        'ftp_host',
+        'ftp_user',
+        'ftp_pass',
+        'yandex',
+        'facebook',
+        'cloakit',
+        'status',
+        'additional'
+    ];
 
     public function user()
     {

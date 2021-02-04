@@ -56,6 +56,14 @@
                 <input type="text" class="form-control" id="hosterPassword" name="password">
               </div>
             </div>
+            <div class="form-group row">
+              <label for="multiHoster" class="col-sm-2 col-form-label">Мультихост:</label>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="1" name="multihost" id="multiHoster">
+                </div>
+              </div>
+            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Добавить</button>

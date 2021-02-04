@@ -9,7 +9,13 @@ class Hoster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'url', 'username', 'password'];
+    protected $fillable = [
+        'title',
+        'url',
+        'username',
+        'password',
+        'multihost'
+    ];
 
     public function sites()
     {

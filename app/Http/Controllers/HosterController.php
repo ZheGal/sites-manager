@@ -48,7 +48,8 @@ class HosterController extends Controller
                 'title' => 'required|unique:hosters',
                 'url' => 'required',
                 'username' => 'nullable',
-                'password' => 'nullable'
+                'password' => 'nullable',
+                'multihost' => 'nullable'
             ]);
 
             $hoster = new Hoster();
@@ -60,7 +61,7 @@ class HosterController extends Controller
             
             $hoster->save();
 
-            return redirect()->route('hosters.list')->with('message', "Хост «" . $title . "» был добавлен в таблицу.");
+            return redirect()->route('hosters.list')->with('message', "Хост <b>«" . $title . "»</b> был добавлен в таблицу.");
         }
         return view($view, compact('sites'));
     }
@@ -105,7 +106,8 @@ class HosterController extends Controller
                 'title' => 'required|unique:hosters,title,' . $hoster->id,
                 'url' => 'required',
                 'username' => 'nullable',
-                'password' => 'nullable'
+                'password' => 'nullable',
+                'multihost' => 'nullable'
             ]);
 
             $hoster->fill($data);
@@ -132,7 +134,7 @@ class HosterController extends Controller
         if ($hoster) {
             $title = $hoster->title;
             $hoster->delete();
-            return redirect()->route('hosters.list')->with('message', "Хост $title был удалён.");
+            return redirect()->route('hosters.list')->with('message', "Хост <b>$title</b> был удалён.");
         }
 
         return redirect()->route('hosters.list');

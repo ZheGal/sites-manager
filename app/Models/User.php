@@ -29,7 +29,8 @@ class User extends Authenticatable
         'password',
         'yandex_login',
         'telegram_login',
-        'role'
+        'role',
+        'additional'
     ];
 
     /**

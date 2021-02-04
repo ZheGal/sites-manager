@@ -22,6 +22,11 @@
     </div>
     <form action="{{ route('sites.update', ['id' => $site->id]) }}" method="post">
         <div class="card-body">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                @endforeach
+            @endif
             @csrf
             @method('PATCH')
             <div class="form-group row">

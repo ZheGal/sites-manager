@@ -16,7 +16,7 @@ class CampaignController extends Controller
     public function index()
     {        
         //
-        $campaigns = Campaign::all();
+        $campaigns = Campaign::orderBy('group')->get();
         return view('campaigns.list', compact('campaigns'));
     }
 
@@ -52,7 +52,7 @@ class CampaignController extends Controller
         
         $campaign->save();
 
-        return redirect()->route('campaigns.list')->with('message', "Кампания «" . $title . "» была добавлена в таблицу.");
+        return redirect()->route('campaigns.list')->with('message', "Кампания <b>«" . $title . "»</b> была добавлена в таблицу.");
     }
 
     /**
@@ -101,7 +101,7 @@ class CampaignController extends Controller
         
         $campaign->save();
 
-        return redirect()->route('campaigns.list')->with('message', "Кампания «" . $title . "» была обновлёна.");
+        return redirect()->route('campaigns.list')->with('message', "Кампания <b>«" . $title . "»</b> была обновлёна.");
     }
 
     /**
@@ -117,7 +117,7 @@ class CampaignController extends Controller
         if ($campaign) {
             $title = $campaign->title;
             $campaign->delete();
-            return redirect()->route('campaigns.list')->with('message', "Кампания «" . $title . "» была удалёна.");
+            return redirect()->route('campaigns.list')->with('message', "Кампания <b>«" . $title . "»</b> была удалёна.");
         }
 
         return redirect()->route('campaigns.list');

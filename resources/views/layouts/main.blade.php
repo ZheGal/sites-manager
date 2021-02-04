@@ -39,13 +39,13 @@
                     <span>Кампании</span>
                 </a>
             </li>
-            @if ( Auth::user()->role == 1)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link" href="{{ route('users.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-user"></i></span>
                     <span>Пользователи</span>
                 </a>
             </li>
+            @if ( Auth::user()->role == 1)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link" href="{{ route('metrika.index') }}">
                     <span class="c-sidebar-nav-icon"><i class="cib-yandex"></i></span>

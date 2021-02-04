@@ -50,14 +50,15 @@ class UserController extends Controller
             'password' => 'required|min:8',
             'yandex_login' => 'nullable',
             'telegram_login' => 'nullable',
-            'pid' => 'nullable'
+            'pid' => 'nullable',
+            'additional' => 'nullable',
         ]);
 
         $data['password'] = Hash::make($data['password']);
 
         $user->fill($data);
         $user->save();
-        return redirect()->route('users.list')->with('message', "Пользователь $user->name зарегистрирован.");
+        return redirect()->route('users.list')->with('message', "Пользователь <b>$user->name</b> зарегистрирован.");
     }
 
     /**
@@ -101,6 +102,7 @@ class UserController extends Controller
             'role' => 'numeric',
             'yandex_login' => 'nullable',
             'telegram_login' => 'nullable',
+            'additional' => 'nullable',
             'pid' => 'nullable'
         ]);
 
@@ -119,6 +121,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        if ($user) {
+            $name = $user->name;
+            $user->delete();
+            return redirect()->route('users.list')->with('message', "Пользователь <b>«" . $name . "»</b> был удалён из базы.");
+        }
+        return redirect()->route('users.list');
     }
 }
