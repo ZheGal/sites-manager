@@ -70,7 +70,7 @@
                 <select class="form-control" id="siteHoster" name="hoster_id">
                     <option value="0" @if ($site->hoster_id == 0) selected @endif>Без хостера</option>
                     @foreach ($hosters as $hoster)
-                    <option value="{{ $hoster->id }}" @if ($site->hoster_id == $hoster->id) selected @endif>{{ $hoster->title }} ({{ $hoster->url }})</option>
+                    <option value="{{ $hoster->id }}" @if ($site->hoster_id == $hoster->id) selected @endif>{{ $hoster->title }}</option>
                     @endforeach
                   </select>
               </div>
@@ -81,7 +81,7 @@
                 <select class="form-control" id="siteHosterDomain" name="hoster_id_domain">
                   <option value="0" @if ($site->hoster_id_domain == 0) selected @endif>Без хостера</option>
                   @foreach ($hosters as $hoster)
-                  <option value="{{ $hoster->id }}" @if ($site->hoster_id_domain == $hoster->id) selected @endif>{{ $hoster->title }} ({{ $hoster->url }})</option>
+                  <option value="{{ $hoster->id }}" @if ($site->hoster_id_domain == $hoster->id) selected @endif>{{ $hoster->title }}</option>
                   @endforeach
                   </select>
               </div>
@@ -92,7 +92,7 @@
                 <select class="form-control" id="siteUser" name="user_id">
                     <option value="0" @if ($site->user_id == 0) selected @endif>Без пользователя</option>
                     @foreach ($users as $user)
-                    <option value="{{ $user->id }}" @if ($site->user_id == $user->id) selected @endif>{{ $user->name }}</option>
+                    <option value="{{ $user->id }}" @if ($site->user_id == $user->id) selected @endif>{{ $user->name }} @if ($user->pid != '') {{ $user->pid }} @endif</option>
                     @endforeach
                   </select>
               </div>

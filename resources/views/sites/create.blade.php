@@ -75,7 +75,7 @@
               <div class="col-sm-10">
                 <select class="form-control" id="siteHoster" name="hoster_id">
                     @foreach ($hosters as $hoster)
-                    <option value="{{ $hoster->id }}">{{ $hoster->title }} ({{ $hoster->url }})</option>
+                    <option value="{{ $hoster->id }}">{{ $hoster->title }}</option>
                     @endforeach
                     <option value="0">Без хостера</option>
                   </select>
@@ -86,7 +86,7 @@
               <div class="col-sm-10">
                 <select class="form-control" id="siteHosterDomain" name="hoster_id_domain">
                   @foreach ($hosters as $hoster)
-                  <option value="{{ $hoster->id }}">{{ $hoster->title }} ({{ $hoster->url }})</option>
+                  <option value="{{ $hoster->id }}">{{ $hoster->title }}</option>
                   @endforeach
                   <option value="0">Без хостера</option>
                   </select>
@@ -98,7 +98,7 @@
                 <select class="form-control" id="siteUser" name="user_id">
                     <option value="0">Без пользователя</option>
                     @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option value="{{ $user->id }}">{{ $user->name }} @if ($user->pid != '') {{ $user->pid }} @endif</option>
                     @endforeach
                   </select>
               </div>
