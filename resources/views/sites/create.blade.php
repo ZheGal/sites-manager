@@ -98,7 +98,7 @@
                 <select class="form-control" id="siteUser" name="user_id">
                     <option value="0">Без пользователя</option>
                     @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }} @if ($user->pid != '') {{ $user->pid }} @endif</option>
+                    <option value="{{ $user->id }}">{{ $user->name }} @if ($user->pid != '') ({{ $user->pid }}) @endif</option>
                     @endforeach
                   </select>
               </div>
