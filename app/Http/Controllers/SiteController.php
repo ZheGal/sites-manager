@@ -58,7 +58,7 @@ class SiteController extends Controller
             $sites = $sites->where('hoster_id_domain', $query['hoster_id_domain']);
         }
 
-        $sites = $sites->paginate(50);
+        $sites = $sites->paginate(50)->appends(request()->except('page'));
 
         return view('sites.list', compact('sites', 'search_domain'));
     }
@@ -314,6 +314,7 @@ class SiteController extends Controller
                     $check = Site::where('domain', $site->domain)->count();
 
                     if ($check == 0) {
+                        $site->creator_id = Auth::user()->id;
                         $site->save();
                         $sitesCount++;
                     }
@@ -328,4 +329,13 @@ class SiteController extends Controller
         return redirect()->route('sites.list')->with('message', "Ошибка при групповом добавлении сайтов.");
     }
 
+    public function updateConnector($id)
+    {
+        $site = Site::findOrFail($id);
+        if ($site) {
+            $this->cleanHost($site);
+            return redirect()->route('sites.list')->with('message', "Набор функций для сайта <b>{$site->domain}</b> обновлён.");
+        }
+        return redirect()->route('sites.list')->with('message', "Произошла ошибка при попытке загрузить файлы функций на сайт <b>{$site->domain}</b>.");
+    }
 }
