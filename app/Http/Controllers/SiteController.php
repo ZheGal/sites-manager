@@ -237,7 +237,7 @@ class SiteController extends Controller
 
     public function cleanHost($site)
     {
-        $url = 'https://' . $site->domain;
+        $url = 'http://' . $site->domain;
 
         $settings = Settings::compareSettingsAfterCreate($site);
         $json = json_encode($settings, JSON_PRETTY_PRINT);
