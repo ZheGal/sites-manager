@@ -12,7 +12,7 @@ class ApiController extends \App\Http\Controllers\Controller
         $script = "cd " . base_path() . " && git pull";
         $exec = exec($script);
         return [
-            'command' => 'git pull',
+            'command' => strval($script),
             'message' => strval($exec)
         ];
     }
