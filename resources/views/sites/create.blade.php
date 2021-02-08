@@ -44,19 +44,19 @@
             <div class="form-group row">
               <label for="siteFtpHost" class="col-sm-2 col-form-label">FTP хост</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpHost" name="ftp_host" required>
+                <input type="text" class="form-control" id="siteFtpHost" name="ftp_host">
               </div>
             </div>
             <div class="form-group row">
               <label for="siteFtpUser" class="col-sm-2 col-form-label">FTP пользователь</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpUser" name="ftp_user" required>
+                <input type="text" class="form-control" id="siteFtpUser" name="ftp_user">
               </div>
             </div>
             <div class="form-group row">
               <label for="siteFtpPass" class="col-sm-2 col-form-label">FTP пароль</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass" required>
+                <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass">
               </div>
             </div>
             <div class="form-group row">

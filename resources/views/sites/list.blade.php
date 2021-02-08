@@ -125,6 +125,10 @@
                                 data-ftp-pass="{{ $site->ftp_pass }}"
                                 data-yandex="{{ $site->yandex }}"
                                 data-facebook="{{ $site->facebook }}"
+                                @if ($site->creator_id != 0)
+                                data-creator="{{ $site->creator->name }}"
+                            @endif data-createdat="{{ $site->created_at }}"
+                                data-updatedat="{{ $site->updated_at }}"
                             >
                                 Информация
                             </button>

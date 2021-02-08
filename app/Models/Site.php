@@ -47,4 +47,10 @@ class Site extends Model
         // у каждого сайта своя кампания
         return $this->belongsTo(Campaign::class);
     }
+
+    public function creator()
+    {
+        // какой пользователь создавал сайт
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }

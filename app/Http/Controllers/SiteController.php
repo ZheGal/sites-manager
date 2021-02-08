@@ -103,6 +103,7 @@ class SiteController extends Controller
 
         $site = new Site();
         $site->fill($data);
+        $site->creator_id = Auth::user()->id;
 
         $site->domain = SitesHelper::getCleanDomain($site->domain);
 

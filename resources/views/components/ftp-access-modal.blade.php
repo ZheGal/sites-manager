@@ -39,6 +39,24 @@
                   <input type="text" class="form-control" id="fieldPixel" name="facebook" value="password" readonly autocomplete="off" style="background: #fff;color:#000;border:none;">
                 </div>
               </div>
+              <div class="form-group row">
+                <label for="fieldAdded" class="col-sm-3 col-form-label">Добавлен:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="fieldAdded" name="facebook" value="created_at" readonly autocomplete="off" style="background: #fff;color:#000;border:none;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="fieldUpdated" class="col-sm-3 col-form-label">Обновлён:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="fieldUpdated" name="facebook" value="updated_at" readonly autocomplete="off" style="background: #fff;color:#000;border:none;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="fieldCreator" class="col-sm-3 col-form-label">Добавил:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="fieldCreator" name="creator" value="" readonly autocomplete="off" style="background: #fff;color:#000;border:none;">
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Закрыть</button>
@@ -60,5 +78,12 @@
           $("#fieldMetrika").attr("href", "#");
         }
         $("#fieldPixel").val($(this).data('facebook'));
+        if ($(this).data('creator') != '') {
+          $("#fieldCreator").val($(this).data('creator'));
+        } else {
+          $("#fieldMetrika").val('');
+        }
+        $("#fieldAdded").val($(this).data('createdat'));
+        $("#fieldUpdated").val($(this).data('updatedat'));
     });
 </script>
