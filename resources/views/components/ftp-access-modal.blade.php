@@ -59,6 +59,7 @@
               </div>
             </div>
             <div class="modal-footer">
+              <a href="#" id="winScpOpen" class="btn btn-success">Открыть в WinSCP</a>
               <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Закрыть</button>
             </div>
           </div>
@@ -67,6 +68,13 @@
 
 <script>
     $("body").on('click', '#openModalFtp', function(){
+        if ($(this).data('ftp-host') != '') {
+          var winScpLink = 'winscp-ftp://' + $(this).data('ftp-user') + ':' + $(this).data('ftp-pass') + '@' + $(this).data('ftp-host');
+          $("#winScpOpen").attr("href", winScpLink);
+        } else {
+          $("#winScpOpen").attr("href", "#");
+        }
+
         $("#ftpAccessTitle").html($(this).data('ftp-name'));
         $("#ftpHost").val($(this).data('ftp-host'));
         $("#ftpLogin").val($(this).data('ftp-user'));

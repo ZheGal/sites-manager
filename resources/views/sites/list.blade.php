@@ -40,6 +40,13 @@
         </div>
     </div>
     <div class="card-body">
+        Фильтры: 
+        <button type="button" class="btn btn-square btn-light">Light</button>
+        <button type="button" class="btn btn-square btn-light">Light</button>
+        <button type="button" class="btn btn-square btn-light">Light</button>
+    </div>
+    <div class="card-body">
+
         @if (Session::has('message'))
             <div class="alert alert-success" role="alert">
                 {!! Session::get('message') !!}
