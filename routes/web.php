@@ -21,6 +21,7 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         Route::post('/sites/store', [\App\Http\Controllers\SiteController::class, 'store'])->name('sites.store');
         Route::post('/sites/store/group', [\App\Http\Controllers\SiteController::class, 'storeGroup'])->name('sites.group_store');
         Route::get('/sites/{id}/edit', [\App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
+        Route::get('/sites/{id}/update', [\App\Http\Controllers\SiteController::class, 'updateConnector'])->name('sites.update.functions');
         Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
         Route::delete('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
     });
