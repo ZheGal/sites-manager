@@ -57,7 +57,7 @@ class SiteController extends Controller
             $sites = $sites->where('campaign_id', $query['campaign_id']);
             $campaign = Campaign::find($query['campaign_id']);
             if ($campaign) {
-                $filters[] = ['Кампания', $hoster->name, 'campaign_id'];
+                $filters[] = ['Кампания', $campaign->language . ' - ' . $campaign->title, 'campaign_id'];
             }
         }
 
@@ -190,12 +190,22 @@ class SiteController extends Controller
         ]);
 
         $site->fill($data);
+        $user = User::find($site->user_id);
+        $add = [];
+        if ($user) {
+            $add['pid'] = $user->pid;
+        }
+
+        $campaign = Campaign::find($site->campaign_id);
+        if ($campaign) {
+            $add['group'] = $campaign->group;
+        }
 
         $site->domain = SitesHelper::getCleanDomain($site->domain);
         $site->updator_id = Auth::user()->id;
         $site->save();
 
-        $updateSettings = $this->updateSettingsAfterUpdateSite($site);
+        $updateSettings = $this->updateSettingsAfterUpdateSite($site, $add);
         
         return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $site->domain . "»</b> был обновлён.");
     }
@@ -270,7 +280,7 @@ class SiteController extends Controller
         file_get_contents($url);
     }
 
-    public function updateSettingsAfterUpdateSite($site)
+    public function updateSettingsAfterUpdateSite($site, $add = [])
     {
         $domain = $site->domain;
         $get = Settings::getArray($domain);
@@ -286,6 +296,8 @@ class SiteController extends Controller
         if (!empty($site->facebook)) {
             $array['facebook'] = $site->facebook;
         }
+
+        $array = array_merge($array, $add);
         
         $json = json_encode($array, JSON_PRETTY_PRINT);
         
