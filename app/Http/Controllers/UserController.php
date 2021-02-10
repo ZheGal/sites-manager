@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Site;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -124,6 +125,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         if ($user) {
             $name = $user->name;
+            $sites = Site::where('user_id', $id)->get();
+            if ($sites) {
+                foreach ($sites as $site) {
+                    $site->user_id = 0;
+                    $site->save();
+                }
+            }
+
             $user->delete();
             return redirect()->route('users.list')->with('message', "Пользователь <b>«" . $name . "»</b> был удалён из базы.");
         }

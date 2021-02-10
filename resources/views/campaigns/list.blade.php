@@ -49,7 +49,7 @@
                 @foreach ($campaigns as $campaign)
                 <tr>
                     <td class="pt-3">{{ $campaign->group }}</td>
-                    <td class="pt-3"><input type="text" readonly value="{{ $campaign->language }}"></td>
+                    <td class="pt-3"><input type="text" readonly @if ($campaign->language != '0') value="{{ $campaign->language }}" @endif></td>
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->title }}"></td>
                     <td class="pt-3"><input type="text" readonly value="{{ $campaign->sites->count() }}" class="text-center" style="width:100%;"></td>
                     <td class="text-right">

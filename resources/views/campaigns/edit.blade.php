@@ -41,8 +41,6 @@
               <label for="campaignLang" class="col-sm-2 col-form-label">Язык кампании</label>
               <div class="col-sm-10">
                 <select class="form-control" id="campaignLang" name="language">
-
-                    {{ $campaign->language }}
                     <option value="EN"@if ($campaign->language == 'EN') selected @endif>EN - Английский</option>
                     <option value="PL"@if ($campaign->language == 'PL') selected @endif>PL - Польский</option>
                     <option value="RU"@if ($campaign->language == 'RU') selected @endif>RU - Русский</option>
@@ -50,7 +48,7 @@
                     <option value="PT"@if ($campaign->language == 'PT') selected @endif>PT - Португальский</option>
                     <option value="ES"@if ($campaign->language == 'ES') selected @endif>ES - Испанский</option>
                     <option value="DE"@if ($campaign->language == 'DE') selected @endif>DE - Немецкий</option>
-                    <option>Другой / не указывать</option>
+                    <option value="0"@if ($campaign->language == '0') selected @endif>Другой / не указывать</option>
                   </select>
               </div>
             </div>

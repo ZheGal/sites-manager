@@ -49,7 +49,7 @@
                     <option value="PT">PT - Португальский</option>
                     <option value="ES">ES - Испанский</option>
                     <option value="DE">DE - Немецкий</option>
-                    <option>Другой / не указывать</option>
+                    <option value="0">Другой / не указывать</option>
                   </select>
               </div>
             </div>

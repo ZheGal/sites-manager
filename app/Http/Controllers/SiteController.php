@@ -57,7 +57,11 @@ class SiteController extends Controller
             $sites = $sites->where('campaign_id', $query['campaign_id']);
             $campaign = Campaign::find($query['campaign_id']);
             if ($campaign) {
-                $filters[] = ['Кампания', $campaign->language . ' - ' . $campaign->title, 'campaign_id'];
+                if ($campaign->language != '0') {
+                    $filters[] = ['Кампания', $campaign->language . ' - ' . $campaign->title, 'campaign_id'];
+                } else {
+                    $filters[] = ['Кампания', $campaign->title, 'campaign_id'];
+                }
             }
         }
 

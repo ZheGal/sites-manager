@@ -48,7 +48,10 @@ class CampaignController extends Controller
 
         $campaign = new Campaign();
         $campaign->fill($data);
-        $title = $campaign->language . ' - ' .$campaign->title;
+        $title = $campaign->title;
+        if ($campaign->language != '0') {
+            $title = $campaign->language . ' - ' .$campaign->title;
+        }
         
         $campaign->save();
 
