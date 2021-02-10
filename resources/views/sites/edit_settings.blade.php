@@ -16,7 +16,7 @@
     <div class="card-header">
         <div class="row">
             <div class="col align-self-start">
-                <h3 class="pb-0 mb-0">Редактирование настроек сайта</h3>
+                <h3 class="pb-0 mb-0">Редактирование настроек сайта {{ $site->domain }}</h3>
             </div>
         </div>
     </div>

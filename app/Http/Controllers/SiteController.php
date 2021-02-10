@@ -123,6 +123,7 @@ class SiteController extends Controller
         $site = new Site();
         $site->fill($data);
         $site->creator_id = Auth::user()->id;
+        $site->updator_id = Auth::user()->id;
 
         $site->domain = SitesHelper::getCleanDomain($site->domain);
 
@@ -191,6 +192,7 @@ class SiteController extends Controller
         $site->fill($data);
 
         $site->domain = SitesHelper::getCleanDomain($site->domain);
+        $site->updator_id = Auth::user()->id;
         $site->save();
 
         $updateSettings = $this->updateSettingsAfterUpdateSite($site);
@@ -334,6 +336,7 @@ class SiteController extends Controller
 
                     if ($check == 0) {
                         $site->creator_id = Auth::user()->id;
+                        $site->updator_id = Auth::user()->id;
                         $site->save();
                         $sitesCount++;
                     }
