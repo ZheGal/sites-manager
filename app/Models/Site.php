@@ -53,4 +53,10 @@ class Site extends Model
         // какой пользователь создавал сайт
         return $this->belongsTo(User::class, 'creator_id');
     }
+
+    public function updator()
+    {
+        // какой пользователь обновлял сайт
+        return $this->belongsTo(User::class, 'updator_id');
+    }
 }

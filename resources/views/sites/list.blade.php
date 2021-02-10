@@ -64,7 +64,7 @@
                 <tr class="table-info ">
                     <th>Домен</th>
                     <th>Кампания</th>
-                    @if (Auth::user()->role == 1)
+                    @if (Auth::user()->role == 1 || Auth::user()->role == 2)
                     <th class="text-center">Пользователь</th>
                     @endif
                     <th class="text-center">Хостер</th>
@@ -94,7 +94,7 @@
                             </a>
                         </td>
 
-                        @if (Auth::user()->role == 1)
+                        @if (Auth::user()->role == 1 || Auth::user()->role == 2 )
                         <td class="text-center pt-3">
                             <a class="text-center" href="{{ request()->fullUrlWithQuery(['user_id' => $site->user_id]) }}">
                                 @if (!is_null($site->user))
@@ -138,6 +138,9 @@
                                 data-facebook="{{ $site->facebook }}"
                                 @if ($site->creator_id != 0)
                                 data-creator="{{ $site->creator->name }}"
+                            @endif 
+                                @if ($site->updator_id != 0)
+                                data-updator="{{ $site->updator->name }}"
                             @endif data-createdat="{{ $site->created_at }}"
                                 data-updatedat="{{ $site->updated_at }}"
                             >
@@ -156,7 +159,11 @@
                             @endif
                             <a href="{{ route('sites.edit.settings', ['id' => $site->id ]) }}" class="btn btn-pill btn-primary btn-sm">Настройки сайта</a>
                         </td>
-                        <td class="text-center pt-3"></td>
+                        <td class="text-center pt-3">
+                            <button type="button" id="siteStatusButton" class="btn btn-pill btn-danger btn-sm">
+                                Недоступно
+                            </button>
+                        </td>
                         <td class="text-right pt-3">
                             @if ($site->status == 1)
                                 <a href="{{ request()->fullUrlWithQuery(['status' => $site->status]) }}" style="color:green;">Активен</a>
