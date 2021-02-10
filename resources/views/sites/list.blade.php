@@ -39,12 +39,16 @@
             </div>
         </div>
     </div>
+
+    @if (!empty($filters))
     <div class="card-body">
         Фильтры: 
-        <button type="button" class="btn btn-square btn-light">Light</button>
-        <button type="button" class="btn btn-square btn-light">Light</button>
-        <button type="button" class="btn btn-square btn-light">Light</button>
+        @foreach($filters as $filter)
+        <a href="{{ remove_query_params([$filter[2]]) }}" type="button" class="btn btn-square btn-light"><b>{{ $filter[0] }}:</b> {{ $filter[1] }}</a>
+        @endforeach
     </div>
+    @endif
+
     <div class="card-body">
 
         @if (Session::has('message'))

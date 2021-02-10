@@ -108,7 +108,7 @@
         </div>
         </main>
             <footer class="c-footer">
-                <div>Текст для футера (c) {{ date("Y") }}</div>
+                {{-- <div>Текст для футера (c) {{ date("Y") }}</div> --}}
             </footer>
         </div>
         </div>

@@ -28,10 +28,15 @@ class SiteController extends Controller
         $search_domain = $request->query('search_domain');
 
         $sites = Site::orderBy('id', 'desc');
+        $filters = [];
 
         if (Auth::user()->role == 1 || Auth::user()->role == 2) {
             if (isset($query['user_id'])) {
                 $sites = $sites->where('user_id', $query['user_id']);
+                $user = User::find($query['user_id']);
+                if ($user) {
+                    $filters[] = ['Пользователь', $user->name , 'user_id'];
+                }
             }
         } else {
             $sites = $sites->where('user_id', Auth::user()->id);
@@ -40,27 +45,41 @@ class SiteController extends Controller
 
         if (isset($query['search_domain'])) {
             $sites = $sites->where('domain', 'LIKE', '%'.$query['search_domain'].'%');
+            $filters[] = ['Поиск', $query['search_domain'], 'search_domain'];
         }
 
         if (isset($query['status'])) {
             $sites = $sites->where('status', $query['status']);
+            $filters[] = ['Статус', site_status($query['status']), 'status'];
         }
 
         if (isset($query['campaign_id'])) {
             $sites = $sites->where('campaign_id', $query['campaign_id']);
+            $campaign = Campaign::find($query['campaign_id']);
+            if ($campaign) {
+                $filters[] = ['Кампания', $hoster->name, 'campaign_id'];
+            }
         }
 
         if (isset($query['hoster_id'])) {
             $sites = $sites->where('hoster_id', $query['hoster_id']);
+            $hoster = Hoster::find($query['hoster_id']);
+            if ($hoster) {
+                $filters[] = ['Хостер', $hoster->title, 'hoster_id'];
+            }
         }
 
         if (isset($query['hoster_id_domain'])) {
             $sites = $sites->where('hoster_id_domain', $query['hoster_id_domain']);
+            $hoster = Hoster::find($query['hoster_id_domain']);
+            if ($hoster) {
+                $filters[] = ['Хостер домена', $hoster->title, 'hoster_id_domain'];
+            }
         }
 
         $sites = $sites->paginate(50)->appends(request()->except('page'));
 
-        return view('sites.list', compact('sites', 'search_domain'));
+        return view('sites.list', compact('sites', 'search_domain', 'filters'));
     }
 
     /**
