@@ -67,8 +67,7 @@
                     @if (Auth::user()->role == 1 || Auth::user()->role == 2)
                     <th class="text-center">Пользователь</th>
                     @endif
-                    <th class="text-center">Хостер</th>
-                    <th class="text-center">Регистратор домена</th>
+                    <th class="text-center">Хостер / домен</th>
                     <th class="text-right"></th>
                     <th class="text-center">Тесты</th>
                     <th class="text-right">Статус</th>
@@ -94,7 +93,11 @@
                                 @if (is_null($site->campaign))
                                     <span style="color: darkgrey;font-style: italic;cursor:pointer;">Без кампании</span>
                                 @else
+                                    @if ($site->campaign->language == '0')
+                                    <span style="cursor:pointer;color:#000;">{{ $site->campaign->title }}</span>
+                                    @else
                                     <span style="cursor:pointer;color:#000;">{{ $site->campaign->language }} - {{ $site->campaign->title }}</span>
+                                    @endif
                                 @endif
                             </a>
                         </td>
@@ -119,9 +122,7 @@
                                     <span style="color: darkgrey;font-style: italic;cursor:pointer;">Не указан</span>
                                 @endif
                             </a>
-                        </td>
-
-                        <td class="text-center pt-3">
+                            /
                             <a class="text-center" href="{{ request()->fullUrlWithQuery(['hoster_id_domain' => $site->hoster_id_domain]) }}">
                                 @if (!is_null($site->hoster_domain))
                                     <span style="cursor:pointer;color:#000;">{{ $site->hoster_domain->title }}</span>
@@ -132,37 +133,39 @@
                         </td>
                         
                         <td class="text-center">
-                            <button type="button" id="openModalFtp" class="btn btn-pill btn-info btn-sm" 
-                                data-toggle="modal" 
-                                data-target="#ftpAccessModal"
-                                data-ftp-name="{{ $site->domain }}"
-                                data-ftp-host="{{ $site->ftp_host }}"
-                                data-ftp-user="{{ $site->ftp_user }}"
-                                data-ftp-pass="{{ $site->ftp_pass }}"
-                                data-yandex="{{ $site->yandex }}"
-                                data-facebook="{{ $site->facebook }}"
-                                @if ($site->creator_id != 0)
-                                data-creator="{{ $site->creator->name }}"
-                            @endif 
-                                @if ($site->updator_id != 0)
-                                data-updator="{{ $site->updator->name }}"
-                            @endif data-createdat="{{ $site->created_at }}"
-                                data-updatedat="{{ $site->updated_at }}"
-                            >
-                                Информация
-                            </button>
-                            <button type="button" id="transferSite" class="btn btn-pill btn-danger btn-sm"
-                                data-toggle="modal" 
-                                data-target="#transferSiteUserModal"
-                                data-domain="{{ $site->domain }}"
-                                data-siteid="{{ $site->id }}"
-                                data-userid="{{ $site->user_id }}">
-                                    Передать сайт
-                            </button>
-                            @if (Auth::user()->role == 1)
-                            <a href="{{ route('sites.edit', ['id' => $site->id ]) }}" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
-                            @endif
-                            <a href="{{ route('sites.edit.settings', ['id' => $site->id ]) }}" class="btn btn-pill btn-primary btn-sm">Настройки сайта</a>
+                            <div class="d-flex justify-content-between flex-wrap">
+                                    <button type="button" id="openModalFtp" class="btn btn-pill btn-info btn-sm" 
+                                        data-toggle="modal" 
+                                        data-target="#ftpAccessModal"
+                                        data-ftp-name="{{ $site->domain }}"
+                                        data-ftp-host="{{ $site->ftp_host }}"
+                                        data-ftp-user="{{ $site->ftp_user }}"
+                                        data-ftp-pass="{{ $site->ftp_pass }}"
+                                        data-yandex="{{ $site->yandex }}"
+                                        data-facebook="{{ $site->facebook }}"
+                                        @if ($site->creator_id != 0)
+                                        data-creator="{{ $site->creator->name }}"
+                                    @endif 
+                                        @if ($site->updator_id != 0)
+                                        data-updator="{{ $site->updator->name }}"
+                                    @endif data-createdat="{{ $site->created_at }}"
+                                        data-updatedat="{{ $site->updated_at }}"
+                                    >
+                                        Информация
+                                    </button>
+                                    <button type="button" id="transferSite" class="btn btn-pill btn-danger btn-sm"
+                                        data-toggle="modal" 
+                                        data-target="#transferSiteUserModal"
+                                        data-domain="{{ $site->domain }}"
+                                        data-siteid="{{ $site->id }}"
+                                        data-userid="{{ $site->user_id }}">
+                                            Передать сайт
+                                    </button>
+                                @if (Auth::user()->role == 1)
+                                <a href="{{ route('sites.edit', ['id' => $site->id ]) }}" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
+                                @endif
+                                <a href="{{ route('sites.edit.settings', ['id' => $site->id ]) }}" class="btn btn-pill btn-primary btn-sm">Настройки сайта</a>
+                            </div>
                         </td>
                         <td class="text-center pt-3">
                             <button type="button" id="siteStatusButton" class="btn btn-pill btn-danger btn-sm">

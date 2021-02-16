@@ -13,3 +13,7 @@ tr.unactive_site {
 tr.unactive_site:hover {
     background-color: #ffafaf!important;
 }
+
+.table-striped tbody tr.unactive_site:nth-of-type(odd) {
+    background-color: #ffb5b5;;
+}

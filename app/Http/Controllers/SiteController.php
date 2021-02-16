@@ -210,8 +210,9 @@ class SiteController extends Controller
         $site->save();
 
         $updateSettings = $this->updateSettingsAfterUpdateSite($site, $add);
+        $updateSettingsMsg = implode(" ", $updateSettings);
         
-        return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $site->domain . "»</b> был обновлён.");
+        return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $site->domain . "»</b> был обновлён. " . $updateSettingsMsg);
     }
 
     /**
@@ -296,10 +297,10 @@ class SiteController extends Controller
             $array = array_merge($array, $get);
         }
 
-        if (!empty($site->yandex)) {
+        if ($site->yandex) {
             $array['yandex'] = $site->yandex;
         }
-        if (!empty($site->facebook)) {
+        if ($site->facebook) {
             $array['facebook'] = $site->facebook;
         }
 
@@ -310,7 +311,12 @@ class SiteController extends Controller
         if ($ftpUpdate) {
             $ftp = new Flysystem($site);
             $save = $ftp->saveSettingsJson($json);
+            $msg[] = 'Файл settings.json на сервере обновлён.';
+        } else {
+            $msg[] = 'Файл settings.json на сервере не был обновлён.';
         }
+
+        return $msg;
     }
 
     public function transfer(Request $request)
