@@ -8,7 +8,11 @@ class Settings
     {
         $url = 'http://' . $domain . '/settings.json';
         $json = @file_get_contents($url);
-        return ($json != false);
+        $array = json_decode($json);
+        if (is_array($array) && !empty($array)) {
+            return true;
+        }
+        return false;
     }
 
     public static function getArray($domain)
