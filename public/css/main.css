@@ -6,6 +6,10 @@ table input:read-only {
     width: 100%;
 }
 
-.unactive_site {
+tr.unactive_site {
     background-color: #ffc1c1;
+}
+
+tr.unactive_site:hover {
+    background-color: #ffafaf!important;
 }
