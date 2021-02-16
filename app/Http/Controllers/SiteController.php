@@ -288,7 +288,7 @@ class SiteController extends Controller
     public function updateSettingsAfterUpdateSite($site, $add = [])
     {
         $domain = $site->domain;
-        $ftpUpdate = Settings::settingsFileExists($site);
+        $ftpUpdate = Settings::settingsFileExists($domain);
 
         $get = Settings::getArray($domain);
         $array = Settings::getDefaultSettings();
