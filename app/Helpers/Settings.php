@@ -4,15 +4,24 @@ namespace App\Helpers;
 
 class Settings
 {
+    public static function settingsFileExists($domain)
+    {
+        $url = 'http://' . $domain . '/settings.json';
+        $json = @file_get_contents($url);
+        return ($json != false);
+    }
+
     public static function getArray($domain)
     {
         $template = self::getDefaultSettings();
         $url = 'http://' . $domain . '/settings.json';
         $json = @file_get_contents($url);
-        if (!empty($json)) {
+        if (!empty($json) && $json != null) {
             $array = json_decode($json, 1);
-            $array = array_merge($template, $array);
-            return $array;
+            if (is_array($array)) {
+                $array = array_merge($template, $array);
+                return $array;
+            }
         }
         return $template;
     }

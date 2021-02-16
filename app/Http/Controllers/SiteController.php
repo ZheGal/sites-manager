@@ -287,6 +287,8 @@ class SiteController extends Controller
     public function updateSettingsAfterUpdateSite($site, $add = [])
     {
         $domain = $site->domain;
+        $ftpUpdate = Settings::settingsFileExists($site);
+
         $get = Settings::getArray($domain);
         $array = Settings::getDefaultSettings();
 
@@ -305,8 +307,10 @@ class SiteController extends Controller
         
         $json = json_encode($array, JSON_PRETTY_PRINT);
         
-        $ftp = new Flysystem($site);
-        $save = $ftp->saveSettingsJson($json);
+        if ($ftpUpdate) {
+            $ftp = new Flysystem($site);
+            $save = $ftp->saveSettingsJson($json);
+        }
     }
 
     public function transfer(Request $request)
