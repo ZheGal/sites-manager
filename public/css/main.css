@@ -5,3 +5,7 @@ table input:read-only {
     color: inherit;
     width: 100%;
 }
+
+.unactive_site {
+    background-color: #ffc1c1;
+}

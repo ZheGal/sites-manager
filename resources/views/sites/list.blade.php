@@ -76,7 +76,12 @@
             </thead>
             <tbody>
                 @foreach ($sites as $site)
+
+                @if ($site->status == 0)
+                    <tr class="unactive_site">
+                @else
                     <tr>
+                @endif
 
                         <td class="pt-3">
                             <a href="//{{ $site->domain }}" class="font-weight-bold" style="cursor:pointer;cursor:pointer;" target="_blank">
