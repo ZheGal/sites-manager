@@ -63,6 +63,9 @@
                   <input type="text" class="form-control" id="fieldUpdated" name="facebook" value="updated_at" readonly autocomplete="off" style="background: #fff;color:#000;border:none;">
                 </div>
               </div>
+              <div class="form-group row">
+                <a href="" class="col-sm-12 col-form-label">История изменений</a>
+              </div>
             </div>
             <div class="modal-footer">
               <a href="#" id="winScpOpen" class="btn btn-success">Открыть в WinSCP</a>

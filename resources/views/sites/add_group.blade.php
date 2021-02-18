@@ -4,14 +4,12 @@
     </x-slot>
 
     <x-slot name="breadcrumbps">
-      <div class="c-subheader px-3">
-        <ol class="breadcrumb border-0 m-0">
+        <ol class="c-header-nav ml-4">
           <li class="breadcrumb-item"><a href="/">Главная</a></li>
           <li class="breadcrumb-item"><a href="{{ route('sites.list') }}">Сайты</a></li>
           <li class="breadcrumb-item"><a href="{{ route('sites.create') }}">Добавить сайт</a></li>
           <li class="breadcrumb-item active">Групповое добавление сайтов</li>  
         </ol>
-      </div>
     </x-slot>
 
     <div class="card-header">

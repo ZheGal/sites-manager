@@ -58,6 +58,7 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     
     Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
     Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
+    Route::get('/settings', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('settings.index');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'is_not_active'])->group(function () {

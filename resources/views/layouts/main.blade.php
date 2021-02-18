@@ -8,6 +8,8 @@
  <!-- CoreUI CSS -->
     <link rel="stylesheet" href="{{ asset('assets/coreui/css/coreui.min.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
     
@@ -17,39 +19,73 @@
 
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
         <div class="c-sidebar-brand d-lg-down-none">
-            <!--  -->
+            <div class="top_logo">NEO SITES PANEL</div>
+            <div class="top_logo_mini">NSP</div>
         </div>
         <ul class="c-sidebar-nav ps ps--active-y">
             @if ( Auth::user()->role != 0)
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="{{ route('sites.list') }}">
-                    <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
-                    <span>Сайты</span>
+                <a class="c-sidebar-nav-link 
+                    @if (\Request::route()->getName() == 'sites.list')
+                        c-active
+                    @endif" href="{{ route('sites.list') }}">
+                        <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
+                        <span>Сайты</span>
                 </a>
             </li>
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="{{ route('hosters.list') }}">
+                <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'hosters.list')
+                    c-active
+                @endif" href="{{ route('hosters.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-flag-alt"></i></span>
                     <span>Хостеры</span>
                 </a>
             </li>
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="{{ route('campaigns.list') }}">
+                <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'campaigns.list')
+                    c-active
+                @endif" href="{{ route('campaigns.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-bank"></i></span>
                     <span>Кампании</span>
                 </a>
             </li>
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="{{ route('users.list') }}">
+                <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'users.list')
+                    c-active
+                @endif" href="{{ route('users.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-user"></i></span>
                     <span>Пользователи</span>
                 </a>
             </li>
             @if ( Auth::user()->role == 1)
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="{{ route('metrika.index') }}">
+                <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'metrika.index')
+                    c-active
+                @endif" href="{{ route('metrika.index') }}">
                     <span class="c-sidebar-nav-icon"><i class="cib-yandex"></i></span>
                     <span>Метрика</span>
+                </a>
+            </li>
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'hostiq.index')
+                    c-active
+                @endif" href="{{ route('hostiq.index') }}">
+                    <span class="c-sidebar-nav-icon"><i class="cil-link"></i></span>
+                    <span>HOSTiQ</span>
+                </a>
+            </li>
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'settings.index')
+                    c-active
+                @endif" href="{{ route('settings.index') }}">
+                    <span class="c-sidebar-nav-icon"><i class="cil-settings"></i></span>
+                    <span>Настройки</span>
                 </a>
             </li>
             @endif
@@ -70,11 +106,9 @@
     </div>
     <div class="c-wrapper c-fixed-components">
         <div class="c-header c-header-light c-header-fixed c-header-with-subheader">
-            <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
-                <span class="c-icon c-icon-lg">
-                    <i class="cil-menu"></i>
-                </span>
-            </button>
+            @if (isset($breadcrumbps))
+                {{ $breadcrumbps }}
+            @endif 
             <ul class="c-header-nav ml-auto mr-4">
                 <li style="margin-right:6px;">
                     @if (Auth::user()->role == 1)
@@ -89,9 +123,6 @@
             </ul>
         </div>
         
-        @if (isset($breadcrumbps))
-            {{ $breadcrumbps }}
-        @endif 
 
         <div class="c-body">
         <main class="c-main">
