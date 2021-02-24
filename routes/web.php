@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     });
 
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.list');
+    Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/users/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
         Route::post('/users/store', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
@@ -58,7 +59,10 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     
     Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
     Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
-    Route::get('/settings', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('settings.index');
+    
+    Route::middleware(['is_admin'])->group(function() {
+        Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
+    });
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'is_not_active'])->group(function () {
