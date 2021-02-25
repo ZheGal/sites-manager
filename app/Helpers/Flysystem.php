@@ -34,6 +34,31 @@ class Flysystem
         return $response;
     }
 
+    // получение настроек сайта
+    public function getSettingsJson()
+    {
+        // сначала получаем дефолтные настройки
+        // затем проверяем существование файла на сервере
+        // если существует, получаем и объединяем
+        $default = Settings::getDefaultSettings();
+        $settings = [];
+
+        // проверка существования файла
+        $file = $this->dir . 'settings.json';
+        if ($this->ftp->has($file)) {
+            $settings_json = $this->ftp->read($file);
+            if (!empty($settings_json)) {
+                $settings_array = json_decode($settings_json, 1);
+                if (is_array($settings_array) && !empty($settings_array)) {
+                    $settings = $settings_array;
+                }
+            }
+        }
+
+        $settings = array_merge($default, $settings);
+        return $settings;
+    }
+
     public function checkPublicHtml()
     {
         if ($this->ftp->has('/public_html/')) {
@@ -57,5 +82,29 @@ class Flysystem
         }
 
         $response = $this->ftp->write($this->dir . 'index.php', $contents);
+    }
+
+    public function checkYandex($site)
+    {
+        $yandex = $site->yandex;
+        if (empty($yandex)) {
+            return false;
+        }
+        $settings = $this->getSettingsJson();
+        $settings['yandex'] = $yandex;
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+        return $this->saveSettingsJson($json);
+    }
+
+    public function checkFacebook($site)
+    {
+        $facebook = $site->facebook;
+        if (empty($facebook)) {
+            return false;
+        }
+        $settings = $this->getSettingsJson();
+        $settings['facebook'] = $facebook;
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+        return $this->saveSettingsJson($json);
     }
 }

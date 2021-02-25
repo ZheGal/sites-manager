@@ -129,6 +129,10 @@ class SiteController extends Controller
         $site->creator_id = Auth::user()->id;
         $site->updator_id = Auth::user()->id;
 
+        $flysystem = new Flysystem($site);
+        $flysystem->checkYandex($site);
+        $flysystem->checkFacebook($site);
+
         $site->domain = SitesHelper::getCleanDomain($site->domain);
 
         if ($request->clean_host == 1) {
@@ -274,15 +278,16 @@ class SiteController extends Controller
     public function cleanHost($site)
     {
         $url = 'http://' . $site->domain;
-
-        $settings = Settings::compareSettingsAfterCreate($site);
-        $json = json_encode($settings, JSON_PRETTY_PRINT);
         
         $ftp = new Flysystem($site);
+
+        $settings = $ftp->getSettingsJson();
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+
         $save = $ftp->saveSettingsJson($json);
         $newProject = $ftp->uploadNewProject();
         
-        file_get_contents($url);
+        @file_get_contents($url);
     }
 
     public function updateSettingsAfterUpdateSite($site, $add = [])
@@ -385,5 +390,40 @@ class SiteController extends Controller
             return redirect()->route('sites.list')->with('message', "Набор функций для сайта <b>{$site->domain}</b> обновлён.");
         }
         return redirect()->route('sites.list')->with('message', "Произошла ошибка при попытке загрузить файлы функций на сайт <b>{$site->domain}</b>.");
+    }
+
+    public function importIndex($id)
+    {
+        $site = Site::findOrFail($id);
+        $users = User::all();
+        $hosters = Hoster::all();
+        $campaigns = Campaign::all();
+
+        return view('sites.import', compact('site', 'users', 'campaigns', 'hosters'));
+    }
+
+    public function importStore($id, Request $request)
+    {
+        $domain = $request->domain;
+        if (!$domain) {
+            // прописать вывод ошибки, отсутствие домена
+            return false;
+        }
+
+        $imported = Site::where('domain', $domain)->firstOrFail();
+        $script = implode(DIRECTORY_SEPARATOR, [base_path(), 'public', 'uploads', 'backup_site.php']);
+        $script_name = 'script_' . substr(md5(rand()), 0, 10) . '.php';
+
+        if ($imported) {
+            $ftp = new Flysystem($imported);
+            
+            if (!$ftp->ftp->has('backup')) {
+                $ftp->ftp->createDir('backup');
+            }
+
+            $ftp->ftp->write("backup/{$script_name}", file_get_contents($script));
+            echo 'https://' . $domain . '/backup/' . $script_name;
+        }
+        die;
     }
 }

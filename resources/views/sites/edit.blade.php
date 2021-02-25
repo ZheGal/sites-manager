@@ -17,6 +17,9 @@
                 <h3 class="pb-0 mb-0">Редактирование сайта</h3>
             </div>
             <div class="col align-self-end text-right">
+              <a href="{{ route('sites.importfrom', ['id' => $site->id ]) }}" class="btn btn-pill btn-primary btn-sm">
+                  <i class="cil-loop-circular"></i> Импортировать сайт
+              </a>
               <a href="{{ route('sites.update.functions', ['id' => $site->id ]) }}" class="btn btn-pill btn-success btn-sm">
                   <i class="cil-loop-circular"></i> Обновить функции
               </a>

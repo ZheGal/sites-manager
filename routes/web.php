@@ -24,6 +24,9 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         Route::get('/sites/{id}/update', [\App\Http\Controllers\SiteController::class, 'updateConnector'])->name('sites.update.functions');
         Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
         Route::delete('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
+        
+        Route::get('/sites/{id}/edit/import', [\App\Http\Controllers\SiteController::class, 'importIndex'])->name('sites.importfrom');
+        Route::post('/sites/{id}/edit/import', [\App\Http\Controllers\SiteController::class, 'importStore'])->name('sites.import');
     });
     Route::get('/sites/{id}/edit/settings', [\App\Http\Controllers\SiteController::class, 'editSettings'])->name('sites.edit.settings');
     Route::patch('/sites/{id}/settings', [\App\Http\Controllers\SiteController::class, 'updateSettings'])->name('sites.update.settings');
