@@ -34,11 +34,11 @@ class Flysystem
 
     public function saveSettingsJson($json)
     {
-        $file = $this->dir . 'settings.json';
+        $file = 'settings.json';
         if ($this->ftp->has($file)) {
-            $response = $this->ftp->update($this->dir . '/settings.json', $json);
+            $response = $this->ftp->update($file, $json);
         } else {
-            $response = $this->ftp->write($this->dir . '/settings.json', $json);
+            $response = $this->ftp->write($file, $json);
         }
         return $response;
     }
