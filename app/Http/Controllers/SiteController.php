@@ -432,7 +432,7 @@ class SiteController extends Controller
 
             if (!$zipLink) {
                 return redirect()->route('sites.list')->with('message', 
-                "Произошла ошибка при попытке импортировать сайт <a href='{$domain}' target='_blank'>{$domain}</a> на домен <a href='{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
+                "Произошла ошибка при попытке импортировать сайт <a href='//{$domain}' target='_blank'>{$domain}</a> на домен <a href='//{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
             }
 
             $scriptUploadRaw = file_get_contents($scriptUpload);
@@ -482,9 +482,9 @@ class SiteController extends Controller
                 $ftp->ftp->deleteDir('backup/');
             }
             return redirect()->route('sites.list')->with('message', 
-            "Сайт <a href='{$domain}' target='_blank'>{$domain}</a> импортирован на домен <a href='{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
+            "Сайт <a href='//{$domain}' target='_blank'>{$domain}</a> импортирован на домен <a href='//{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
         } 
         return redirect()->route('sites.list')->with('message', 
-        "Произошла ошибка при попытке импортировать сайт <a href='{$domain}' target='_blank'>{$domain}</a> на домен <a href='{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
+        "Произошла ошибка при попытке импортировать сайт <a href='//{$domain}' target='_blank'>{$domain}</a> на домен <a href='//{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
     }
 }
