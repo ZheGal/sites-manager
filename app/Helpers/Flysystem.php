@@ -21,6 +21,15 @@ class Flysystem
 
         $this->dir = '';
         $this->checkPublicHtml();
+        
+        if ($this->dir != '') {
+            $this->ftp = new Filesystem(new Adapter([
+                'host' => $host,
+                'username' => $user,
+                'password' => $pass,
+                'root' => $this->dir
+            ]));
+        }
     }
 
     public function saveSettingsJson($json)
@@ -61,7 +70,7 @@ class Flysystem
 
     public function checkPublicHtml()
     {
-        if ($this->ftp->has('/public_html/')) {
+        if ($this->ftp->has('public_html')) {
             $this->dir .= 'public_html/';
         }
     }
@@ -71,17 +80,17 @@ class Flysystem
         $file_path = implode(DIRECTORY_SEPARATOR, [public_path(), 'uploads', 'new_project.php']);
         $contents = file_get_contents($file_path);
 
-        if ($this->ftp->has($this->dir . '.htaccess')) {
-            $deleteHtaccess = $this->ftp->delete($this->dir . '.htaccess');
+        if ($this->ftp->has('.htaccess')) {
+            $deleteHtaccess = $this->ftp->delete('.htaccess');
         }
-        if ($this->ftp->has($this->dir . 'app')) {
-            $deleteDir = $this->ftp->deleteDir($this->dir . 'app');
+        if ($this->ftp->has('app')) {
+            $deleteDir = $this->ftp->deleteDir('app');
         }
-        if ($this->ftp->has($this->dir . 'index.php')) {
-            $deleteIndex = $this->ftp->delete($this->dir . 'index.php');
+        if ($this->ftp->has('index.php')) {
+            $deleteIndex = $this->ftp->delete('index.php');
         }
 
-        $response = $this->ftp->write($this->dir . 'index.php', $contents);
+        $response = $this->ftp->write('index.php', $contents);
     }
 
     public function checkYandex($site)

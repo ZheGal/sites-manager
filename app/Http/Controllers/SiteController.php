@@ -423,7 +423,7 @@ class SiteController extends Controller
             $ftp = new Flysystem($imported);
             
             if (!$ftp->ftp->has('backup')) {
-                $ftp->ftp->createDir('backup');
+                echo $ftp->ftp->createDir('backup');
             }
 
             $ftp->ftp->write("public/{$script_name}", file_get_contents($script));
