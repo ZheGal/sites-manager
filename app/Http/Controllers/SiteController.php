@@ -405,6 +405,8 @@ class SiteController extends Controller
     public function importStore($id, Request $request)
     {
         $domain = $request->domain;
+        $current = Site::findOrFail($id);
+        
         if (!$domain) {
             // прописать вывод ошибки, отсутствие домена
             return false;
@@ -412,8 +414,11 @@ class SiteController extends Controller
 
         $imported = Site::where('domain', $domain)->firstOrFail();
         $script = implode(DIRECTORY_SEPARATOR, [base_path(), 'public', 'uploads', 'backup_site.php']);
+        $scriptUpload = implode(DIRECTORY_SEPARATOR, [base_path(), 'public', 'uploads', 'upload_backup.php']);
         $script_name = 'script_' . substr(md5(rand()), 0, 10) . '.php';
+        $script_name_upload = 'script_' . substr(md5(rand()), 0, 10) . '.php';
 
+        // если в нашей базе есть доступ к импортируемому сайту
         if ($imported) {
             $ftp = new Flysystem($imported);
             
@@ -421,8 +426,56 @@ class SiteController extends Controller
                 $ftp->ftp->createDir('backup');
             }
 
-            $ftp->ftp->write("backup/{$script_name}", file_get_contents($script));
-            echo 'https://' . $domain . '/backup/' . $script_name;
+            $ftp->ftp->write("public/{$script_name}", file_get_contents($script));
+            $scriptUrl = 'https://' . $domain . '/' . $script_name;
+            $zipLink = file_get_contents($scriptUrl);
+
+            $scriptUploadRaw = file_get_contents($scriptUpload);
+            $scriptUploadRaw = str_replace('%%ARCHIVE_URL%%', $zipLink, $scriptUploadRaw);
+            // скрипт выше нужно залить на фтп и запустить
+            // первоначально удалить существующую папку public, либо задать ей название public_old (если она не пустая)
+
+            $new = new Flysystem($current);
+
+            if ($new->ftp->has('public')) {
+                $contents = $new->ftp->listContents('public');
+                if (!empty($contents)) {
+                    if ($new->ftp->has('public_old')) {
+                        $new->ftp->deleteDir('public_old/');
+                    }
+                    $new->ftp->rename('public', 'public_old');
+                }
+                $new->ftp->write("public/{$script_name_upload}", $scriptUploadRaw);
+                $final = 'http://' . $current->domain . '/' .$script_name_upload;
+                file_get_contents($final);
+            }
+
+            $newContentList = $new->ftp->listContents('public');
+            foreach ($newContentList as $checkScriptFiles) {
+                $re = '/(public\/script_.+.php)/mU';
+                preg_match_all($re, $checkScriptFiles['path'], $matches, PREG_SET_ORDER, 0);
+                if (!empty($matches)) {
+                    $new->ftp->delete($matches[0][0]);
+                    if ($ftp->ftp->has($matches[0][0])) {
+                        $ftp->ftp->delete($matches[0][0]);
+                    }
+                }
+            }
+
+            if ($ftp->ftp->has("public/{$script_name}")) {
+                $ftp->ftp->delete("public/{$script_name}");
+            }
+
+            $zipFileDelete = explode('/', $zipLink);
+            $zipFileDelete = end($zipFileDelete);
+
+            if ($ftp->ftp->has("backup/{$zipFileDelete}")) {
+                $ftp->ftp->delete("backup/{$zipFileDelete}");
+            }
+
+            if (empty($ftp->ftp->listContents('backup/'))) {
+                $ftp->ftp->deleteDir('backup/');
+            }
         }
         die;
     }
