@@ -423,12 +423,16 @@ class SiteController extends Controller
             $ftp = new Flysystem($imported);
             
             if (!$ftp->ftp->has('backup')) {
-                echo $ftp->ftp->createDir('backup');
+                $ftp->ftp->createDir('backup');
             }
 
             $ftp->ftp->write("public/{$script_name}", file_get_contents($script));
             $scriptUrl = 'https://' . $domain . '/' . $script_name;
-            $zipLink = file_get_contents($scriptUrl);
+            $zipLink = @file_get_contents($scriptUrl);
+
+            if (!$zipLink) {
+                return redirect()->route('sites.list')->with('message', "Произошла ошибка при попытке импортировать сайт {$domain} на домен <b>{$current->domain}</b>.");
+            }
 
             $scriptUploadRaw = file_get_contents($scriptUpload);
             $scriptUploadRaw = str_replace('%%ARCHIVE_URL%%', $zipLink, $scriptUploadRaw);
@@ -476,7 +480,8 @@ class SiteController extends Controller
             if (empty($ftp->ftp->listContents('backup/'))) {
                 $ftp->ftp->deleteDir('backup/');
             }
-        }
-        die;
+            return redirect()->route('sites.list')->with('message', "Сайт {$domain} импортирован на домен <b>{$current->domain}</b>.");
+        } 
+        return redirect()->route('sites.list')->with('message', "Произошла ошибка при попытке импортировать сайт {$domain} на домен <b>{$current->domain}</b>.");
     }
 }
