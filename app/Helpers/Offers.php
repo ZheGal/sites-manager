@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Site;
+use Illuminate\Support\Facades\Auth;
 
 class Offers
 {
@@ -14,7 +15,7 @@ class Offers
             if (Auth::user()->role == 1 || Auth::user()->role == 2) {
                 $sites = Site::where('campaign_id', $id);
             } else {
-                $sites = Site::where('campaign_id', $id);
+                $sites = Site::where('campaign_id', $id)->where('user_id', Auth::user()->id);
             }
             $all[$id] = $sites->get()->count();
         }
@@ -29,5 +30,16 @@ class Offers
             }
         }
         return false;
+    }
+
+    public static function only_users_offers($offers, $count)
+    {
+        $result = [];
+        foreach ($count as $id => $num) {
+            if ($num > 0) {
+                $result[] = $offers[$id - 1];
+            }
+        }
+        return collect($result);
     }
 }
