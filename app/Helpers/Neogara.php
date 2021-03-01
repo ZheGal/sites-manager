@@ -24,6 +24,10 @@ class Neogara
     {
         $link = $this->main_url . 'pipelines';
         $http = Http::withToken($this->token)->get($link);
+        if ($this->isError($http)) {
+            $this->updateToken();
+            $this->get_offers();
+        }
         return collect($http->object());
     }
 
@@ -43,5 +47,28 @@ class Neogara
             return $array['access_token'];
         }
         return false;
+    }
+
+    public function isError($http)
+    {
+        $obj = $http->object();
+        if (isset($obj->statusCode)) {
+            return ($obj->statusCode == '401' && $obj->message == 'Unauthorized');
+        }
+        return false;
+    }
+
+    private function updateToken()
+    {
+        $settings = [
+            'username' => Setting::where('param', 'neogara_login')->first()['value'],
+            'password' => Setting::where('param', 'neogara_password')->first()['value'],
+        ];
+        $token = $this->get_auth($settings);
+        $this->token = $token;
+
+        $setting = Setting::where('param', 'neogara_token')->first();
+        $setting->value = $token;
+        $setting->save();
     }
 }
