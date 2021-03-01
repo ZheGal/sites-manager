@@ -20,8 +20,7 @@ class Offers
     public static function get_offer_name($list, $id)
     {
         foreach ($list as $offer) {
-            $offer_id = $offer->id;
-            if ($offer_id == $id) {
+            if (isset($offer->id) && $offer->id == $id) {
                 return $offer->languages[0]->alpha3 . ' - ' . $offer->name;
             }
         }
