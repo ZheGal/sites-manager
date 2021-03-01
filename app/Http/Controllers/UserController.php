@@ -108,6 +108,10 @@ class UserController extends Controller
             'pid' => 'nullable'
         ]);
 
+        if (!empty($request->password) or $request->password != '' && strlen($request->password) >= 6) {
+            $data['password'] = Hash::make($request->password);
+        }
+
         $user->fill($data);
         $user->save();
         
