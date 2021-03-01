@@ -42,12 +42,6 @@ class Site extends Model
         return $this->belongsTo(Hoster::class, 'hoster_id_domain');
     }
 
-    public function campaign()
-    {
-        // у каждого сайта своя кампания
-        return $this->belongsTo(Campaign::class);
-    }
-
     public function creator()
     {
         // какой пользователь создавал сайт

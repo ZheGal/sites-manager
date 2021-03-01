@@ -58,12 +58,12 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="siteCampaign" class="col-sm-2 col-form-label">Кампания</label>
+              <label for="siteCampaign" class="col-sm-2 col-form-label">Оффер</label>
               <div class="col-sm-10">
                 <select class="form-control" id="siteCampaign" name="campaign_id">
-                    <option value="0">Без кампании</option>
-                    @foreach ($campaigns as $campaign)
-                    <option value="{{ $campaign->id }}">@if ($campaign->language != '0'){{ $campaign->language }} - @endif{{ $campaign->title }} @if(isset($campaign->group))({{ $campaign->group }})@endif</option>
+                    <option value="0">Без оффера</option>
+                    @foreach ($offers as $offer)
+                    <option value="{{ $offer->id }}">{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
                     @endforeach
                   </select>
               </div>
@@ -111,6 +111,12 @@
               <label for="sitePixel" class="col-sm-2 col-form-label">Facebook Пиксель</label>
               <div class="col-sm-10">
                 <input type="number" class="form-control" id="sitePixel" name="facebook">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="siteCloakit" class="col-sm-2 col-form-label">Cloak IT</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="siteCloakit" name="cloakit">
               </div>
             </div>
             <div class="form-group row">

@@ -64,8 +64,8 @@
               <div class="col-sm-10">
                 <select class="form-control" id="siteCampaign" name="campaign_id">
                     <option value="0" @if ($site->campaign_id == 0) selected @endif>Без кампании</option>
-                    @foreach ($campaigns as $campaign)
-                    <option value="{{ $campaign->id }}" @if ($site->campaign_id == $campaign->id) selected @endif>{{ $campaign->language }} - {{ $campaign->title }}</option>
+                    @foreach ($offers as $offer)
+                    <option value="{{ $offer->id }}" @if ($site->campaign_id == $offer->id) selected @endif>{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
                     @endforeach
                   </select>
               </div>
@@ -113,6 +113,12 @@
               <label for="sitePixel" class="col-sm-2 col-form-label">Facebook Пиксель</label>
               <div class="col-sm-10">
                 <input type="number" class="form-control" id="sitePixel" name="facebook" value="{{ $site->facebook }}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="siteCloakit" class="col-sm-2 col-form-label">Cloak IT</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="siteCloakit" name="cloakit" value="{{ $site->cloakit }}">
               </div>
             </div>
             <div class="form-group row">

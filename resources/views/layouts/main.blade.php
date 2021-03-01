@@ -33,7 +33,7 @@
                         <span>Сайты</span>
                 </a>
             </li>
-            <li class="c-sidebar-nav-item">
+            {{-- <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
                     @if (\Request::route()->getName() == 'sites.list')
                         c-active
@@ -41,7 +41,7 @@
                         <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
                         <span>Прелэнды</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
                 @if (\Request::route()->getName() == 'hosters.list')
@@ -53,11 +53,11 @@
             </li>
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
-                @if (\Request::route()->getName() == 'campaigns.list')
+                @if (\Request::route()->getName() == 'offers.list')
                     c-active
-                @endif" href="{{ route('campaigns.list') }}">
+                @endif" href="{{ route('offers.list') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-bank"></i></span>
-                    <span>Кампании</span>
+                    <span>Офферы</span>
                 </a>
             </li>
             <li class="c-sidebar-nav-item">

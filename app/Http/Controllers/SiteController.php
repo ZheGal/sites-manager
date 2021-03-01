@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Site;
 use App\Models\Hoster;
 use App\Models\User;
-use App\Models\Campaign;
 use App\Helpers\Settings;
 use App\Helpers\Flysystem;
 use App\Helpers\SitesHelper;
 use App\Helpers\UserHelper;
+use App\Helpers\Neogara;
+use App\Helpers\Offers;
 use Illuminate\Support\Facades\Storage;
 
 class SiteController extends Controller
@@ -26,6 +27,8 @@ class SiteController extends Controller
         // Sites list
         $query = SitesHelper::getGetQueries($request);
         $search_domain = $request->query('search_domain');
+        $neo = new Neogara();
+        $offers = $neo->get_offers();
 
         $sites = Site::orderBy('id', 'desc');
         $filters = [];
@@ -55,12 +58,14 @@ class SiteController extends Controller
 
         if (isset($query['campaign_id'])) {
             $sites = $sites->where('campaign_id', $query['campaign_id']);
-            $campaign = Campaign::find($query['campaign_id']);
+            $campaign = $neo->get_offer($query['campaign_id']);
             if ($campaign) {
-                if ($campaign->language != '0') {
-                    $filters[] = ['Кампания', $campaign->language . ' - ' . $campaign->title, 'campaign_id'];
+                $camp_lang = $campaign['languages'][0]->alpha3;
+                $camp_name = $campaign['name'];
+                if (!empty($campaign['languages'])) {
+                    $filters[] = ['Кампания', $camp_lang . ' - ' . $camp_name, 'campaign_id'];
                 } else {
-                    $filters[] = ['Кампания', $campaign->title, 'campaign_id'];
+                    $filters[] = ['Кампания', $camp_name, 'campaign_id'];
                 }
             }
         }
@@ -83,7 +88,7 @@ class SiteController extends Controller
 
         $sites = $sites->paginate(50)->appends(request()->except('page'));
 
-        return view('sites.list', compact('sites', 'search_domain', 'filters'));
+        return view('sites.list', compact('sites', 'search_domain', 'filters', 'offers'));
     }
 
     /**
@@ -94,11 +99,12 @@ class SiteController extends Controller
     public function create()
     {
         // Adding new site page
+        $neo = new Neogara();
         $users = User::all();
         $hosters = Hoster::all();
-        $campaigns = Campaign::all();
+        $offers = $neo->get_offers();
 
-        return view('sites.create', compact('users', 'hosters', 'campaigns'));
+        return view('sites.create', compact('users', 'hosters', 'offers'));
     }
 
     /**
@@ -130,8 +136,28 @@ class SiteController extends Controller
         $site->updator_id = Auth::user()->id;
 
         $flysystem = new Flysystem($site);
-        $flysystem->checkYandex($site);
-        $flysystem->checkFacebook($site);
+        $settings = $flysystem->getSettingsJson();
+        
+        if ($site->campaign_id == '0' or empty($site->campaign_id)) {
+            if (!empty($settings['group'])) {
+                $site->campaign_id = $settings['group'];
+            }
+        }
+        if ($site->yandex == '0' or empty($site->yandex)) {
+            if (!empty($settings['yandex'])) {
+                $site->yandex = $settings['yandex'];
+            }
+        }
+        if ($site->facebook == '0' or empty($site->facebook)) {
+            if (!empty($settings['facebook'])) {
+                $site->facebook = $settings['facebook'];
+            }
+        }
+        if ($site->cloakit == '0' or empty($site->cloakit)) {
+            if (!empty($settings['cloakit'])) {
+                $site->cloakit = $settings['cloakit'];
+            }
+        }
 
         $site->domain = SitesHelper::getCleanDomain($site->domain);
 
@@ -167,9 +193,10 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
         $users = User::all();
         $hosters = Hoster::all();
-        $campaigns = Campaign::all();
+        $neo = new Neogara();
+        $offers = $neo->get_offers();
 
-        return view('sites.edit', compact('site', 'users', 'campaigns', 'hosters'));
+        return view('sites.edit', compact('site', 'users', 'hosters', 'offers'));
     }
 
     /**
@@ -183,6 +210,7 @@ class SiteController extends Controller
     {        
         // Updating site action
         $site = Site::findOrFail($id);
+        $this->cleanHost($site);
         $data = $this->validate($request, [
             'domain' => 'required|unique:sites,domain,' . $site->id,
             'user_id' => 'numeric',
@@ -194,6 +222,7 @@ class SiteController extends Controller
             'ftp_pass' => 'nullable',
             'yandex' => 'nullable',
             'facebook' => 'nullable',
+            'cloakit' => 'nullable|numeric',
             'status' => 'numeric'
         ]);
 
@@ -204,10 +233,8 @@ class SiteController extends Controller
             $add['pid'] = $user->pid;
         }
 
-        $campaign = Campaign::find($site->campaign_id);
-        if ($campaign) {
-            $add['group'] = $campaign->group;
-        }
+        $add['group'] = $data['campaign_id'];
+        $add['domain'] = $data['domain'];
 
         $site->domain = SitesHelper::getCleanDomain($site->domain);
         $site->updator_id = Auth::user()->id;
@@ -216,7 +243,7 @@ class SiteController extends Controller
         $updateSettings = $this->updateSettingsAfterUpdateSite($site, $add);
         $updateSettingsMsg = implode(" ", $updateSettings);
         
-        return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $site->domain . "»</b> был обновлён. " . $updateSettingsMsg);
+        return redirect()->route('sites.list')->with('message', "Сайт <a href='//{$site->domain}' target='_blank'><b>«" . $site->domain . "»</b></a> был обновлён. " . $updateSettingsMsg);
     }
 
     /**
@@ -302,12 +329,9 @@ class SiteController extends Controller
             $array = array_merge($array, $get);
         }
 
-        if ($site->yandex) {
-            $array['yandex'] = $site->yandex;
-        }
-        if ($site->facebook) {
-            $array['facebook'] = $site->facebook;
-        }
+        $array['yandex'] = ($site->yandex) ? $site->yandex : false;
+        $array['facebook'] = ($site->facebook) ? $site->facebook : false;
+        $array['cloakit'] = ($site->cloakit) ? $site->cloakit : false;
 
         $array = array_merge($array, $add);
         
@@ -337,9 +361,8 @@ class SiteController extends Controller
         // Adding new site page
         $users = User::all();
         $hosters = Hoster::all();
-        $campaigns = Campaign::all();
 
-        return view('sites.add_group', compact('users', 'hosters', 'campaigns'));
+        return view('sites.add_group', compact('users', 'hosters'));
     }
 
     public function storeGroup(Request $request)
@@ -397,9 +420,8 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
         $users = User::all();
         $hosters = Hoster::all();
-        $campaigns = Campaign::all();
 
-        return view('sites.import', compact('site', 'users', 'campaigns', 'hosters'));
+        return view('sites.import', compact('site', 'users', 'hosters'));
     }
 
     public function importStore($id, Request $request)

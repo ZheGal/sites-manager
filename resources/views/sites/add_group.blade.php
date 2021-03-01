@@ -34,9 +34,6 @@
               <div class="col-sm-10">
                 <select class="form-control" id="siteCampaign" name="campaign_id">
                     <option value="0">Без кампании</option>
-                    @foreach ($campaigns as $campaign)
-                    <option value="{{ $campaign->id }}">@if ($campaign->language != '0'){{ $campaign->language }} - @endif{{ $campaign->title }} @if(isset($campaign->group))({{ $campaign->group }})@endif</option>
-                    @endforeach
                   </select>
               </div>
             </div>

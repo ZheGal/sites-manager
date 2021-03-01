@@ -88,16 +88,12 @@
                         
                         <td class="pt-3">
                             <a href="{{ request()->fullUrlWithQuery(['campaign_id' => $site->campaign_id]) }}">
-                                @if (is_null($site->campaign))
-                                    <span style="color: darkgrey;font-style: italic;cursor:pointer;">Без кампании</span>
-                                @else
-                                    @if ($site->campaign->language == '0')
-                                    <span style="cursor:pointer;color:#000;">{{ $site->campaign->title }}</span>
-                                    @else
-                                    <span style="cursor:pointer;color:#000;">{{ $site->campaign->language }} - {{ $site->campaign->title }}</span>
-                                    @endif
-                                @endif
-                            </a>
+                            @if (\App\Helpers\Offers::get_offer_name($offers, $site->campaign_id) != false)
+                                <span style="cursor:pointer;color:#000;">{{ \App\Helpers\Offers::get_offer_name($offers, $site->campaign_id) }}</span>
+                            @else
+                                <span style="color: darkgrey;font-style: italic;cursor:pointer;">Без кампании</span>
+                            @endif
+                        </a>
                         </td>
 
                         @if (Auth::user()->role == 1 || Auth::user()->role == 2 )

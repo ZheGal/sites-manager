@@ -50,6 +50,8 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         Route::delete('/campaigns/{id}', [\App\Http\Controllers\CampaignController::class, 'destroy'])->name('campaigns.destroy');
     });
 
+    Route::get('/offers', [\App\Http\Controllers\OfferController::class, 'index'])->name('offers.list');
+
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.list');
     Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
     Route::middleware(['is_admin'])->group(function() {
@@ -65,6 +67,7 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
+        Route::post('/settings', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
     });
 });
 
