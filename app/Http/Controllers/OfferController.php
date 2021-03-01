@@ -15,7 +15,7 @@ class OfferController extends Controller
         $offers = $neo->get_offers();
         $count = Offers::count_sites($offers);
 
-        if (Auth::user()->role != 1 || Auth::user()->role != 2) {
+        if (Auth::user()->role != 1 && Auth::user()->role != 2) {
             $offers = Offers::only_users_offers($offers, $count);
         }
         
