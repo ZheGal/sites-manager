@@ -26,7 +26,7 @@ class Neogara
         $http = Http::withToken($this->token)->get($link);
         if ($this->isError($http)) {
             $this->updateToken();
-            $this->get_offers();
+            return $this->get_offers();
         }
         return collect($http->object());
     }
@@ -35,6 +35,10 @@ class Neogara
     {
         $link = $this->main_url . 'pipelines/' . $id;
         $http = Http::withToken($this->token)->get($link);
+        if ($this->isError($http)) {
+            $this->updateToken();
+            return $this->get_offer($id);
+        }
         return collect($http->object());
     }
 
