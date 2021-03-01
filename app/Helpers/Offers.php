@@ -11,7 +11,11 @@ class Offers
         $all = [];
         foreach ($list as $site) {
             $id = $site->id;
-            $sites = Site::where('campaign_id', $id);
+            if (Auth::user()->role == 1 || Auth::user()->role == 2) {
+                $sites = Site::where('campaign_id', $id);
+            } else {
+                $sites = Site::where('campaign_id', $id);
+            }
             $all[$id] = $sites->get()->count();
         }
         return $all;

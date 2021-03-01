@@ -30,10 +30,13 @@
         <div class="card-body">
             @csrf
             <div class="form-group row">
-              <label for="siteCampaign" class="col-sm-2 col-form-label">Кампания</label>
+              <label for="siteCampaign" class="col-sm-2 col-form-label">Оффер</label>
               <div class="col-sm-10">
                 <select class="form-control" id="siteCampaign" name="campaign_id">
-                    <option value="0">Без кампании</option>
+                    <option value="0">Без оффера</option>
+                    @foreach ($offers as $offer)
+                    <option value="{{ $offer->id }}">{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
+                    @endforeach
                   </select>
               </div>
             </div>

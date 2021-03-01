@@ -361,8 +361,10 @@ class SiteController extends Controller
         // Adding new site page
         $users = User::all();
         $hosters = Hoster::all();
+        $neo = new Neogara();
+        $offers = $neo->get_offers();
 
-        return view('sites.add_group', compact('users', 'hosters'));
+        return view('sites.add_group', compact('users', 'hosters', 'offers'));
     }
 
     public function storeGroup(Request $request)
