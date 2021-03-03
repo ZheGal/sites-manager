@@ -238,6 +238,7 @@ class SiteController extends Controller
         
         $settings = Settings::updateSite($site);
         $site->save();
+        $this->cleanHost($site);
         
         return redirect()->route('sites.list')->with('message', "Сайт <a href='//{$site->domain}' target='_blank'><b>«" . $site->domain . "»</b></a> был обновлён. " . $settings);
     }
