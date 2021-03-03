@@ -207,10 +207,10 @@ class SiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {        
+    {
         // Updating site action
+        $add = [];
         $site = Site::findOrFail($id);
-        $this->cleanHost($site);
         $data = $this->validate($request, [
             'domain' => 'required|unique:sites,domain,' . $site->id,
             'user_id' => 'numeric',
@@ -225,25 +225,21 @@ class SiteController extends Controller
             'cloakit' => 'nullable|numeric',
             'status' => 'numeric'
         ]);
-
         $site->fill($data);
+        
         $user = User::find($site->user_id);
-        $add = [];
         if ($user) {
             $add['pid'] = $user->pid;
         }
-
         $add['group'] = $data['campaign_id'];
         $add['domain'] = $data['domain'];
-
         $site->domain = SitesHelper::getCleanDomain($site->domain);
         $site->updator_id = Auth::user()->id;
-        $site->save();
-
-        $updateSettings = $this->updateSettingsAfterUpdateSite($site, $add);
-        $updateSettingsMsg = implode(" ", $updateSettings);
         
-        return redirect()->route('sites.list')->with('message', "Сайт <a href='//{$site->domain}' target='_blank'><b>«" . $site->domain . "»</b></a> был обновлён. " . $updateSettingsMsg);
+        $settings = Settings::updateSite($site);
+        $site->save();
+        
+        return redirect()->route('sites.list')->with('message', "Сайт <a href='//{$site->domain}' target='_blank'><b>«" . $site->domain . "»</b></a> был обновлён. " . $settings);
     }
 
     /**
@@ -315,37 +311,6 @@ class SiteController extends Controller
         $newProject = $ftp->uploadNewProject();
         
         @file_get_contents($url);
-    }
-
-    public function updateSettingsAfterUpdateSite($site, $add = [])
-    {
-        $domain = $site->domain;
-        $ftpUpdate = Settings::settingsFileExists($domain);
-
-        $get = Settings::getArray($domain);
-        $array = Settings::getDefaultSettings();
-
-        if (!empty($get) && is_array($get)) {
-            $array = array_merge($array, $get);
-        }
-
-        $array['yandex'] = ($site->yandex) ? $site->yandex : false;
-        $array['facebook'] = ($site->facebook) ? $site->facebook : false;
-        $array['cloakit'] = ($site->cloakit) ? $site->cloakit : false;
-
-        $array = array_merge($array, $add);
-        
-        $json = json_encode($array, JSON_PRETTY_PRINT);
-        
-        if ($ftpUpdate) {
-            $ftp = new Flysystem($site);
-            $save = $ftp->saveSettingsJson($json);
-            $msg[] = 'Файл settings.json на сервере обновлён.';
-        } else {
-            $msg[] = 'Файл settings.json на сервере не был обновлён.';
-        }
-
-        return $msg;
     }
 
     public function transfer(Request $request)

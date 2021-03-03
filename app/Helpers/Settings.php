@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\User;
+use App\Models\Site;
+
 class Settings
 {
     public static function settingsFileExists($domain)
@@ -21,17 +24,10 @@ class Settings
 
     public static function getArray($domain)
     {
-        $template = self::getDefaultSettings();
-        $url = 'http://' . $domain . '/settings.json';
-        $json = @file_get_contents($url);
-        if (!empty($json) && $json != null) {
-            $array = json_decode($json, 1);
-            if (is_array($array)) {
-                $array = array_merge($template, $array);
-                return $array;
-            }
-        }
-        return $template;
+        $site = Site::where('domain', $domain)->first();
+        $fly = new Flysystem($site);
+        $settings = $fly->getSettingsJson();
+        return $settings;
     }
 
     public static function compareSettingAfterUpdateSubmit()
@@ -88,5 +84,33 @@ class Settings
         ];
 
         return $array;
+    }
+
+    public static function updateSite($site)
+    {
+        $fly = new Flysystem($site);
+        $settings = $fly->getSettingsJson();
+
+        $pid = self::getUserPid($site);
+
+        $settings = array_merge($settings, [
+            'pid' => $pid,
+            'group' => $site->campaign_id,
+            'yandex' => $site->yandex,
+            'facebook' => $site->facebook,
+            'cloakit' => $site->cloakit
+        ]);
+        
+        $json = json_encode($settings, JSON_PRETTY_PRINT);
+        $save = $fly->saveSettingsJson($json);
+
+        return ($save) ? 'Файл settings.json на сервере обновлён.' : 'Файл settings.json на сервере не был обновлён.';
+    }
+
+    public static function getUserPid($site)
+    {
+        $id = $site->user_id;
+        $user = User::find($id);
+        return $user->pid;
     }
 }

@@ -53,7 +53,7 @@ class Flysystem
         $settings = [];
 
         // проверка существования файла
-        $file = $this->dir . 'settings.json';
+        $file = 'settings.json';
         if ($this->ftp->has($file)) {
             $settings_json = $this->ftp->read($file);
             if (!empty($settings_json)) {

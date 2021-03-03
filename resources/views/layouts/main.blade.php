@@ -60,6 +60,7 @@
                     <span>Офферы</span>
                 </a>
             </li>
+            @if ( Auth::user()->role == 1 || Auth::user()->role == 2 )
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
                 @if (\Request::route()->getName() == 'users.list')
@@ -69,6 +70,7 @@
                     <span>Пользователи</span>
                 </a>
             </li>
+            @endif
             @if ( Auth::user()->role == 1)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
