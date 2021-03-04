@@ -110,7 +110,7 @@
                         <td class="text-center pt-3">
                             <a class="text-center" href="{{ request()->fullUrlWithQuery(['user_id' => $site->user_id]) }}">
                                 @if (!is_null($site->user))
-                                    <span style="cursor:pointer;color:#000;"><strong>{{ $site->user->realname }}</strong> ({{ $site->user->name }}) / {{ $site->creator->pid }}</span>
+                                    <span style="cursor:pointer;color:#000;"><strong>{{ $site->user->realname }}</strong> ({{ $site->user->name }}) / {{ $site->user->pid }}</span>
                                 @else
                                     <span style="color: darkgrey;font-style: italic;cursor:pointer;">Без пользователя</span>
                                 @endif
