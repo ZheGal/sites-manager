@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/perfect-scrollbar/css/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/selectize/css/selectize.css') }}">
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
     
     <title>{{ $title }}</title>
@@ -166,6 +167,7 @@
  <!-- Optional JavaScript -->
  <!-- Popper.js first, then CoreUI JS -->
  <script src="{{ asset('assets/perfect-scrollbar/dist/perfect-scrollbar.js') }}"></script>
+ <script src="{{ asset('assets/selectize/js/standalone/selectize.min.js') }}"></script>
  <script src="https://unpkg.com/@popperjs/core@2"></script>
  <script src="{{ asset('assets/coreui/js/coreui.min.js') }}"></script>
  </body>

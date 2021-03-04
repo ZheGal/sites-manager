@@ -60,7 +60,7 @@
             <div class="form-group row">
               <label for="siteCampaign" class="col-sm-2 col-form-label">Оффер</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteCampaign" name="campaign_id">
+                <select id="siteCampaign" name="campaign_id">
                     <option value="0">Без оффера</option>
                     @foreach ($offers as $offer)
                     <option value="{{ $offer->id }}">{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
@@ -71,7 +71,7 @@
             <div class="form-group row">
               <label for="siteHoster" class="col-sm-2 col-form-label">Хостер</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteHoster" name="hoster_id">
+                <select id="siteHoster" name="hoster_id">
                     @foreach ($hosters as $hoster)
                     <option value="{{ $hoster->id }}">{{ $hoster->title }}</option>
                     @endforeach
@@ -82,7 +82,7 @@
             <div class="form-group row">
               <label for="siteHosterDomain" class="col-sm-2 col-form-label">Хостер домена</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteHosterDomain" name="hoster_id_domain">
+                <select id="siteHosterDomain" name="hoster_id_domain">
                   @foreach ($hosters as $hoster)
                   <option value="{{ $hoster->id }}">{{ $hoster->title }}</option>
                   @endforeach
@@ -93,7 +93,7 @@
             <div class="form-group row">
               <label for="siteUser" class="col-sm-2 col-form-label">Пользователь</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteUser" name="user_id">
+                <select id="siteUser" name="user_id">
                     <option value="0">Без пользователя</option>
                     @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }} @if ($user->pid != '') ({{ $user->pid }}) @endif</option>
@@ -141,5 +141,14 @@
             <button class="btn btn-primary" type="submit">Добавить</button>
         </div>
     </form>
+
+    <script>
+      $(document).ready(function(){
+        $('#siteCampaign').selectize();
+        $('#siteHoster').selectize();
+        $('#siteHosterDomain').selectize();
+        $('#siteUser').selectize();
+      });
+    </script>
 
 </x-panel-layout>

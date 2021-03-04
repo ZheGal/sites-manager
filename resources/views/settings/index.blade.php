@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12">
-                        <strong>Neogara Auth Token: </strong>  @if(isset($settings['neogara_token']) && !empty($settings['neogara_token'])) <div class="neogara_token">{{ $settings['neogara_token'] }}</div> @endif
+                        <strong>Neogara Auth Token: </strong>  @if(isset($settings['neogara_token']) && !empty($settings['neogara_token'])) <div class="coded">{{ $settings['neogara_token'] }}</div> @endif
                     </div>
                 </div>
             </div>

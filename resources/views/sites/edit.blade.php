@@ -64,7 +64,7 @@
                 <div class="form-group row">
                   <label for="siteCampaign" class="col-sm-3 col-form-label">Кампания</label>
                   <div class="col-sm-9">
-                    <select class="form-control" id="siteCampaign" name="campaign_id">
+                    <select id="siteCampaign" name="campaign_id">
                         <option value="0" @if ($settings->campaign_id == 0) selected @endif>Без кампании</option>
                         @foreach ($offers as $offer)
                         <option value="{{ $offer->id }}" @if ($settings->campaign_id == $offer->id) selected @endif>{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
@@ -75,7 +75,7 @@
                 <div class="form-group row">
                   <label for="siteHoster" class="col-sm-3 col-form-label">Хостер</label>
                   <div class="col-sm-9">
-                    <select class="form-control" id="siteHoster" name="hoster_id">
+                    <select id="siteHoster" name="hoster_id">
                         <option value="0" @if ($settings->hoster_id == 0) selected @endif>Без хостера</option>
                         @foreach ($hosters as $hoster)
                         <option value="{{ $hoster->id }}" @if ($settings->hoster_id == $hoster->id) selected @endif>{{ $hoster->title }}</option>
@@ -86,7 +86,7 @@
                 <div class="form-group row">
                   <label for="siteHosterDomain" class="col-sm-3 col-form-label">Хостер домена</label>
                   <div class="col-sm-9">
-                    <select class="form-control" id="siteHosterDomain" name="hoster_id_domain">
+                    <select id="siteHosterDomain" name="hoster_id_domain">
                       <option value="0" @if ($settings->hoster_id_domain == 0) selected @endif>Без хостера</option>
                       @foreach ($hosters as $hoster)
                       <option value="{{ $hoster->id }}" @if ($settings->hoster_id_domain == $hoster->id) selected @endif>{{ $hoster->title }}</option>
@@ -97,7 +97,7 @@
                 <div class="form-group row">
                   <label for="siteUser" class="col-sm-3 col-form-label">Пользователь</label>
                   <div class="col-sm-9">
-                    <select class="form-control" id="siteUser" name="user_id">
+                    <select id="siteUser" name="user_id">
                         <option value="0" @if ($settings->user_id == 0) selected @endif>Без пользователя</option>
                         @foreach ($users as $user)
                         <option value="{{ $user->id }}" @if ($settings->user_id == $user->id) selected @endif>{{ $user->realname }} ({{ $user->name }}) / {{ $user->pid }}</option>
@@ -231,5 +231,14 @@
             <button class="btn btn-danger" type="submit">Удалить сайт</button>
         </form>
     </div>
+
+<script>
+  $(document).ready(function(){
+    $('#siteCampaign').selectize();
+    $('#siteHoster').selectize();
+    $('#siteHosterDomain').selectize();
+    $('#siteUser').selectize();
+  });
+</script>
 
 </x-panel-layout>

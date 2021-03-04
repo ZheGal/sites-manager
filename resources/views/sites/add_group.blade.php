@@ -32,7 +32,7 @@
             <div class="form-group row">
               <label for="siteCampaign" class="col-sm-2 col-form-label">Оффер</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteCampaign" name="campaign_id">
+                <select id="siteCampaign" name="campaign_id">
                     <option value="0">Без оффера</option>
                     @foreach ($offers as $offer)
                     <option value="{{ $offer->id }}">{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
@@ -43,7 +43,7 @@
             <div class="form-group row">
               <label for="siteHoster" class="col-sm-2 col-form-label">Хостер</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteHoster" name="hoster_id">
+                <select id="siteHoster" name="hoster_id">
                     @foreach ($hosters as $hoster)
                     <option value="{{ $hoster->id }}">{{ $hoster->title }} ({{ $hoster->url }})</option>
                     @endforeach
@@ -54,7 +54,7 @@
             <div class="form-group row">
               <label for="siteHosterDomain" class="col-sm-2 col-form-label">Хостер домена</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteHosterDomain" name="hoster_id_domain">
+                <select id="siteHosterDomain" name="hoster_id_domain">
                   @foreach ($hosters as $hoster)
                   <option value="{{ $hoster->id }}">{{ $hoster->title }} ({{ $hoster->url }})</option>
                   @endforeach
@@ -65,7 +65,7 @@
             <div class="form-group row">
               <label for="siteUser" class="col-sm-2 col-form-label">Пользователь</label>
               <div class="col-sm-10">
-                <select class="form-control" id="siteUser" name="user_id">
+                <select id="siteUser" name="user_id">
                     <option value="0">Без пользователя</option>
                     @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -80,10 +80,24 @@
                     <textarea class="form-control" id="groupTextarea" name="group_sites" rows="10"></textarea>
                 </div>
               </div>
+              <div class="form-group">
+                <span>Формат: (через табы)</span>
+                <div class="coded mt-2">домен_сайта  фтп_адрес фтп_логин фтп_пароль  яндекс_метрика  фейсбук_пиксель</div>
+                <div class="alert alert-danger mt-3" role="alert">При групповом добавлении настройки не синхронизируются с хостом. Для синхронизации требуется ручное редактирование настроек сайта.</div>
+              </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Добавить</button>
         </div>
     </form>
+
+  <script>
+    $(document).ready(function(){
+      $('#siteCampaign').selectize();
+      $('#siteHoster').selectize();
+      $('#siteHosterDomain').selectize();
+      $('#siteUser').selectize();
+    });
+  </script>
 
 </x-panel-layout>

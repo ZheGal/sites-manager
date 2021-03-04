@@ -16,10 +16,10 @@
                     <div class="form-group row">
                         <label for="siteUser" class="col-sm-12 col-form-label">Пользователь</label>
                         <div class="col-sm-12">
-                        <select class="form-control" id="siteUser" name="user_id">
+                        <select class="form-control change-user" id="siteUser" name="user_id">
                             <option value="0">Без пользователя</option>
                             @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}">{{ $user->realname }} - {{ $user->name }} ({{ $user->pid }})</option>
                             @endforeach
                             </select>
                         </div>
