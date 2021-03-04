@@ -27,15 +27,21 @@
             @endif
             @csrf
             <div class="form-group row">
-              <label for="userLogin" class="col-sm-2 col-form-label">Логин</label>
+              <label for="userLogin" class="col-sm-2 col-form-label">Логин (для входа)</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="userLogin" name="name" required autocomplete="off">
               </div>
             </div>
             <div class="form-group row">
+              <label for="userName" class="col-sm-2 col-form-label">Имя</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="userName" name="realname" required autocomplete="off">
+              </div>
+            </div>
+            <div class="form-group row">
               <label for="userEmail" class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="userEmail" name="email" required>
+                <input type="text" class="form-control" id="userEmail" name="email">
               </div>
             </div>
             <div class="form-group row">

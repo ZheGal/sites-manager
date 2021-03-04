@@ -34,6 +34,12 @@
               </div>
             </div>
             <div class="form-group row">
+              <label for="userName" class="col-sm-2 col-form-label">Имя</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="userName" name="realname" required autocomplete="off" value="{{ $user->realname }}">
+              </div>
+            </div>
+            <div class="form-group row">
               <label for="userEmail" class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="userEmail" name="email" required value="{{ $user->email }}">

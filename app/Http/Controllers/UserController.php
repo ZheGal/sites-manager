@@ -46,6 +46,7 @@ class UserController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|unique:users',
+            'realname' => 'nullable',
             'email' => 'required|unique:users',
             'role' => 'numeric',
             'password' => 'required|min:8',
@@ -100,6 +101,7 @@ class UserController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|unique:users,name,' . $user->id,
+            'realname' => 'nullable',
             'email' => 'required|unique:users,email,' . $user->id,
             'role' => 'numeric',
             'yandex_login' => 'nullable',

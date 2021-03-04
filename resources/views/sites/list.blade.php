@@ -73,7 +73,7 @@
                     <th>Домен</th>
                     <th>Кампания</th>
                     @if (Auth::user()->role == 1 || Auth::user()->role == 2)
-                    <th class="text-center">Пользователь</th>
+                    <th class="text-center">Пользователь / PID</th>
                     @endif
                     <th class="text-center">Хостер / домен</th>
                     <th class="text-right"></th>
@@ -110,7 +110,7 @@
                         <td class="text-center pt-3">
                             <a class="text-center" href="{{ request()->fullUrlWithQuery(['user_id' => $site->user_id]) }}">
                                 @if (!is_null($site->user))
-                                    <span style="cursor:pointer;color:#000;">{{ $site->user->name }}</span>
+                                    <span style="cursor:pointer;color:#000;"><strong>{{ $site->user->realname }}</strong> ({{ $site->user->name }}) / {{ $site->creator->pid }}</span>
                                 @else
                                     <span style="color: darkgrey;font-style: italic;cursor:pointer;">Без пользователя</span>
                                 @endif
@@ -148,10 +148,10 @@
                                         data-yandex="{{ $site->yandex }}"
                                         data-facebook="{{ $site->facebook }}"
                                         @if ($site->creator_id != 0)
-                                        data-creator="{{ $site->creator->name }}"
+                                        data-creator="{{ $site->creator->realname }} ({{ $site->creator->name }})"
                                     @endif 
                                         @if ($site->updator_id != 0)
-                                        data-updator="{{ $site->updator->name }}"
+                                        data-updator="{{ $site->creator->realname }} ({{ $site->creator->name }})"
                                     @endif data-createdat="{{ $site->created_at }}"
                                         data-updatedat="{{ $site->updated_at }}"
                                     >

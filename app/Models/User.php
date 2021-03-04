@@ -25,6 +25,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'realname',
         'email',
         'password',
         'yandex_login',
@@ -63,9 +64,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-    public function isAdmin()
-    {
-        return true;
-    }
 }

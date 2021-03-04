@@ -53,7 +53,7 @@
             @foreach ($users as $user)
                 <tr>
                     <td class="pt-3">{{ $user->id }}</td>
-                    <td class="pt-3">{{ $user->name }}</td>
+                    <td class="pt-3"><strong>{{ $user->realname }}</strong> ({{ $user->name }})</td>
                     <td class="pt-3">{{ $user->email }}</td>
                     <td class="pt-3">
                         @if ($user->role == 1) Администратор 

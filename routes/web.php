@@ -54,7 +54,6 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     Route::get('/offers', [\App\Http\Controllers\OfferController::class, 'index'])->name('offers.list');
 
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.list');
-    Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/users/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
         Route::post('/users/store', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
@@ -62,6 +61,7 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         Route::patch('/users/{id}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
     });
+    Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
     
     Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
     Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
