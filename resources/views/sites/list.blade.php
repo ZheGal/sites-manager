@@ -76,6 +76,7 @@
                     <th class="text-center">Пользователь / PID</th>
                     @endif
                     <th class="text-center">Хостер / домен</th>
+                    <th class="text-center">Тип</th>
                     <th class="text-right"></th>
                     <th class="text-center">Тесты</th>
                     <th class="text-right">Статус</th>
@@ -133,6 +134,12 @@
                                 @else
                                     <span style="color: darkgrey;font-style: italic;cursor:pointer;">Не указан</span>
                                 @endif
+                            </a>
+                        </td>
+
+                        <td class="text-center pt-3">
+                            <a class="text-center" href="{{ request()->fullUrlWithQuery(['type' => $site->type]) }}">
+                                <span style="cursor:pointer;color:#000;">{{ $site->type }}</span>
                             </a>
                         </td>
                         

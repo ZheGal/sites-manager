@@ -58,6 +58,11 @@ class SiteController extends Controller
             $filters[] = ['Поиск', $query['search_domain'], 'search_domain'];
         }
 
+        if (isset($query['type'])) {
+            $sites = $sites->where('type', $query['type']);
+            $filters[] = ['Тип сайта', $query['type'], 'type'];
+        }
+
         if (isset($query['status'])) {
             $sites = $sites->where('status', $query['status']);
             $filters[] = ['Статус', site_status($query['status']), 'status'];
