@@ -63,7 +63,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="siteUser" class="col-sm-2 col-form-label">Пользователь</label>
+              <label for="siteUser" class="col-sm-2 col-form-label">Пользователь / PID</label>
               <div class="col-sm-10">
                 <select id="siteUser" name="user_id">
                     <option value="0">Без пользователя</option>

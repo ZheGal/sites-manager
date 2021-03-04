@@ -95,7 +95,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label for="siteUser" class="col-sm-3 col-form-label">Пользователь</label>
+                  <label for="siteUser" class="col-sm-3 col-form-label">Пользователь / PID</label>
                   <div class="col-sm-9">
                     <select id="siteUser" name="user_id">
                         <option value="0" @if ($settings->user_id == 0) selected @endif>Без пользователя</option>
