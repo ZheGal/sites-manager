@@ -40,15 +40,15 @@
                     @endif
                 @endif
             </li>
-            {{-- <li class="c-sidebar-nav-item">
+            <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
-                    @if (\Request::route()->getName() == 'sites.list')
+                    @if (\Request::route()->getName() == 'prelands.list')
                         c-active
-                    @endif" href="{{ route('sites.list') }}">
+                    @endif" href="{{ route('prelands.list') }}">
                         <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
                         <span>Прелэнды</span>
                 </a>
-            </li> --}}
+            </li>
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
                 @if (\Request::route()->getName() == 'hosters.list')

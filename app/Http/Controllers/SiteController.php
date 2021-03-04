@@ -134,7 +134,9 @@ class SiteController extends Controller
             'ftp_pass' => 'nullable',
             'yandex' => 'nullable|numeric',
             'facebook' => 'nullable|numeric',
-            'status' => 'numeric'
+            'status' => 'numeric',
+            'type' => 'required',
+            'relink' => 'nullable'
         ]);
 
         $site = new Site();
@@ -233,7 +235,8 @@ class SiteController extends Controller
             'facebook' => 'nullable',
             'cloakit' => 'nullable|numeric',
             'status' => 'numeric',
-            'type' => 'required'
+            'type' => 'required',
+            'relink' => 'nullable'
         ]);
         $site->fill($data);
         

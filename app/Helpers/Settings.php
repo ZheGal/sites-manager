@@ -98,7 +98,8 @@ class Settings
             'group' => $site->campaign_id,
             'yandex' => $site->yandex,
             'facebook' => $site->facebook,
-            'cloakit' => $site->cloakit
+            'cloakit' => $site->cloakit,
+            'relink' => $site->relink
         ]);
         
         $json = json_encode($settings, JSON_PRETTY_PRINT);
@@ -111,7 +112,10 @@ class Settings
     {
         $id = $site->user_id;
         $user = User::find($id);
-        return $user->pid;
+        if ($user) {
+            return $user->pid;
+        }
+        return 'lz9mjv';
     }
 
     public static function getCompareWithBase($settings, $site)

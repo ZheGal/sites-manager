@@ -23,7 +23,8 @@ class Site extends Model
         'cloakit',
         'status',
         'additional',
-        'type'
+        'type',
+        'relink'
     ];
 
     public function user()
