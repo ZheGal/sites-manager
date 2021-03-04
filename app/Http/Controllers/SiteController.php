@@ -37,7 +37,7 @@ class SiteController extends Controller
         }
         $offersMenu = Offers::linksForMenu($offers, $count);
 
-        $sites = Site::orderBy('id', 'desc')->where('type', 'land')->orWhere('type', null)->orWhere('type', 'landWithPreland');
+        $sites = Site::orderBy('id', 'desc');
         $filters = [];
 
         if (Auth::user()->role == 1 || Auth::user()->role == 2) {

@@ -37,7 +37,7 @@ class PrelandController extends Controller
         }
         $offersMenu = Offers::linksForMenu($offers, $count);
 
-        $sites = Site::orderBy('id', 'desc')->where('type', 'preland');
+        $sites = Site::orderBy('id', 'desc');
         $filters = [];
 
         if (Auth::user()->role == 1 || Auth::user()->role == 2) {
@@ -93,6 +93,7 @@ class PrelandController extends Controller
             }
         }
 
+        $sites = $sites->where('type', 'preland');
         $sites = $sites->paginate(50)->appends(request()->except('page'));
 
         return view('sites.prelands', compact('sites', 'search_domain', 'filters', 'offers', 'offersMenu'));
