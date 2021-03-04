@@ -131,6 +131,9 @@ class Settings
         if (!isset($all['hoster_id_domain'])) {
             $all['hoster_id_domain'] = 0;
         }
+        if (!isset($all['user_id'])) {
+            $all['user_id'] = 0;
+        }
         $all = (object) $all;
 
         // print_r($all);
