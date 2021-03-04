@@ -100,7 +100,7 @@
                     <select class="form-control" id="siteUser" name="user_id">
                         <option value="0" @if ($settings->user_id == 0) selected @endif>Без пользователя</option>
                         @foreach ($users as $user)
-                        <option value="{{ $user->id }}" @if ($settings->user_id == $user->id) selected @endif>{{ $user->realname }} ({{ $user->name }}) @if ($user->pid != '') / {{ $user->pid }} @endif</option>
+                        <option value="{{ $user->id }}" @if ($settings->user_id == $user->id) selected @endif>{{ $user->realname }} ({{ $user->name }}) / {{ $user->pid }}</option>
                         @endforeach
                       </select>
                   </div>
