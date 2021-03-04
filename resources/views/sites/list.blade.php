@@ -10,6 +10,16 @@
         </ol>
     </x-slot>
 
+    <x-slot name="offers_site_list">
+        @if (isset($offersMenu) && !empty($offersMenu))
+        <ul class="c-sidebar-nav-dropdown-items">
+            @foreach ($offersMenu as $offerMenu)
+            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ request()->fullUrlWithQuery(['campaign_id' => $offerMenu['id']]) }}"><span class="c-sidebar-nav-icon"></span> {{ $offerMenu['title'] }}</a></li>
+            @endforeach
+        </ul>
+        @endif
+    </x-slot>
+
     <div class="card-header">
         <div class="row">
             <div class="col align-self-start">
@@ -158,7 +168,6 @@
                                 @if (Auth::user()->role == 1)
                                 <a href="{{ route('sites.edit', ['id' => $site->id ]) }}" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
                                 @endif
-                                <a href="{{ route('sites.edit.settings', ['id' => $site->id ]) }}" class="btn btn-pill btn-primary btn-sm">Настройки сайта</a>
                             </div>
                         </td>
                         <td class="text-center pt-3">

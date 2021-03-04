@@ -113,4 +113,16 @@ class Settings
         $user = User::find($id);
         return $user->pid;
     }
+
+    public static function getCompareWithBase($settings, $site)
+    {
+        $settings['campaign_id'] = $settings['group'];
+        unset($settings['group']);
+
+        $all = array_merge($settings, $site->toArray());
+        $all['type'] = (empty($all['type'])) ? 'land' : $all['type'];
+        $all = (object) $all;
+        
+        return $all;
+    }
 }

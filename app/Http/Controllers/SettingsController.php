@@ -55,6 +55,7 @@ class SettingsController extends Controller
         }
 
         $neo_token = $this->check_neogara_token($request->all());
+        
         if ($neo_token) {
             $setting = Setting::where('param', 'neogara_token')->first();
             if (!$setting) {
@@ -63,7 +64,7 @@ class SettingsController extends Controller
                 $new->value = $neo_token;
                 $new->save();
             } else {
-                $setting->value = $value;
+                $setting->value = $neo_token;
                 $setting->save();
             }
         }

@@ -22,7 +22,8 @@ class Site extends Model
         'facebook',
         'cloakit',
         'status',
-        'additional'
+        'additional',
+        'type'
     ];
 
     public function user()

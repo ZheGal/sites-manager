@@ -27,9 +27,10 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         
         Route::get('/sites/{id}/edit/import', [\App\Http\Controllers\SiteController::class, 'importIndex'])->name('sites.importfrom');
         Route::post('/sites/{id}/edit/import', [\App\Http\Controllers\SiteController::class, 'importStore'])->name('sites.import');
+        
+        // тестирование
+        Route::get('/sites/{id}/tests/run', [\App\Http\Controllers\SiteController::class, 'testrun'])->name('sites.testrun');
     });
-    Route::get('/sites/{id}/edit/settings', [\App\Http\Controllers\SiteController::class, 'editSettings'])->name('sites.edit.settings');
-    Route::patch('/sites/{id}/settings', [\App\Http\Controllers\SiteController::class, 'updateSettings'])->name('sites.update.settings');
     Route::post('/sites/transfer', [\App\Http\Controllers\SiteController::class, 'transfer'])->name('sites.transfer');
     
     Route::get('/hosters', [\App\Http\Controllers\HosterController::class, 'index'])->name('hosters.list');

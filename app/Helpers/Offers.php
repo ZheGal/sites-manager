@@ -42,4 +42,21 @@ class Offers
         }
         return collect($result);
     }
+
+    public static function linksForMenu($offers, $count)
+    {
+        $result = [];
+        $offers = $offers->toArray();
+        foreach ($offers as $site) {
+            $id = $site->id;
+            $cnt = $count[$id];
+            if ($cnt > 0) {
+                $result[] = [
+                    'id' => $id,
+                    'title' => $site->languages[0]->alpha3 . ' - ' . $site->name
+                ];
+            }
+        }
+        return (object) $result;
+    }
 }

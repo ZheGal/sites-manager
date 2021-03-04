@@ -14,6 +14,7 @@ use App\Helpers\UserHelper;
 use App\Helpers\Neogara;
 use App\Helpers\Offers;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 class SiteController extends Controller
 {
@@ -29,6 +30,12 @@ class SiteController extends Controller
         $search_domain = $request->query('search_domain');
         $neo = new Neogara();
         $offers = $neo->get_offers();
+        $count = Offers::count_sites($offers);
+
+        if (Auth::user()->role != 1 && Auth::user()->role != 2) {
+            $offers = Offers::only_users_offers($offers, $count);
+        }
+        $offersMenu = Offers::linksForMenu($offers, $count);
 
         $sites = Site::orderBy('id', 'desc');
         $filters = [];
@@ -88,7 +95,7 @@ class SiteController extends Controller
 
         $sites = $sites->paginate(50)->appends(request()->except('page'));
 
-        return view('sites.list', compact('sites', 'search_domain', 'filters', 'offers'));
+        return view('sites.list', compact('sites', 'search_domain', 'filters', 'offers', 'offersMenu'));
     }
 
     /**
@@ -195,8 +202,10 @@ class SiteController extends Controller
         $hosters = Hoster::all();
         $neo = new Neogara();
         $offers = $neo->get_offers();
+        $settings = Settings::getArray($site->domain);
+        $settings = Settings::getCompareWithBase($settings, $site);
 
-        return view('sites.edit', compact('site', 'users', 'hosters', 'offers'));
+        return view('sites.edit', compact('settings', 'users', 'hosters', 'offers'));
     }
 
     /**
@@ -223,7 +232,8 @@ class SiteController extends Controller
             'yandex' => 'nullable',
             'facebook' => 'nullable',
             'cloakit' => 'nullable|numeric',
-            'status' => 'numeric'
+            'status' => 'numeric',
+            'type' => 'required'
         ]);
         $site->fill($data);
         
@@ -259,44 +269,6 @@ class SiteController extends Controller
             return redirect()->route('sites.list')->with('message', "Сайт <b>«" . $title . "»</b> был удалён из базы.");
         }
         return redirect()->route('sites.list');
-    }
-
-    public function editSettings($id)
-    {        
-        $site = Site::findOrFail($id);
-        $domain = $site->domain;
-        $settings = collect(Settings::getArray($domain));
-        if (!empty($settings)) {
-            return view('sites.edit_settings', compact('settings', 'site'));
-        } else {
-            return redirect()->route('sites.list');
-        }
-    }
-
-    public function updateSettings(Request $request, $id)
-    {
-        $site = Site::findOrFail($id);
-        $domain = $site->domain;
-        
-        $settings = Settings::compareSettingAfterUpdateSubmit();
-        
-        if (!empty($settings['yandex']) && $settings['yandex'] != '') {
-            $site->yandex = $settings['yandex'];
-        }
-
-        if (!empty($settings['facebook']) && $settings['facebook'] != '') {
-            $site->facebook = $settings['facebook'];
-        }
-
-        $json = json_encode($settings, JSON_PRETTY_PRINT);
-        
-        $ftp = new Flysystem($site);
-        $save = $ftp->saveSettingsJson($json);
-        $site->save();
-
-        if ($save) {
-            return redirect()->route('sites.list')->with('message', "Настройки сайта <b>$domain</b> успешно обновлены");
-        }
     }
 
     public function cleanHost($site)
@@ -476,5 +448,26 @@ class SiteController extends Controller
         } 
         return redirect()->route('sites.list')->with('message', 
         "Произошла ошибка при попытке импортировать сайт <a href='//{$domain}' target='_blank'>{$domain}</a> на домен <a href='//{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
+    }
+
+    // action на выполнение тестов по домену
+    public function testrun($id)
+    {
+        // set_time_limit(999999);
+        // $apiUrl = \App\Models\Setting::where('param', 'testing_api')->first()->value;
+        // $site = Site::findOrFail($id);
+
+        // $array = [
+        //     'sites' => [$site->domain],
+        //     'typeSites' => 'land'
+        // ];
+
+        // echo $apiUrl;
+        // // echo json_encode($array, 1);
+        // die;
+        
+        // $query = Http::post($apiUrl->value, $array);
+        // print_r($query);
+        // die;
     }
 }

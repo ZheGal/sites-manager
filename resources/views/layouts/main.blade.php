@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/perfect-scrollbar/css/perfect-scrollbar.css') }}">
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
     
     <title>{{ $title }}</title>
@@ -24,7 +25,7 @@
         </div>
         <ul class="c-sidebar-nav ps ps--active-y">
             @if ( Auth::user()->role != 0)
-            <li class="c-sidebar-nav-item">
+            <li class="c-sidebar-nav-item@if (\Request::route()->getName() == 'sites.list') c-sidebar-nav-dropdown c-show@endif">
                 <a class="c-sidebar-nav-link 
                     @if (\Request::route()->getName() == 'sites.list')
                         c-active
@@ -32,6 +33,11 @@
                         <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
                         <span>Сайты</span>
                 </a>
+                @if (\Request::route()->getName() == 'sites.list')
+                    @if (isset($offers_site_list))
+                        {{ $offers_site_list }}
+                    @endif
+                @endif
             </li>
             {{-- <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
@@ -159,6 +165,7 @@
      
  <!-- Optional JavaScript -->
  <!-- Popper.js first, then CoreUI JS -->
+ <script src="{{ asset('assets/perfect-scrollbar/dist/perfect-scrollbar.js') }}"></script>
  <script src="https://unpkg.com/@popperjs/core@2"></script>
  <script src="{{ asset('assets/coreui/js/coreui.min.js') }}"></script>
  </body>
