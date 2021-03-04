@@ -119,9 +119,22 @@ class Settings
         $settings['campaign_id'] = $settings['group'];
         unset($settings['group']);
 
-        $all = array_merge($settings, $site->toArray());
+        $site_array = array_filter($site->toArray(), function($element) {
+            return !empty($element);
+        });
+
+        $all = array_merge($settings, $site_array);
         $all['type'] = (empty($all['type'])) ? 'land' : $all['type'];
+        if (!isset($all['hoster_id'])) {
+            $all['hoster_id'] = 0;
+        }
+        if (!isset($all['hoster_id_domain'])) {
+            $all['hoster_id_domain'] = 0;
+        }
         $all = (object) $all;
+
+        // print_r($all);
+        // die;
         
         return $all;
     }
