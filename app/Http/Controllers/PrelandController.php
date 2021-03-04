@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Site;
+use App\Models\Hoster;
+use App\Models\User;
+use App\Helpers\Settings;
+use App\Helpers\Flysystem;
 use App\Helpers\SitesHelper;
+use App\Helpers\UserHelper;
 use App\Helpers\Neogara;
 use App\Helpers\Offers;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Site;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 class PrelandController extends Controller
 {
