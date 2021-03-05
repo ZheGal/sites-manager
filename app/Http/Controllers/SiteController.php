@@ -319,7 +319,8 @@ class SiteController extends Controller
             'user_id' => 'numeric',
             'campaign_id' => 'required|numeric',
             'hoster_id' => 'required|numeric',
-            'hoster_id_domain' => 'required|numeric'
+            'hoster_id_domain' => 'required|numeric',
+            'type' => 'required'
         ]);
 
         if ($request->group_sites && !empty($request->group_sites)) {

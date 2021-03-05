@@ -73,6 +73,16 @@
                   </select>
               </div>
             </div>
+                <div class="form-group row">
+                  <label for="siteType" class="col-sm-2 col-form-label">Тип сайта</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" id="siteType" name="type">
+                        <option value="land">Лэнд</option>
+                        <option value="preland">Прелэнд</option>
+                        <option value="prelandWithLand">Лэнд с прелэндом</option>
+                      </select>
+                  </div>
+                </div>
             
             <div class="form-group row">
                 <label for="siteUser" class="col-sm-12 col-form-label">Сайты</label>
