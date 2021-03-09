@@ -62,14 +62,21 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label for="siteCampaign" class="col-sm-3 col-form-label">Кампания</label>
+                  <label for="siteCampaign" class="col-sm-3 col-form-label">Оффер</label>
                   <div class="col-sm-9">
                     <select id="siteCampaign" name="campaign_id">
-                        <option value="0" @if ($settings->campaign_id == 0) selected @endif>Без кампании</option>
+                        <option value="0" @if ($settings->campaign_id == 0) selected @endif>Без оффера</option>
                         @foreach ($offers as $offer)
                         <option value="{{ $offer->id }}" @if ($settings->campaign_id == $offer->id) selected @endif>{{ $offer->id }}. {{ $offer->languages[0]->alpha3 }} - {{ $offer->name }}</option>
                         @endforeach
                       </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="sitePid" class="col-sm-3 col-form-label">PID</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="sitePid" name="pid" value="{{ $settings->pid }}">
+                    (При пустом значении подставляется стандартный PID пользователя)
                   </div>
                 </div>
                 <div class="form-group row">

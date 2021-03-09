@@ -24,7 +24,8 @@ class Site extends Model
         'status',
         'additional',
         'type',
-        'relink'
+        'relink',
+        'pid'
     ];
 
     public function user()

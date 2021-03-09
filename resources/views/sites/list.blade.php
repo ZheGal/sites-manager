@@ -41,7 +41,13 @@
             <div class="col align-self-end text-right">
                 @if (Auth::user()->role == 1)
                 <a href="{{ route('sites.create') }}" class="btn btn-pill btn-success btn-sm">
-                    <i class="cil-plus"></i> Добавить
+                    <i class="cil-plus"></i> Добавить новый
+                </a>
+                <a href="{{ route('sites.create.current') }}" class="btn btn-pill btn-success btn-sm">
+                    <i class="cil-plus"></i> Добавить существующий
+                </a>
+                <a href="{{ route('sites.group') }}" class="btn btn-pill btn-success btn-sm">
+                    <i class="cil-plus"></i> Групповое добавление
                 </a>
                 @endif
             </div>
@@ -158,7 +164,7 @@
                                         data-creator="{{ $site->creator->realname }} ({{ $site->creator->name }})"
                                     @endif 
                                         @if ($site->updator_id != 0)
-                                        data-updator="{{ $site->creator->realname }} ({{ $site->creator->name }})"
+                                        data-updator="{{ $site->updator->realname }} ({{ $site->updator->name }})"
                                     @endif data-createdat="{{ $site->created_at }}"
                                         data-updatedat="{{ $site->updated_at }}"
                                     >

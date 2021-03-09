@@ -101,6 +101,8 @@ class Settings
             'cloakit' => $site->cloakit,
             'relink' => $site->relink
         ]);
+
+        $settings = self::removeNullSettings($settings);
         
         $json = json_encode($settings, JSON_PRETTY_PRINT);
         $save = $fly->saveSettingsJson($json);
@@ -144,5 +146,72 @@ class Settings
         // die;
         
         return $all;
+    }
+
+    public static function createNewSite($data)
+    {
+        print_r($data);
+        die;
+    }
+
+    public static function checkPid($data)
+    {
+        // возвращать false, если не пришёл пид и нет пользователя
+        if (empty($data['user_id']) && empty($data['pid'])) {
+            return false;
+        }
+
+        $data['pid'] = trim(str_replace(" ", "", $data['pid']));
+        // если пид пришёл, проверяем на пустоту
+        if (isset($data['pid']) && !empty($data['pid']) && $data['pid'] != '') {
+            return $data['pid'];
+        }
+        
+        // выполнять в последнюю очередь, если пустое значение пид
+        $user = User::find($data['user_id']);
+        if (isset($user->pid) && !empty($user->pid)) {
+            return $user->pid;
+        }
+    }
+    
+    public static function newSiteSettings($request)
+    {
+        $new = [];
+        foreach ($request->toArray() as $param => $val) {
+            if ($param[0] != '_') {
+                $new[$param] = $val;
+            }
+        }
+
+        $new = self::removeParams($new, ['ftp_host', 'ftp_user', 'ftp_pass', 'hoster_id', 'hoster_id_domain', 'user_id', 'clean_host']);
+        
+        $fly = new Flysystem($request);
+        $settings = $fly->getSettingsJson();
+        $new['pid'] = self::checkPid($request->toArray());
+
+        $new = array_merge($settings, $new);
+        $new = self::removeNullSettings($new);
+        $json = json_encode($new, JSON_PRETTY_PRINT);
+
+        $fly->saveSettingsJson($json);
+        return $new;
+    }
+
+    public static function removeParams($settings, $params)
+    {
+        foreach ($params as $param) {
+            if (isset($settings[$param])) {
+                unset($settings[$param]);
+            }
+        }
+        return $settings;
+    }
+
+    public static function removeNullSettings($array)
+    {
+        $new_array = array_filter($array, function($element) {
+            return !empty($element);
+        });
+        return $new_array;
     }
 }

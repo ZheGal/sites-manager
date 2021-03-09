@@ -17,6 +17,8 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     Route::get('/', [\App\Http\Controllers\SiteController::class, 'index'])->name('sites.list');
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/sites/create', [\App\Http\Controllers\SiteController::class, 'create'])->name('sites.create');
+        Route::get('/sites/create/current', [\App\Http\Controllers\SiteController::class, 'createCurrent'])->name('sites.create.current');
+        Route::post('/sites/create/current', [\App\Http\Controllers\SiteController::class, 'storeCurrent'])->name('sites.store.current');
         Route::get('/sites/create/group', [\App\Http\Controllers\SiteController::class, 'addGroup'])->name('sites.group');
         Route::post('/sites/store', [\App\Http\Controllers\SiteController::class, 'store'])->name('sites.store');
         Route::post('/sites/store/group', [\App\Http\Controllers\SiteController::class, 'storeGroup'])->name('sites.group_store');

@@ -75,4 +75,45 @@ class SitesHelper
 
         return $sites;
     }
+
+    public static function newIssetSite($request, $settings)
+    {
+        $data = $request->toArray();
+        $settings = Settings::removeNullSettings($settings);
+
+        $site = new \App\Models\Site();
+
+        $site->domain = $data['domain'];
+        $site->ftp_host = $data['ftp_host'];
+        $site->ftp_user = $data['ftp_user'];
+        $site->ftp_pass = $data['ftp_pass'];
+        $site->user_id = $data['user_id'];
+        $site->hoster_id = $data['hoster_id'];
+        $site->hoster_id_domain = $data['hoster_id_domain'];
+        $site->status = $data['status'];
+        $site->type = $data['type'];
+
+        if (isset($settings['group'])) {
+            $site->campaign_id = $settings['group'];
+        }
+        if (isset($settings['yandex'])) {
+            $site->yandex = $settings['yandex'];
+        }
+        if (isset($settings['facebook'])) {
+            $site->facebook = $settings['facebook'];
+        }
+        if (isset($settings['cloakit'])) {
+            $site->cloakit = $settings['cloakit'];
+        }
+        if (isset($settings['type'])) {
+            $site->type = $settings['type'];
+        }
+        if (isset($settings['pid'])) {
+            $site->pid = $settings['pid'];
+        } else {
+            $site->pid = Settings::getUserPid($site);
+        }
+        
+        return $site;
+    }
 }

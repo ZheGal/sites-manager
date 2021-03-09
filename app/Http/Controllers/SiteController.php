@@ -119,6 +119,16 @@ class SiteController extends Controller
         return view('sites.create', compact('users', 'hosters', 'offers'));
     }
 
+    public function createCurrent()
+    {
+        $neo = new Neogara();
+        $users = User::all();
+        $hosters = Hoster::all();
+        $offers = $neo->get_offers();
+
+        return view('sites.create_current', compact('users', 'hosters', 'offers'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -128,9 +138,12 @@ class SiteController extends Controller
     public function store(Request $request)
     {        
         //
+        $request->domain = SitesHelper::getCleanDomain($request->domain);
+
         $data = $this->validate($request, [
             'domain' => 'required|unique:sites',
             'user_id' => 'numeric',
+            'pid' => 'nullable',
             'campaign_id' => 'required|numeric',
             'hoster_id' => 'required|numeric',
             'hoster_id_domain' => 'required|numeric',
@@ -144,13 +157,14 @@ class SiteController extends Controller
             'relink' => 'nullable'
         ]);
 
+        $data['pid'] = Settings::checkPid($data);
+
         $site = new Site();
         $site->fill($data);
         $site->creator_id = Auth::user()->id;
         $site->updator_id = Auth::user()->id;
 
-        $flysystem = new Flysystem($site);
-        $settings = $flysystem->getSettingsJson();
+        $settings = Settings::newSiteSettings($request);
         
         if ($site->campaign_id == '0' or empty($site->campaign_id)) {
             if (!empty($settings['group'])) {
@@ -173,11 +187,25 @@ class SiteController extends Controller
             }
         }
 
-        $site->domain = SitesHelper::getCleanDomain($site->domain);
-
         if ($request->clean_host == 1) {
             $this->cleanHost($site);
         }
+
+        $site->save();
+
+        return redirect()->route('sites.list')->with('message', "Сайт с адресом <b>«" . $site->domain . "»</b> был добавлен в таблицу.");
+    }
+
+    public function storeCurrent(Request $request)
+    {
+        $site = Site::where('domain', $request->domain)->first();
+        
+        if ($site) {
+            return redirect()->route('sites.list')->with('message', "Сайт с адресом <b>«" . $site->domain . "»</b> уже существует в базе.");
+        }
+        
+        $settings = Settings::newSiteSettings($request);
+        $site = SitesHelper::newIssetSite($request, $settings);
 
         $site->save();
 
@@ -233,6 +261,7 @@ class SiteController extends Controller
             'campaign_id' => 'required|numeric',
             'hoster_id' => 'required|numeric',
             'hoster_id_domain' => 'required|numeric',
+            'pid' => 'nullable',
             'ftp_host' => 'nullable',
             'ftp_user' => 'nullable',
             'ftp_pass' => 'nullable',
@@ -243,6 +272,7 @@ class SiteController extends Controller
             'type' => 'required',
             'relink' => 'nullable'
         ]);
+
         $site->fill($data);
         
         $user = User::find($site->user_id);
