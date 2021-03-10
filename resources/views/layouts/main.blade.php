@@ -138,6 +138,7 @@
             @endif 
             <ul class="c-header-nav ml-auto mr-4">
                 <li style="margin-right:6px;">
+                    <a href="{{ route('profile.edit') }}" style="color:#000;">
                     @if (Auth::user()->role == 1)
                     Администратор
                     @elseif (Auth::user()->role == 2)
@@ -145,8 +146,11 @@
                     @elseif (Auth::user()->role == 3)
                     Пользователь
                     @endif
+                    </a>
                 </li>
-                <li style="font-weight:bold;">{{ Auth::user()->name }}</li>
+                <li style="font-weight:bold;">
+                    <a href="{{ route('profile.edit') }}" style="color:#000;">{{ Auth::user()->name }}</a>
+                </li>
             </ul>
         </div>
         

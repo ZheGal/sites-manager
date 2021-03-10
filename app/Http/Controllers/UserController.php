@@ -110,8 +110,10 @@ class UserController extends Controller
             'pid' => 'nullable'
         ]);
 
-        if (!empty($request->password) or $request->password != '' && strlen($request->password) >= 6) {
+        if ((!empty($request->password) or $request->password != '') && strlen($request->password) >= 6) {
             $data['password'] = Hash::make($request->password);
+        } else {
+            return redirect()->back()->withErrors(['Необходимая длина пароля не менее 6 символов. Пустое поле оставляет пароль неизменённым.']);
         }
 
         $user->fill($data);
@@ -144,5 +146,38 @@ class UserController extends Controller
             return redirect()->route('users.list')->with('message', "Пользователь <b>«" . $name . "»</b> был удалён из базы.");
         }
         return redirect()->route('users.list');
+    }
+
+    public function editProfile()
+    {
+        $id = Auth::user()->id;
+        $user = User::findOrFail($id);
+        return view('users.profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $id = Auth::user()->id;
+        $user = User::findOrFail($id);
+
+        $data = $this->validate($request, [
+            'realname' => 'nullable',
+            'email' => 'required|unique:users,email,' . $user->id,
+            'yandex_login' => 'nullable',
+            'telegram_login' => 'nullable',
+            'additional' => 'nullable',
+            'pid' => 'nullable'
+        ]);
+
+        if ((!empty($request->password) or $request->password != '') && strlen($request->password) >= 6) {
+            $data['password'] = Hash::make($request->password);
+        } elseif((!empty($request->password) or $request->password != '') && strlen($request->password) < 6) {
+            return redirect()->back()->withErrors(['Необходимая длина пароля не менее 6 символов. Пустое поле оставляет пароль неизменённым.']);
+        }
+
+        $user->fill($data);
+        $user->save();
+        
+        return redirect()->back()->with('message', "Настройки профиля успешно обновлены.");
     }
 }

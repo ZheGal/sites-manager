@@ -85,6 +85,11 @@ Route::middleware(['auth:sanctum', 'verified', 'is_not_active'])->group(function
     Route::get('/unactive', [\App\Http\Controllers\Controller::class, 'unactive'])->name('unactive.index');
 });
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\UserController::class, 'editProfile'])->name('profile.edit');
+    Route::patch('/profile', [\App\Http\Controllers\UserController::class, 'updateProfile'])->name('profile.update');
+});
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/register', [\App\Http\Controllers\Controller::class, 'register'])->name('register');
 });
