@@ -233,6 +233,13 @@ class SiteController extends Controller
     {
         //
         $site = Site::findOrFail($id);
+        
+        if (Auth::user()->role != 1 && Auth::user()->role != 2) {
+            if (Auth::user()->id != $site->user_id) {
+                return redirect()->route('sites.list')->with('message', "Попытка отредактировать сайт, не принадлежащий данному пользователю");
+            }
+        }
+
         $users = User::all();
         $hosters = Hoster::all();
         $neo = new Neogara();
@@ -259,8 +266,8 @@ class SiteController extends Controller
             'domain' => 'required|unique:sites,domain,' . $site->id,
             'user_id' => 'numeric',
             'campaign_id' => 'required|numeric',
-            'hoster_id' => 'required|numeric',
-            'hoster_id_domain' => 'required|numeric',
+            'hoster_id' => 'numeric',
+            'hoster_id_domain' => 'numeric',
             'pid' => 'nullable',
             'ftp_host' => 'nullable',
             'ftp_user' => 'nullable',

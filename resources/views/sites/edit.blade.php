@@ -1,28 +1,30 @@
 <x-panel-layout>
     <x-slot name="title">
-        Редактирование сайта
+        Редактирование сайта - {{ $settings->domain }}
     </x-slot>
 
     <x-slot name="breadcrumbps">
         <ol class="c-header-nav ml-4">
           <li class="breadcrumb-item"><a href="/">Главная</a></li>
           <li class="breadcrumb-item"><a href="{{ route('sites.list') }}">Сайты</a></li>
-          <li class="breadcrumb-item active">Редактирование сайта</li>  
+          <li class="breadcrumb-item active">Редактирование сайта - <strong>{{ $settings->domain }}</strong></li>  
         </ol>
     </x-slot>
 
     <div class="card-header">
         <div class="row">
             <div class="col align-self-start">
-                <h3 class="pb-0 mb-0">Редактирование сайта</h3>
+                <h3 class="pb-0 mb-0">Редактирование сайта - <strong>{{ $settings->domain }}</strong></h3>
             </div>
             <div class="col align-self-end text-right">
+              @if (Auth::user()->role == 1)
               <a href="{{ route('sites.importfrom', ['id' => $settings->id ]) }}" class="btn btn-pill btn-primary btn-sm">
                   <i class="cil-loop-circular"></i> Импортировать сайт
               </a>
               <a href="{{ route('sites.update.functions', ['id' => $settings->id ]) }}" class="btn btn-pill btn-success btn-sm">
                   <i class="cil-loop-circular"></i> Обновить функции
               </a>
+              @endif
             </div>
         </div>
     </div>
@@ -40,27 +42,29 @@
                 <div class="form-group row">
                   <label for="siteDomain" class="col-sm-3 col-form-label">Домен сайта</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="siteDomain" name="domain" required value="{{ $settings->domain }}">
+                    <input type="text" class="form-control" id="siteDomain" name="domain" @if (Auth::user()->role != 1) readonly @endif required value="{{ $settings->domain }}">
                   </div>
                 </div>
+                @if (Auth::user()->role == 1 or Auth::user()->role == 2)
                 <div class="form-group row">
                   <label for="siteFtpHost" class="col-sm-3 col-form-label">FTP хост</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="siteFtpHost" name="ftp_host" required value="{{ $settings->ftp_host }}">
+                    <input type="text" class="form-control" id="siteFtpHost" name="ftp_host" @if (Auth::user()->role != 1) readonly @endif required value="{{ $settings->ftp_host }}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="siteFtpUser" class="col-sm-3 col-form-label">FTP пользователь</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="siteFtpUser" name="ftp_user" required value="{{ $settings->ftp_user }}">
+                    <input type="text" class="form-control" id="siteFtpUser" name="ftp_user" @if (Auth::user()->role != 1) readonly @endif required value="{{ $settings->ftp_user }}">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="siteFtpPass" class="col-sm-3 col-form-label">FTP пароль</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass" required value="{{ $settings->ftp_pass }}">
+                    <input type="text" class="form-control" id="siteFtpPass" name="ftp_pass" @if (Auth::user()->role != 1) readonly @endif required value="{{ $settings->ftp_pass }}">
                   </div>
                 </div>
+                @endif
                 <div class="form-group row">
                   <label for="siteCampaign" class="col-sm-3 col-form-label">Оффер</label>
                   <div class="col-sm-9">
@@ -79,6 +83,7 @@
                     (При пустом значении подставляется стандартный PID пользователя)
                   </div>
                 </div>
+                @if (Auth::user()->role == 1 or Auth::user()->role == 2)
                 <div class="form-group row">
                   <label for="siteHoster" class="col-sm-3 col-form-label">Хостер</label>
                   <div class="col-sm-9">
@@ -101,6 +106,7 @@
                       </select>
                   </div>
                 </div>
+                @endif
                 <div class="form-group row">
                   <label for="siteUser" class="col-sm-3 col-form-label">Пользователь / PID</label>
                   <div class="col-sm-9">
@@ -231,6 +237,7 @@
             <button class="btn btn-primary" type="submit">Обновить</button>
         </div>
     </form>
+    @if (Auth::user()->role == 1)
     <div class="card-footer">
         <form action="{{ route('sites.destroy', ['id' => $settings->id]) }}" method="post">
             @csrf
@@ -238,6 +245,7 @@
             <button class="btn btn-danger" type="submit">Удалить сайт</button>
         </form>
     </div>
+    @endif
 
 <script>
   $(document).ready(function(){

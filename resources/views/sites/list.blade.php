@@ -178,9 +178,7 @@
                                         data-userid="{{ $site->user_id }}">
                                             Передать сайт
                                     </button>
-                                @if (Auth::user()->role == 1)
-                                <a href="{{ route('sites.edit', ['id' => $site->id ]) }}" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
-                                @endif
+                                <a href="{{ route('sites.edit', ['id' => $site->id ]) }}" class="btn btn-pill btn-dark btn-sm">Настройки сайта</a>
                             </div>
                         </td>
                         <td class="text-center pt-3">
