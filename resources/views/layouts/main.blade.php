@@ -99,6 +99,15 @@
             </li>
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
+                @if (\Request::route()->getName() == 'cloakit.new')
+                    c-active
+                @endif" href="{{ route('cloakit.new') }}">
+                    <span class="c-sidebar-nav-icon"><i class="cil-link"></i></span>
+                    <span>CloakIt Новая кампания</span>
+                </a>
+            </li>
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link 
                 @if (\Request::route()->getName() == 'settings.index')
                     c-active
                 @endif" href="{{ route('settings.index') }}">

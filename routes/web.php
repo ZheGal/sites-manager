@@ -74,6 +74,11 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
         Route::post('/settings', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
     });
+
+    Route::middleware(['is_admin'])->group(function() {
+        Route::get('/cloakit/register', [\App\Http\Controllers\CloakitController::class, 'new'])->name('cloakit.new');
+        Route::post('/cloakit/register', [\App\Http\Controllers\CloakitController::class, 'store'])->name('cloakit.register');
+    });
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'is_not_active'])->group(function () {
