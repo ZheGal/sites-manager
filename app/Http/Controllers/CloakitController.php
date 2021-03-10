@@ -37,7 +37,7 @@ class CloakitController extends Controller
         }
         
         if (empty($results)) {
-            return redirect()->route('cloakit.index')->with('message', "Список сайтов пустой.");
+            return view('cloakit.empty');
         }
         return view('cloakit.success', compact('results'));
     }
