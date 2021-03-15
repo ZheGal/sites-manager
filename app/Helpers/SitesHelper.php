@@ -66,7 +66,7 @@ class SitesHelper
                     'ftp_user' => (isset($site[2])) ? $site[2] : null,
                     'ftp_pass' => (isset($site[3])) ? $site[3] : null,
                     'yandex' => (isset($site[4])) ? $site[4] : null,
-                    'facebook' => (isset($site[5])) ? $site[5] : null,
+                    'cloakit' => (isset($site[5])) ? $site[5] : null,
                     'status' => 1
                 ]);
                 $sites[] = $data;

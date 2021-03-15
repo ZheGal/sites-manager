@@ -68,7 +68,7 @@
                 <select id="siteUser" name="user_id">
                     <option value="0">Без пользователя</option>
                     @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option value="{{ $user->id }}">{{ $user->realname }} ({{ $user->name }}) / {{ $user->pid }}</option>
                     @endforeach
                   </select>
               </div>
@@ -92,7 +92,7 @@
               </div>
               <div class="form-group">
                 <span>Формат: (через табы)</span>
-                <div class="coded mt-2">домен_сайта  фтп_адрес фтп_логин фтп_пароль  яндекс_метрика  фейсбук_пиксель</div>
+                <div class="coded mt-2">домен_сайта  фтп_адрес фтп_логин фтп_пароль  яндекс_метрика  cloakit_id</div>
                 <div class="alert alert-danger mt-3" role="alert">При групповом добавлении настройки не синхронизируются с хостом. Для синхронизации требуется ручное редактирование настроек сайта.</div>
               </div>
         </div>

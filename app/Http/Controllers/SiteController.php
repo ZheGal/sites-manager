@@ -198,8 +198,8 @@ class SiteController extends Controller
 
     public function storeCurrent(Request $request)
     {
+        // проверка наличия домена в базе
         $site = Site::where('domain', $request->domain)->first();
-        
         if ($site) {
             return redirect()->route('sites.list')->with('message', "Сайт с адресом <b>«" . $site->domain . "»</b> уже существует в базе.");
         }

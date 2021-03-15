@@ -76,13 +76,6 @@
                       </select>
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label for="sitePid" class="col-sm-3 col-form-label">PID</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="sitePid" name="pid" value="{{ $settings->pid }}">
-                    (При пустом значении подставляется стандартный PID пользователя)
-                  </div>
-                </div>
                 @if (Auth::user()->role == 1 or Auth::user()->role == 2)
                 <div class="form-group row">
                   <label for="siteHoster" class="col-sm-3 col-form-label">Хостер</label>

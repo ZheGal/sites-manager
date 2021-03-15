@@ -9,6 +9,10 @@ class Flysystem
 {
     public function __construct($site)
     {
+        if (!$this->checkFtpAvailable($site)) {
+            return false;
+        }
+
         $host = $site->ftp_host;
         $user = $site->ftp_user;
         $pass = $site->ftp_pass;
@@ -34,6 +38,10 @@ class Flysystem
 
     public function saveSettingsJson($json)
     {
+        if (!isset($this->ftp)) {
+            return false;
+        }
+
         $file = 'settings.json';
         if ($this->ftp->has($file)) {
             $response = $this->ftp->update($file, $json);
@@ -52,6 +60,9 @@ class Flysystem
         $default = Settings::getDefaultSettings();
         $settings = [];
 
+        if (!isset($this->ftp)) {
+            return $default;
+        }
         // проверка существования файла
         $file = 'settings.json';
         if ($this->ftp->has($file)) {
@@ -70,6 +81,10 @@ class Flysystem
 
     public function checkPublicHtml()
     {
+        if (!isset($this->ftp)) {
+            return false;
+        }
+
         if ($this->ftp->has('public_html')) {
             $this->dir .= 'public_html/';
         }
@@ -77,6 +92,10 @@ class Flysystem
 
     public function uploadNewProject()
     {
+        if (!isset($this->ftp)) {
+            return false;
+        }
+        
         $file_path = implode(DIRECTORY_SEPARATOR, [public_path(), 'uploads', 'new_project.php']);
         $contents = file_get_contents($file_path);
 
@@ -115,5 +134,15 @@ class Flysystem
         $settings['facebook'] = $facebook;
         $json = json_encode($settings, JSON_PRETTY_PRINT);
         return $this->saveSettingsJson($json);
+    }
+
+    private function checkFtpAvailable($site)
+    {
+        $host = $site->ftp_host;
+
+        $conn = @ftp_connect($host,'21','5');
+        if (empty($conn)) {
+            return false;
+        }
     }
 }

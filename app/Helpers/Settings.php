@@ -25,6 +25,9 @@ class Settings
     public static function getArray($domain)
     {
         $site = Site::where('domain', $domain)->first();
+        if (!$site) {
+            return [];
+        }
         $fly = new Flysystem($site);
         $settings = $fly->getSettingsJson();
         return $settings;
@@ -161,7 +164,9 @@ class Settings
             return false;
         }
 
-        $data['pid'] = trim(str_replace(" ", "", $data['pid']));
+        if (isset($data['pid'])) {
+            $data['pid'] = trim(str_replace(" ", "", $data['pid']));
+        }
         // если пид пришёл, проверяем на пустоту
         if (isset($data['pid']) && !empty($data['pid']) && $data['pid'] != '') {
             return $data['pid'];
@@ -186,6 +191,7 @@ class Settings
         $new = self::removeParams($new, ['ftp_host', 'ftp_user', 'ftp_pass', 'hoster_id', 'hoster_id_domain', 'user_id', 'clean_host']);
         
         $fly = new Flysystem($request);
+        
         $settings = $fly->getSettingsJson();
         $new['pid'] = self::checkPid($request->toArray());
 
