@@ -144,5 +144,6 @@ class Flysystem
         if (empty($conn)) {
             return false;
         }
+        return true;
     }
 }
