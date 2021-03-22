@@ -81,24 +81,6 @@
             @if ( Auth::user()->role == 1)
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
-                @if (\Request::route()->getName() == 'metrika.index')
-                    c-active
-                @endif" href="{{ route('metrika.index') }}">
-                    <span class="c-sidebar-nav-icon"><i class="cib-yandex"></i></span>
-                    <span>Метрика</span>
-                </a>
-            </li>
-            <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link 
-                @if (\Request::route()->getName() == 'hostiq.index')
-                    c-active
-                @endif" href="{{ route('hostiq.index') }}">
-                    <span class="c-sidebar-nav-icon"><i class="cil-link"></i></span>
-                    <span>HOSTiQ</span>
-                </a>
-            </li>
-            <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link 
                 @if (\Request::route()->getName() == 'cloakit.new')
                     c-active
                 @endif" href="{{ route('cloakit.new') }}">

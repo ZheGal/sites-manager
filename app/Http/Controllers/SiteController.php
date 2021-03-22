@@ -516,4 +516,26 @@ class SiteController extends Controller
         // print_r($query);
         // die;
     }
+
+    public function api_list()
+    {
+        $result = [];
+        $sites = Site::all()->toArray();
+        foreach ($sites as $site) {
+            $array = [
+                'id' => $site['id'],
+                'domain' => $site['domain'],
+                'type' => $site['type'],
+                'last_test' => $site['last_test'],
+            ];
+            $result[] = $array;
+        }
+        return $result;
+    }
+
+    public function api_testback(Request $request)
+    {
+        print_r($request->toArray());
+        die;
+    }
 }

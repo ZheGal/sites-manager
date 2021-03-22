@@ -133,8 +133,8 @@
                   <label for="siteStatus" class="col-sm-3 col-form-label">Статус сайта</label>
                   <div class="col-sm-9">
                     <select class="form-control" id="siteStatus" name="status">
-                        <option value="1" @if ($settings->status == 1) selected @endif>Сайт активен</option>
-                        <option value="0" @if ($settings->status == 0) selected @endif>Сайт неактивен</option>
+                        <option value="1" @if (isset($settings->status)) selected @endif>Сайт активен</option>
+                        <option value="0" @if (!isset($settings->status)) selected @endif>Сайт неактивен</option>
                       </select>
                   </div>
                 </div>
@@ -159,12 +159,6 @@
                   <label for="siteReturn" class="col-sm-3 col-form-label">Перенаправлять</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="siteReturn" name="return" value="{{ $settings->return }}">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="siteintlToken" class="col-sm-3 col-form-label">intlToken</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="siteintlToken" name="intlToken" value="{{ $settings->intlToken }}">
                   </div>
                 </div>
                 <div class="form-group row">

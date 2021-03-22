@@ -68,7 +68,11 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
     
     Route::get('/metrika', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('metrika.index');
-    Route::get('/hostiq', [\App\Http\Controllers\Controller::class, 'cleaned'])->name('hostiq.index');
+    
+    Route::middleware(['is_admin'])->group(function() {
+        Route::get('/hostiq/reg', [\App\Http\Controllers\HostiqController::class, 'register'])->name('hostiq.register');
+        Route::post('/hostiq/store', [\App\Http\Controllers\HostiqController::class, 'store'])->name('hostiq.store');
+    });
     
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');

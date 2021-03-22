@@ -94,12 +94,12 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="siteUser" class="col-sm-3 col-form-label">Пользователь</label>
+                <label for="siteUser" class="col-sm-3 col-form-label">Владелец</label>
                 <div class="col-sm-9">
                   <select id="siteUser" name="user_id">
-                      <option value="0">Без пользователя</option>
+                      <option value="0">Не выбран</option>
                       @foreach ($users as $user)
-                      <option value="{{ $user->id }}">{{ $user->name }} @if ($user->pid != '') ({{ $user->pid }}) @endif</option>
+                      <option value="{{ $user->id }}">{{ $user->name }} @if ($user->realname != '') - {{ $user->realname }} @endif @if ($user->pid != '') ({{ $user->pid }}) @endif</option>
                       @endforeach
                     </select>
                 </div>
@@ -120,14 +120,6 @@
                 <label for="siteCloakit" class="col-sm-3 col-form-label">Cloak IT</label>
                 <div class="col-sm-9">
                   <input type="number" class="form-control" id="siteCloakit" name="cloakit">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="cleanHost" class="col-sm-3 col-form-label">Чистый хост</label>
-                <div class="col-sm-9">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="1" name="clean_host" id="cleanHost">
-                  </div>
                 </div>
               </div>
               <div class="form-group row">
@@ -160,12 +152,6 @@
                   <label for="siteReturn" class="col-sm-3 col-form-label">Перенаправлять</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="siteReturn" name="return" value="thanks.php">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="siteintlToken" class="col-sm-3 col-form-label">intlToken</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="siteintlToken" name="intlToken">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -220,6 +206,13 @@
                   <label for="sub8" class="col-sm-3 col-form-label">sub8</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="sub8" name="sub8">
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group row">
+                  <label for="copyFrom" class="col-sm-3 col-form-label">Скопировать с домена</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="copyFrom" name="copyFrom">
                   </div>
                 </div>
               </div>
