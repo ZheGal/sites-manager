@@ -565,4 +565,16 @@ class SiteController extends Controller
             'message' => 'Tests result was saved.'
         ]);
     }
+
+    public function tests($id)
+    {
+        $tests = TestResult::where('site_id', $id)->get();
+        
+        if ($tests->isEmpty()) {
+            // вернуть вьюшку с пустым результатом
+            return false;
+        }
+
+        return view('sites.tests.index', compact('tests'));
+    }
 }

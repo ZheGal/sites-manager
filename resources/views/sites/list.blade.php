@@ -182,9 +182,18 @@
                             </div>
                         </td>
                         <td class="text-center pt-3">
-                            <button type="button" id="siteStatusButton" class="btn btn-pill btn-danger btn-sm">
-                                Недоступно
-                            </button>
+                            <a href="{{ route('sites.tests', ['id' => $site->id]) }}" id="siteStatusButton" 
+                            @if ($site->test_result == 1)
+                                class="btn btn-pill btn-success btn-sm">
+                                    Без ошибок
+                            @elseif ($site->test_result == 2)
+                                class="btn btn-pill btn-primary btn-sm">
+                                    Не проверялся
+                            @else
+                                class="btn btn-pill btn-danger btn-sm">
+                                    Имеются ошибки
+                            @endif
+                            </a>
                         </td>
                         <td class="text-right pt-3">
                             @if ($site->status == 1)

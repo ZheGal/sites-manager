@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         // тестирование
         Route::get('/sites/{id}/tests/run', [\App\Http\Controllers\SiteController::class, 'testrun'])->name('sites.testrun');
     });
+    Route::get('/sites/{id}/tests', [\App\Http\Controllers\SiteController::class, 'tests'])->name('sites.tests');
     Route::get('/sites/{id}/edit', [\App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
     Route::get('/sites/{id}/update', [\App\Http\Controllers\SiteController::class, 'updateConnector'])->name('sites.update.functions');
     Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
