@@ -23,9 +23,11 @@ class SitesHelper
 
     public static function getCleanDomain($str)
     {
-        $remove = ['http://', 'https://', ' ', '/', '\\', ';', ':', ','];
+        $remove = ['http://', 'https://', ' ', '\\', ';', ':', ','];
         $str = str_replace($remove, '', $str);
-        return trim($str, ' \/;,.');
+        $domain = trim($str, ' \/;,.');
+        $domain = explode("/", $domain);
+        return $domain[0];
     }
 
     public static function getGroupArray($str)

@@ -25,7 +25,10 @@ class Site extends Model
         'additional',
         'type',
         'relink',
-        'pid'
+        'pid',
+        'last_test',
+        'available',
+        'test_result'
     ];
 
     public function user()

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Site;
 use App\Models\Hoster;
 use App\Models\User;
+use App\Models\TestResult;
 use App\Helpers\Settings;
 use App\Helpers\Flysystem;
 use App\Helpers\SitesHelper;
@@ -535,7 +536,33 @@ class SiteController extends Controller
 
     public function api_testback(Request $request)
     {
-        print_r($request->toArray());
-        die;
+        $array = $request->toArray();
+        $domain = SitesHelper::getCleanDomain(array_key_first($array));
+        
+        $site = Site::where('domain', $domain)->first();
+        
+        if (!$site) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Domain not found.'
+            ]);
+        }
+
+        // сохраняю состояние теста в таблице с сайтами
+        $result = $array[array_key_first($array)];
+        $site->last_test = time();
+        $site->test_result = $result['passed'];
+        $site->save();
+
+        // создаю новую запись в таблице с результатами тестов
+        $test = new TestResult();
+            $test->site_id = $site->id;
+            $test->result = json_encode($array);
+        $test->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tests result was saved.'
+        ]);
     }
 }
