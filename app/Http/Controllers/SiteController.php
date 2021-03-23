@@ -567,4 +567,27 @@ class SiteController extends Controller
         $tests = TestResult::where('site_id', $id)->get();
         return view('sites.tests.index', compact('tests', 'id'));
     }
+
+    public function api_available(Request $request)
+    {        
+        $domain = SitesHelper::getCleanDomain($request->domain);
+        $available = $request->available;
+
+        $site = Site::where('domain', $domain)->first();
+        if (!$site) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Domain not found.'
+            ]);
+        }
+
+        $site->available = $available;
+        $site->status = $available;
+        $site->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Site status was saved.'
+        ]);
+    }
 }

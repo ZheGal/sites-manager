@@ -63,6 +63,9 @@
                 </div>
               </div>
             </div>
+            <div class="form-group row">
+                <textarea name="additional" id="" cols="30" rows="10"></textarea>
+            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Сохранить</button>
