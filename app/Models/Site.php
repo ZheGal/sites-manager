@@ -27,6 +27,7 @@ class Site extends Model
         'relink',
         'pid',
         'last_test',
+        'last_check',
         'available',
         'test_result'
     ];

@@ -56,6 +56,12 @@
                         @endif
                         <td class="text-right">
                             @if ( Auth::user()->role == 1)
+                                <button type="button" id="openAdditionalModal" class="btn btn-pill btn-info btn-sm" 
+                                        data-toggle="modal" 
+                                        data-target="#additionalModal"
+                                        data-additional="{{ $hoster->additional }}">
+                                        Информация
+                                    </button>
                             <a href="{{ route('hosters.edit', ['id' => $hoster->id]) }}" type="button" class="btn btn-pill btn-dark btn-sm">Редактировать</a>
                             @endif
                             <a href="{{ route('sites.list', ['hoster_id' => $hoster->id]) }}" type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</a>

@@ -524,6 +524,7 @@ class SiteController extends Controller
                 'domain' => $site['domain'],
                 'type' => $site['type'],
                 'last_test' => $site['last_test'],
+                'last_check' => $site['last_check'],
             ];
             $result[] = $array;
         }
@@ -583,6 +584,7 @@ class SiteController extends Controller
 
         $site->available = $available;
         $site->status = $available;
+        $site->last_check = time();
         $site->save();
 
         return response()->json([
