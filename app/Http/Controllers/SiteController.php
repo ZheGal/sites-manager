@@ -510,6 +510,7 @@ class SiteController extends Controller
             'callback' => route('sites.api_testback')
         ];
 
+        $query = Http::post($apiUrl, $array);
         return redirect()->route('sites.list')->with('message', "Сайт <strong>$site->domain</strong> отправлен на проверку. Результаты тестов будут доступны через несколько минут.");
     }
 
