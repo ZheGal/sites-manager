@@ -73,4 +73,7 @@
         @endif
     </div>
 
+    {{-- Вывод модалки с доп инфой --}}
+    <x-additional-hoster-modal />
+
 </x-panel-layout>
