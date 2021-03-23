@@ -26,7 +26,7 @@
                 {!! Session::get('message') !!}
             </div>
         @endif
-        @if (!empty($tests))
+        @if (!$tests->isEmpty())
         <table class="table table-responsive-sm table-borderless table-striped">
             <thead>
                 <tr class="table-info ">
@@ -114,8 +114,11 @@
             </tbody>
         </table>
         <hr>
-        @endif
         <!-- <h5>Предыдущие проверки</h5> -->
+        @else
+        <h4>Тесты на данном сайте не проводились</h4>
+        @endif
+        <a href="{{ route('sites.testrun', ['id' => $id]) }}" class="btn btn-primary">Запустить тест</a>
     </div>
     
 </x-panel-layout>

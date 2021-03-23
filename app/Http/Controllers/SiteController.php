@@ -500,22 +500,17 @@ class SiteController extends Controller
     // action на выполнение тестов по домену
     public function testrun($id)
     {
-        // set_time_limit(999999);
-        // $apiUrl = \App\Models\Setting::where('param', 'testing_api')->first()->value;
-        // $site = Site::findOrFail($id);
+        set_time_limit(999999);
+        $apiUrl = \App\Models\Setting::where('param', 'testing_api')->first()->value;
+        $site = Site::findOrFail($id);
 
-        // $array = [
-        //     'sites' => [$site->domain],
-        //     'typeSites' => 'land'
-        // ];
+        $array = [
+            'sites' => [$site->domain],
+            'typeSites' => $site->type,
+            'callback' => route('sites.api_testback')
+        ];
 
-        // echo $apiUrl;
-        // // echo json_encode($array, 1);
-        // die;
-        
-        // $query = Http::post($apiUrl->value, $array);
-        // print_r($query);
-        // die;
+        return redirect()->route('sites.list')->with('message', "Сайт <strong>$site->domain</strong> отправлен на проверку. Результаты тестов будут доступны через несколько минут.");
     }
 
     public function api_list()
@@ -569,12 +564,6 @@ class SiteController extends Controller
     public function tests($id)
     {
         $tests = TestResult::where('site_id', $id)->get();
-        
-        if ($tests->isEmpty()) {
-            // вернуть вьюшку с пустым результатом
-            return false;
-        }
-
-        return view('sites.tests.index', compact('tests'));
+        return view('sites.tests.index', compact('tests', 'id'));
     }
 }

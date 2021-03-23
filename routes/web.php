@@ -26,12 +26,10 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
         
         Route::get('/sites/{id}/edit/import', [\App\Http\Controllers\SiteController::class, 'importIndex'])->name('sites.importfrom');
         Route::post('/sites/{id}/edit/import', [\App\Http\Controllers\SiteController::class, 'importStore'])->name('sites.import');
-        
-        // тестирование
-        Route::get('/sites/{id}/tests/run', [\App\Http\Controllers\SiteController::class, 'testrun'])->name('sites.testrun');
     });
     Route::get('/sites/{id}/tests', [\App\Http\Controllers\SiteController::class, 'tests'])->name('sites.tests');
     Route::get('/sites/{id}/edit', [\App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
+    Route::get('/sites/{id}/tests/run', [\App\Http\Controllers\SiteController::class, 'testrun'])->name('sites.testrun');
     Route::get('/sites/{id}/update', [\App\Http\Controllers\SiteController::class, 'updateConnector'])->name('sites.update.functions');
     Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
     Route::post('/sites/transfer', [\App\Http\Controllers\SiteController::class, 'transfer'])->name('sites.transfer');
