@@ -62,6 +62,12 @@
                 </div>
               </div>
             </div>
+            <div class="form-group row">
+              <label for="userAdditional" class="col-sm-12 col-form-label">Дополнительная информация</label>
+              <div class="col-sm-12">
+                <textarea class="form-control" id="userAdditional" name="additional" rows="5"></textarea>
+              </div>
+            </div>
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" type="submit">Добавить</button>

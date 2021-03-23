@@ -49,7 +49,8 @@ class HosterController extends Controller
                 'url' => 'required',
                 'username' => 'nullable',
                 'password' => 'nullable',
-                'multihost' => 'nullable'
+                'multihost' => 'nullable',
+                'additional' => 'nullable'
             ]);
 
             $hoster = new Hoster();
@@ -107,7 +108,8 @@ class HosterController extends Controller
                 'url' => 'required',
                 'username' => 'nullable',
                 'password' => 'nullable',
-                'multihost' => 'nullable'
+                'multihost' => 'nullable',
+                'additional' => 'nullable'
             ]);
 
             $hoster->fill($data);

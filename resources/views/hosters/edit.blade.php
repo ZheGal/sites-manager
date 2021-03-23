@@ -64,7 +64,10 @@
               </div>
             </div>
             <div class="form-group row">
-                <textarea name="additional" id="" cols="30" rows="10"></textarea>
+              <label for="userAdditional" class="col-sm-12 col-form-label">Дополнительная информация</label>
+              <div class="col-sm-12">
+                <textarea class="form-control" id="userAdditional" name="additional" rows="5">{{ $hoster->additional }}</textarea>
+              </div>
             </div>
         </div>
         <div class="card-footer">

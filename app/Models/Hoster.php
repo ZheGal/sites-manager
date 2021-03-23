@@ -14,7 +14,8 @@ class Hoster extends Model
         'url',
         'username',
         'password',
-        'multihost'
+        'multihost',
+        'additional'
     ];
 
     public function sites()
