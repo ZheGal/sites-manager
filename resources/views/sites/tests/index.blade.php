@@ -84,6 +84,7 @@
                                 @endif
                         </td>
                     </tr>
+                    @if (isset($result['neogaraResults']))
                     <tr>
                         <td>
                             <strong>Тестовый лид в неогару (для лэндов):</strong>
@@ -94,6 +95,7 @@
                             @endif
                         </td>
                     </tr>
+                    @endif
                     <tr>
                         <td>
                             <strong>Доступность сайта: </strong> {{ $result['checkAvailability']['counts'] }}
