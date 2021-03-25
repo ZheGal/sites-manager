@@ -96,11 +96,14 @@
                         </td>
                     </tr>
                     @endif
+                    @if (isset($result['checkAvailability']))
                     <tr>
                         <td>
                             <strong>Доступность сайта: </strong> {{ $result['checkAvailability']['counts'] }}
                         </td>
                     </tr>
+                    @endif
+                    @if (isset($result['consoleErrors']))
                     <tr>
                         <td>
                             <strong>Консольные ошибки:</strong>
@@ -117,6 +120,7 @@
                             @endif
                         </td>
                     </tr>
+                    @endif
             </tbody>
         </table>
         <hr>
