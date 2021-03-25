@@ -50,7 +50,6 @@
                             @endif
                         </td>
                     </tr>
-                    @if (isset($devices) && !empty($devices))
                     <tr>
                         <td>
                             <table class="table table-hover">
@@ -73,7 +72,6 @@
                             </table>
                         </td>
                     </tr>
-                    @endif
                     <tr>
                         <td>
                             <strong>Проверка на вирусы:</strong>

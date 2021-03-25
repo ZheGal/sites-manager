@@ -566,6 +566,8 @@ class SiteController extends Controller
     public function tests($id)
     {
         $tests = TestResult::where('site_id', $id)->get();
+        print_r($tests);
+        die;
         return view('sites.tests.index', compact('tests', 'id'));
     }
 
