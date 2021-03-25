@@ -38,7 +38,9 @@
                         $test = $tests[0];
                         $result = json_decode($test->result, 1);
                         $result = $result[array_key_first($result)];
-                        $devices = $result['testResult'];
+                        if (isset($result['testResult'])) {
+                            $devices = $result['testResult'];
+                        }
                     @endphp
                     <tr>
                         <td>
@@ -50,6 +52,7 @@
                             @endif
                         </td>
                     </tr>
+                    @if (isset($devices))
                     <tr>
                         <td>
                             <table class="table table-hover">
@@ -72,6 +75,7 @@
                             </table>
                         </td>
                     </tr>
+                    @endif
                     <tr>
                         <td>
                             <strong>Проверка на вирусы:</strong>
