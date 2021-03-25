@@ -52,7 +52,7 @@
                             @endif
                         </td>
                     </tr>
-                    @if (isset($devices))
+                    @if (isset($devices) && isset($devices[0]))
                     <tr>
                         <td>
                             <table class="table table-hover">
