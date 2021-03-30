@@ -100,8 +100,9 @@ class UserController extends Controller
         
         $user = User::findOrFail($id);
 
-        print_r($user);
-        die;
+        if (empty($request->password) or strlen($request->password) == 0) {
+            $data->password = $user->password;
+        }
 
         $data = $this->validate($request, [
             'name' => 'required|unique:users,name,' . $user->id,
