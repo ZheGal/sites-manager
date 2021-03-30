@@ -101,6 +101,7 @@ class UserController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|unique:users,name,' . $user->id,
+            'password' => 'nullable',
             'realname' => 'nullable',
             'email' => 'required|unique:users,email,' . $user->id,
             'role' => 'numeric',
