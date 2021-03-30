@@ -101,7 +101,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if (empty($request->password) or strlen($request->password) == 0) {
-            $data->password = $user->password;
+            $request->password = $user->password;
         }
 
         $data = $this->validate($request, [
