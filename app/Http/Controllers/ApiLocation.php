@@ -15,8 +15,8 @@ class ApiLocation extends Controller
         $result = [];
         $result['ip'] = $ip;
         if (isset($info['country'])) {
-            $result['country'] = $info['country']['name_en'];
-            $result['iso'] = $info['country']['iso'];
+            $result['full_name'] = $info['country']['name_en'];
+            $result['country'] = $info['country']['iso'];
         }
         if (isset($info['city']['name_en'])) {
             $result['city'] = $info['city']['name_en'];
