@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9cd3b2893e26bfcd152fcee727c189b",
+    "content-hash": "497f594f6655bbeafafc4e99760e249a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -607,6 +607,69 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "eseath/sypexgeo",
+            "version": "v2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Eseath/sypexgeo.git",
+                "reference": "484142e2fb2b1826f13aa277244fd9017321e3c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Eseath/sypexgeo/zipball/484142e2fb2b1826f13aa277244fd9017321e3c1",
+                "reference": "484142e2fb2b1826f13aa277244fd9017321e3c1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-zip": "*",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.6",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Eseath\\SxGeo\\SxGeoServiceProvider"
+                    ],
+                    "aliases": {
+                        "SxGeo": "Eseath\\SxGeo\\Facades\\SxGeo"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Eseath\\SxGeo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruslan A.",
+                    "email": "ruslan.a94@yandex.com"
+                }
+            ],
+            "description": "A PHP package for working with the SypexGeo database file.",
+            "keywords": [
+                "geo",
+                "geoip",
+                "laravel",
+                "sxgeo",
+                "sypexgeo"
+            ],
+            "support": {
+                "issues": "https://github.com/Eseath/sypexgeo/issues",
+                "source": "https://github.com/Eseath/sypexgeo"
+            },
+            "time": "2020-08-07T15:06:43+00:00"
         },
         {
             "name": "fideloper/proxy",
