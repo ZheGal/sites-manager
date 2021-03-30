@@ -97,9 +97,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        print_r($request->all());
-        die;
+        
         $user = User::findOrFail($id);
+
+        print_r($user);
+        die;
 
         $data = $this->validate($request, [
             'name' => 'required|unique:users,name,' . $user->id,
