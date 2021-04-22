@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Helpers\Neogara;
+use App\Functions\Settings\Settings;
 
 class SettingsController extends Controller
 {
@@ -54,7 +55,7 @@ class SettingsController extends Controller
             }
         }
 
-        $neo_token = $this->check_neogara_token($request->all());
+        $neo_token = $this->check_neogara_token();
         
         if ($neo_token) {
             $setting = Setting::where('param', 'neogara_token')->first();
@@ -117,10 +118,10 @@ class SettingsController extends Controller
         return collect($array);
     }
 
-    public function check_neogara_token($request)
+    public function check_neogara_token()
     {
-        $username = ($request['neogara_login']) ? $request['neogara_login'] : false;
-        $password = isset($request['neogara_password']) ? $request['neogara_password'] : false;
+        $username = env('NEO_USERNANE');
+        $password = env('NEO_PASSWORD');
         if ($username == false or $password == false) {
             return false;
         }

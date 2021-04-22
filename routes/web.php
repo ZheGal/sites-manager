@@ -34,8 +34,6 @@ Route::middleware(['auth:sanctum', 'verified', 'is_active'])->group(function () 
     Route::patch('/sites/{id}', [\App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
     Route::post('/sites/transfer', [\App\Http\Controllers\SiteController::class, 'transfer'])->name('sites.transfer');
     
-    Route::get('/prelands', [\App\Http\Controllers\PrelandController::class, 'index'])->name('prelands.list');
-    
     Route::get('/hosters', [\App\Http\Controllers\HosterController::class, 'index'])->name('hosters.list');
     Route::middleware(['is_admin'])->group(function() {
         Route::get('/hosters/create', [\App\Http\Controllers\HosterController::class, 'create'])->name('hosters.create');

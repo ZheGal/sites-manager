@@ -32,7 +32,7 @@
                 <div class="form-group row">
                     <label for="hostiqToken" class="col-sm-4 col-form-label">HOSTiQ API Token</label>
                     <div class="col-sm-6">
-                    <input type="text" class="form-control" id="hostiqToken" name="hostiq_token" @if(isset($settings['hostiq_token']) && !empty($settings['hostiq_token'])) value="{{ $settings['hostiq_token'] }}" @endif>
+                    <input type="text" readonly class="form-control" id="hostiqToken" value="@php echo env('HOSTIQ_API') @endphp">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -53,13 +53,13 @@
                 <div class="form-group row pt-3">
                     <label for="neogaraLogin" class="col-sm-4 col-form-label">Neogara Логин</label>
                     <div class="col-sm-6">
-                    <input type="text" class="form-control" id="neogaraLogin" name="neogara_login" @if(isset($settings['neogara_login']) && !empty($settings['neogara_login'])) value="{{ $settings['neogara_login'] }}" @endif>
+                    <input type="text" class="form-control" id="neogaraLogin" value="@php echo env('NEO_USERNANE') @endphp" readonly>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="neogaraPassword" class="col-sm-4 col-form-label">Neogara Пароль</label>
                     <div class="col-sm-6">
-                    <input type="text" class="form-control" id="neogaraPassword" name="neogara_password" @if(isset($settings['neogara_password']) && !empty($settings['neogara_password'])) value="{{ $settings['neogara_password'] }}" @endif>
+                    <input type="text" class="form-control" id="neogaraPassword" value="@php echo env('NEO_PASSWORD') @endphp" readonly>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -72,19 +72,19 @@
                 <div class="form-group row pt-3">
                     <label for="cloakItLogin" class="col-sm-4 col-form-label">Cloak IT Логин</label>
                     <div class="col-sm-6">
-                    <input type="text" class="form-control" id="cloakItLogin" name="cloakit_login" @if(isset($settings['cloakit_login']) && !empty($settings['cloakit_login'])) value="{{ $settings['cloakit_login'] }}" @endif>
+                    <input type="text" class="form-control" id="cloakItLogin" value="@php echo env('CLO_USERNAME') @endphp" readonly>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="cloakItPass" class="col-sm-4 col-form-label">Cloak IT Пароль</label>
                     <div class="col-sm-6">
-                    <input type="text" class="form-control" id="cloakItPass" name="cloakit_pass" @if(isset($settings['cloakit_pass']) && !empty($settings['cloakit_pass'])) value="{{ $settings['cloakit_pass'] }}" @endif>
+                    <input type="text" class="form-control" id="cloakItPass" value="@php echo env('CLO_PASSWORD') @endphp" readonly>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="testingApi" class="col-sm-4 col-form-label">Адрес API для тестирования</label>
                     <div class="col-sm-6">
-                    <input type="text" class="form-control" id="testingApi" name="testing_api" @if(isset($settings['testing_api']) && !empty($settings['testing_api'])) value="{{ $settings['testing_api'] }}" @endif>
+                    <input type="text" class="form-control" id="testingApi" value="@php echo env('TEST_API_URL') @endphp" readonly>
                     </div>
                 </div>
             </div>

@@ -34,20 +34,6 @@
                         <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
                         <span>Сайты</span>
                 </a>
-                @if (\Request::route()->getName() == 'sites.list')
-                    @if (isset($offers_site_list))
-                        {{ $offers_site_list }}
-                    @endif
-                @endif
-            </li>
-            <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link 
-                    @if (\Request::route()->getName() == 'prelands.list')
-                        c-active
-                    @endif" href="{{ route('prelands.list') }}">
-                        <span class="c-sidebar-nav-icon"><i class="cil-globe-alt"></i></span>
-                        <span>Прелэнды</span>
-                </a>
             </li>
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link 
@@ -85,7 +71,7 @@
                     c-active
                 @endif" href="{{ route('cloakit.new') }}">
                     <span class="c-sidebar-nav-icon"><i class="cil-link"></i></span>
-                    <span>CloakIt Новая кампания</span>
+                    <span>Cloak IT</span>
                 </a>
             </li>
             <li class="c-sidebar-nav-item">
