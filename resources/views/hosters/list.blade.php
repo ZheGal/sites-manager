@@ -67,6 +67,9 @@
                             <a href="{{ route('sites.list', ['hoster_id' => $hoster->id]) }}" type="button" class="btn btn-pill btn-primary btn-sm">Список сайтов</a>
                         </td>
                     </tr>
+                    @foreach ($hoster->accounts as $account)
+                        {{ $account->login }}
+                    @endforeach
                 @endforeach
             </tbody>
         </table>

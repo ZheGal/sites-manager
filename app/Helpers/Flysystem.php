@@ -84,7 +84,7 @@ class Flysystem
         if (!isset($this->ftp)) {
             return false;
         }
-
+        
         if ($this->ftp->has('public_html')) {
             $this->dir .= 'public_html/';
         }

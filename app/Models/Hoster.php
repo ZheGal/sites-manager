@@ -29,4 +29,9 @@ class Hoster extends Model
         }
         return $this->hasMany(Site::class)->where('user_id', '=', $user->id);
     }
+
+    public function accounts()
+    {
+        return $this->hasMany(HosterAccount::class);
+    }
 }
