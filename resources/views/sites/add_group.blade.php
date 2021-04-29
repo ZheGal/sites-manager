@@ -83,6 +83,12 @@
                       </select>
                   </div>
                 </div>
+            <div class="form-group row">
+              <label for="siteHosterDomain" class="col-sm-2 col-form-label">Ссылка для прелэнда</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="siteRelink" name="relink">
+              </div>
+            </div>
             
             <div class="form-group row">
                 <label for="siteUser" class="col-sm-12 col-form-label">Сайты</label>

@@ -385,6 +385,10 @@ class SiteController extends Controller
                     $site = new Site();
                     $site->fill($site_data);
 
+                    if (!empty($request->relink) or $request->relink != '') {
+                        $site->relink = $request->relink;
+                    }
+
                     $site->domain = SitesHelper::getCleanDomain($site->domain);
                     $check = Site::where('domain', $site->domain)->count();
 
