@@ -388,6 +388,10 @@ class SiteController extends Controller
                     $site->domain = SitesHelper::getCleanDomain($site->domain);
                     $check = Site::where('domain', $site->domain)->count();
 
+                    if ($data['type'] == 'prelandWithLand') {
+                        $site->relink = '/registration.php';
+                    }
+
                     if ($check == 0) {
                         $site->creator_id = Auth::user()->id;
                         $site->updator_id = Auth::user()->id;
