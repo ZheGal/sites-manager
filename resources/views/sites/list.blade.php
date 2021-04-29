@@ -154,6 +154,7 @@
                                     <button type="button" id="openModalFtp" class="btn btn-pill btn-info btn-sm" 
                                         data-toggle="modal" 
                                         data-target="#ftpAccessModal"
+                                        data-siteid="{{ $site->id }}"
                                         data-ftp-name="{{ $site->domain }}"
                                         data-ftp-host="{{ $site->ftp_host }}"
                                         data-ftp-user="{{ $site->ftp_user }}"

@@ -251,6 +251,19 @@ class SiteController extends Controller
         return view('sites.edit', compact('settings', 'users', 'hosters', 'offers'));
     }
 
+    public function editSettings($id)
+    {
+        $site = Site::findOrFail($id);
+        
+        if (Auth::user()->role != 1 && Auth::user()->role != 2) {
+            if (Auth::user()->id != $site->user_id) {
+                return redirect()->route('sites.list')->with('message', "Попытка отредактировать сайт, не принадлежащий данному пользователю");
+            }
+        }
+
+        return view('sites.edit_data', compact('site'));
+    }
+
     /**
      * Update the specified resource in storage.
      *

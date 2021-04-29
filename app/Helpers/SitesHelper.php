@@ -38,7 +38,7 @@ class SitesHelper
         );
         $lines = explode("\n", $str);
         foreach ($lines as $line) {
-            $site = str_replace(" ", "\t", $site);
+            $line = str_replace(" ", "\t", $line);
             $site = explode("\t", $line);
             $site = array_values(
                 array_diff($site, [''])

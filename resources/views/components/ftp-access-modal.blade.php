@@ -70,6 +70,7 @@
             <div class="modal-footer">
               <a href="#" id="winScpOpen" class="btn btn-success">Открыть в WinSCP</a>
               <a href="#" id="ftpOpen" class="btn btn-primary">Перейти на FTP</a>
+              <a href="#" id="ftpEditError" class="btn btn-danger">Настройки данных</a>
               <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Закрыть</button>
             </div>
           </div>
@@ -86,6 +87,15 @@
         } else {
           $("#winScpOpen").attr("href", "#");
           $("#ftpOpen").attr("href", "#");
+        }
+
+        if ($(this).data('siteid') != '') {
+          var ftpSiteId = $(this).data('siteid');
+          var ftpEditLink = '{{ route('sites.edit.settings', ['id' => 'here_site_id']) }}';
+          var ftpEditLink = ftpEditLink.replace('here_site_id', ftpSiteId);
+          $("#ftpEditError").attr("href", ftpEditLink);
+        } else {
+          $("#ftpEditError").attr("href", "#");
         }
 
         $("#ftpAccessTitle").html($(this).data('ftp-name'));
