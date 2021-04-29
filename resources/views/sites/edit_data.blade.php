@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <form action="{{ route('sites.update', ['id' => $site->id]) }}" method="post">
+    <form action="{{ route('sites.edits.update', ['id' => $site->id]) }}" method="post">
         <div class="card-body">
             @if ($errors->any())
                 @foreach ($errors->all() as $error)

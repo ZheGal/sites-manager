@@ -510,6 +510,21 @@ class SiteController extends Controller
         "Произошла ошибка при попытке импортировать сайт <a href='//{$domain}' target='_blank'>{$domain}</a> на домен <a href='//{$current->domain}' target='_blank'><b>{$current->domain}</b></a>.");
     }
 
+    public function updateSettings(Request $request, $id)
+    {
+        $site = Site::findOrFail($id);
+        $data = [
+            'domain' => str_replace(" ", "", trim($request->domain, " \t\n")),
+            'ftp_host' => str_replace(" ", "", trim($request->ftp_host, " \t\n")),
+            'ftp_user' => str_replace(" ", "", trim($request->ftp_user, " \t\n")),
+            'ftp_pass' => str_replace(" ", "", trim($request->ftp_pass, " \t\n")),
+            'status' => $request->status
+        ];
+        $site->fill($data);
+        $site->save();
+        return redirect()->route('sites.list')->with('message', "Настройки сайта <strong>$site->domain</strong> были обновлены.");
+    }
+
     // action на выполнение тестов по домену
     public function testrun($id)
     {
